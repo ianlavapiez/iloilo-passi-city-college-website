@@ -1,7 +1,7 @@
 import React from 'react'
 
 const CalendarOfClassesPage = () => {
-  return <div>Calendar of classes Page</div>
+  return <div>Schedule Page</div>
 }
 
 export default CalendarOfClassesPage
