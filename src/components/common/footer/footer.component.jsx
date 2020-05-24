@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className='footer'>
       <div className='footer__logo-box'>
         <img src={FooterLogo} alt='Full logo' className='footer__logo' />
-        <h2 className='heading-tertiary'>Brainhub Online Review Center</h2>
+        <h2 className='heading-tertiary'>&copy; Brainhub</h2>
       </div>
       <div className='row'>
         <div className='col-1-of-2'>
