@@ -14,8 +14,8 @@ const Header = () => {
           <span className='heading-primary--sub'>clever minds trust us</span>
         </h1>
 
-        <a href='#section-tours' className='btn btn--white btn--animated'>
-          Enrollment for Online Review is on-going, click here!
+        <a href='#section-about' className='btn btn--white btn--animated'>
+          Enroll Now!
         </a>
       </div>
     </header>
