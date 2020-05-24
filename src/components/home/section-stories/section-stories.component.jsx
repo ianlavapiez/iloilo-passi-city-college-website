@@ -31,13 +31,13 @@ const SectionStories = () => {
             <h3 className='heading-tertiary u-margin-bottom-small'>
               Alayssa Mae S. Villan, RN
             </h3>
-            <p>
-              Brainhub Family has given us so much this past 6 months. They've
+            <p className='paragraph-stories'>
+              "Brainhub Family has given us so much this past 6 months. They've
               given us the support, emotional and spiritual; provided us with
               best lectures; and most of all, they've comforted us during our
               hardest times. They never made us feel that we were left out just
               because we come from somewhere else, And for that, I am very very
-              thankful to be part of this family.
+              thankful to be part of this family."
             </p>
           </div>
         </div>
@@ -53,11 +53,11 @@ const SectionStories = () => {
             <h3 className='heading-tertiary u-margin-bottom-small'>
               Sanie Rose C. Turita, RN
             </h3>
-            <p>
-              I'm truly honor to be part of Brainhub family despite of all the
+            <p className='paragraph-stories'>
+              "I'm truly honor to be part of Brainhub family despite of all the
               struggles and difficulties I had, Brainhub had guided me to be
               strong and continue the battle ahead of me, to answer the calling
-              to become a Registered Nurse! Thank you Brainhub and God bless!
+              to become a Registered Nurse! Thank you Brainhub and God bless!"
             </p>
           </div>
         </div>
