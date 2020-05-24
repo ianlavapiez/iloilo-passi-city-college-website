@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
-import { Switch, Route, Redirect, Router } from 'react-router-dom'
+import React, { useEffect, Fragment } from 'react'
+import { Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
+
+import './sass/main.scss'
 
 import { checkUserSession } from './redux/user/user.actions'
 
@@ -9,15 +11,20 @@ import { selectCurrentUser } from './redux/user/user.selectors'
 
 import Routes from './routes'
 
+import Navigation from './components/common/navigation/navigation.component'
+
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
     checkUserSession()
   }, [checkUserSession])
 
   return (
-    <Switch>
-      <Routes />
-    </Switch>
+    <Fragment>
+      <Navigation />
+      <Switch>
+        <Routes />
+      </Switch>
+    </Fragment>
   )
 }
 
