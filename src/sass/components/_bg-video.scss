@@ -13,4 +13,14 @@
     width: 100%;
     object-fit: cover;
   }
+
+  @include respond(tab-port) {
+    height: 120%;
+    width: 70%;
+  }
+
+  @include respond(phone) {
+    height: 150%;
+    width: 100%;
+  }
 }
