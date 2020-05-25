@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import FirstImage from '../../../assets/stories/alayssa.png'
-import SecondImage from '../../../assets/stories/sanie.png'
+import FirstImage from '../../../../assets/stories/alayssa.png'
+import SecondImage from '../../../../assets/stories/sanie.png'
 
-import VideoMp4 from '../../../assets/video.mp4'
-import VideoWebm from '../../../assets/video.webm'
+import VideoMp4 from '../../../../assets/video.mp4'
+import VideoWebm from '../../../../assets/video.webm'
 
 const SectionStories = () => {
   return (

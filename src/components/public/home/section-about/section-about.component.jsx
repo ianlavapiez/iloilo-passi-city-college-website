@@ -1,8 +1,8 @@
 import React from 'react'
 
-import FirstImage from '../../../assets/about-first.png'
-import SecondImage from '../../../assets/about-second.png'
-import ThirdImage from '../../../assets/about-third.png'
+import FirstImage from '../../../../assets/about-first.png'
+import SecondImage from '../../../../assets/about-second.png'
+import ThirdImage from '../../../../assets/about-third.png'
 
 const SectionAbout = () => {
   return (
