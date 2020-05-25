@@ -1,21 +1,18 @@
 import React from 'react'
-import { Router } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
+import { Route } from 'react-router-dom'
 
 import AdminRoutes from './admin.routes'
 import PublicRoutes from './public.routes'
 import RARoutes from './ra.routes'
 import StudentRoutes from './student.routes'
 
-const history = createBrowserHistory()
-
 const routes = () => (
-  <Router history={history}>
+  <Route>
     <PublicRoutes />
     <AdminRoutes />
     <RARoutes />
     <StudentRoutes />
-  </Router>
+  </Route>
 )
 
 export default routes
