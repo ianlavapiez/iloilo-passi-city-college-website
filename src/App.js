@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from 'react'
-import { Switch } from 'react-router-dom'
+import { Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
@@ -13,14 +13,24 @@ import Routes from './routes'
 
 import Navigation from './components/common/navigation/navigation.component'
 
-const App = ({ checkUserSession, currentUser }) => {
+const App = ({ checkUserSession, currentUser, history }) => {
   useEffect(() => {
     checkUserSession()
   }, [checkUserSession])
 
+  const { pathname } = history.location
+  const publicLinks = [
+    '/',
+    '/programs',
+    '/online-review',
+    '/registration',
+    '/about',
+    '/contact',
+  ]
+
   return (
     <Fragment>
-      <Navigation />
+      {publicLinks.includes(pathname) ? <Navigation /> : null}
       <Switch>
         <Routes />
       </Switch>
@@ -36,4 +46,4 @@ const mapDispatchToProps = (dispatch) => ({
   checkUserSession: () => dispatch(checkUserSession()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
