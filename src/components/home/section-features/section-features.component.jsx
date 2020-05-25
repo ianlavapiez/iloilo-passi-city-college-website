@@ -3,6 +3,9 @@ import React from 'react'
 const SectionFeatures = () => {
   return (
     <section className='section-features'>
+      <div className='u-center-text u-margin-bottom-big'>
+        <h2 className='heading-features'>Our legacy</h2>
+      </div>
       <div className='row'>
         <div className='col-1-of-4'>
           <div className='feature-box'>
