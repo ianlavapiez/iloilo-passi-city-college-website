@@ -6,12 +6,13 @@ const Navigation = () => {
 
   const minimizeNav = () => {
     document.getElementById('navi-toggle').click()
+    setVisibility()
   }
 
   const setVisibility = () => {
     if (visible === 'hidden') {
       setVisible('visible')
-    } else {
+    } else if (visible === 'visible') {
       setVisible('hidden')
     }
   }
