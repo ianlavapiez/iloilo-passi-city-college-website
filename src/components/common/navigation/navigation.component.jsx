@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Navigation = () => {
+  const [visible, setVisible] = useState('hidden')
+
   const minimizeNav = () => {
     document.getElementById('navi-toggle').click()
+  }
+
+  const setVisibility = () => {
+    if (visible === 'hidden') {
+      setVisible('visible')
+    } else {
+      setVisible('hidden')
+    }
   }
 
   return (
@@ -14,14 +24,23 @@ const Navigation = () => {
         id='navi-toggle'
       />
 
-      <label htmlFor='navi-toggle' className='navigation__button'>
+      <label
+        htmlFor='navi-toggle'
+        className='navigation__button'
+        onClick={setVisibility}
+      >
         <span className='navigation__icon'>&nbsp;</span>
       </label>
 
       <div className='navigation__background'>&nbsp;</div>
 
       <nav className='navigation__nav'>
-        <ul className='navigation__list'>
+        <ul
+          className='navigation__list'
+          style={{
+            visibility: visible,
+          }}
+        >
           <li className='navigation__item'>
             <Link className='navigation__link' to='/' onClick={minimizeNav}>
               Home
