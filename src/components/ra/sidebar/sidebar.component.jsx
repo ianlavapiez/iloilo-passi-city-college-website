@@ -1,45 +1,55 @@
-import React from 'react'
-import { Paper, MenuItem, MenuList, Typography } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Layout, Menu } from 'antd'
 import {
-  DashboardRounded as DashboardRoundedIcon,
-  AccountBalanceWalletRounded as AccountBalanceWalletRoundedIcon,
-  CheckCircleRounded as CheckCircleRoundedIcon,
-  LabelImportantRounded as LabelImportantRoundedIcon,
-  PeopleRounded as PeopleRoundedIcon,
-} from '@material-ui/icons'
+  DashboardOutlined,
+  ReadOutlined,
+  CheckCircleOutlined,
+  RightSquareOutlined,
+  UserSwitchOutlined,
+} from '@ant-design/icons'
 
-import { useStyles } from './sidebar.styles'
+import './sidebar.styles.scss'
 
-const Sidebar = () => {
-  const classes = useStyles()
+import bannerImage from '../../../assets/brainhub.png'
+
+const { Sider } = Layout
+
+const Sidebar = ({ number }) => {
+  const [collapsed, setCollapsed] = useState(false)
+
+  const onCollapse = (collapsed) => {
+    setCollapsed(collapsed)
+  }
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <MenuList className={classes.menuList}>
-          <MenuItem className={classes.menuItem}>
-            <DashboardRoundedIcon />
-            <Typography variant='inherit'>Dashboard</Typography>
-          </MenuItem>
-          <MenuItem className={classes.menuItem}>
-            <AccountBalanceWalletRoundedIcon />
-            Accounting
-          </MenuItem>
-          <MenuItem className={classes.menuItem}>
-            <CheckCircleRoundedIcon />
-            Attendance
-          </MenuItem>
-          <MenuItem className={classes.menuItem}>
-            <LabelImportantRoundedIcon />
-            Dispatching
-          </MenuItem>
-          <MenuItem className={classes.menuItem}>
-            <PeopleRoundedIcon />
-            Student Management
-          </MenuItem>
-        </MenuList>
-      </Paper>
-    </div>
+    <Sider
+      className='ra-sider'
+      collapsible
+      collapsed={collapsed}
+      onCollapse={onCollapse}
+    >
+      <div className='logo'>
+        <img className='sidebar-logo' src={bannerImage} alt='Brainhub' />
+      </div>
+      <Menu theme='light' defaultSelectedKeys={[number]} mode='inline'>
+        <Menu.Item key='1' icon={<DashboardOutlined />}>
+          <Link to='/ra'>Dashboard</Link>
+        </Menu.Item>
+        <Menu.Item key='2' icon={<ReadOutlined />}>
+          <Link to='/ra/accounting'>Accounting</Link>
+        </Menu.Item>
+        <Menu.Item key='3' icon={<CheckCircleOutlined />}>
+          <Link to='/ra/attendance'>Attendance</Link>
+        </Menu.Item>
+        <Menu.Item key='4' icon={<RightSquareOutlined />}>
+          <Link to='/ra/dispatching'>Dispatching</Link>
+        </Menu.Item>
+        <Menu.Item key='5' icon={<UserSwitchOutlined />}>
+          <Link to='/ra/student-management'>Student Management</Link>
+        </Menu.Item>
+      </Menu>
+    </Sider>
   )
 }
 
