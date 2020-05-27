@@ -4,27 +4,27 @@ import { Layout } from 'antd'
 import Sidebar from '../../../components/student/sidebar/sidebar.component'
 import Navbar from '../../../components/student/navbar/navbar.component'
 import StudentFooter from '../../../components/student/footer/footer.component'
-import StudentCalendar from '../../../components/student/student-calendar/student-calendar.component'
 
 const { Content } = Layout
 
-const SchedulePage = () => {
+const ProfilePage = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sidebar number={'3'} />
+      <Sidebar number={'4'} />
       <Layout className='site-layout'>
         <Navbar />
         <Content style={{ margin: '0 16px' }}>
           <div
             className='site-layout-background'
-            style={{ padding: 10, height: '60vh' }}
+            style={{ padding: 20, minHeight: '85vh' }}
           >
-            <StudentCalendar />
+            Profile Page
           </div>
         </Content>
+        <StudentFooter />
       </Layout>
     </Layout>
   )
 }
 
-export default SchedulePage
+export default ProfilePage
