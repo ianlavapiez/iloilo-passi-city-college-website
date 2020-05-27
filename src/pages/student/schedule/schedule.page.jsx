@@ -4,6 +4,7 @@ import { Layout } from 'antd'
 import Sidebar from '../../../components/student/sidebar/sidebar.component'
 import Navbar from '../../../components/student/navbar/navbar.component'
 import StudentFooter from '../../../components/student/footer/footer.component'
+import StudentCalendar from '../../../components/student/student-calendar/student-calendar.component'
 
 const { Content } = Layout
 
@@ -16,12 +17,11 @@ const SchedulePage = () => {
         <Content style={{ margin: '0 16px' }}>
           <div
             className='site-layout-background'
-            style={{ padding: 20, minHeight: '85vh' }}
+            style={{ padding: 10, height: '60vh' }}
           >
-            Schedule Page
+            <StudentCalendar />
           </div>
         </Content>
-        <StudentFooter />
       </Layout>
     </Layout>
   )
