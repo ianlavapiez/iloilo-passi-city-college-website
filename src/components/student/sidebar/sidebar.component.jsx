@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
-import {
-  DashboardOutlined,
-  ReadOutlined,
-  CheckCircleOutlined,
-  RightSquareOutlined,
-  UserSwitchOutlined,
-} from '@ant-design/icons'
+import { DashboardOutlined, BarChartOutlined } from '@ant-design/icons'
 
 import './sidebar.styles.scss'
 
@@ -24,29 +18,26 @@ const Sidebar = ({ number }) => {
 
   return (
     <Sider
-      className='ra-sider'
+      className='student-sider'
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}
     >
       <div className='logo'>
-        <img className='sidebar-logo' src={bannerImage} alt='Brainhub' />
+        <img className='student-logo' src={bannerImage} alt='Brainhub' />
       </div>
       <Menu theme='light' defaultSelectedKeys={[number]} mode='inline'>
         <Menu.Item key='1' icon={<DashboardOutlined />}>
-          <Link to='/ra'>Dashboard</Link>
+          <Link to='/student'>Enrollment</Link>
         </Menu.Item>
-        <Menu.Item key='2' icon={<ReadOutlined />}>
-          <Link to='/ra/accounting'>Accounting</Link>
+        <Menu.Item key='2' icon={<BarChartOutlined />}>
+          <Link to='/student/payments'>Payments</Link>
         </Menu.Item>
-        <Menu.Item key='3' icon={<CheckCircleOutlined />}>
-          <Link to='/ra/attendance'>Attendance</Link>
+        <Menu.Item key='3' icon={<BarChartOutlined />}>
+          <Link to='/student/schedule'>Your Schedule</Link>
         </Menu.Item>
-        <Menu.Item key='4' icon={<RightSquareOutlined />}>
-          <Link to='/ra/dispatching'>Dispatching</Link>
-        </Menu.Item>
-        <Menu.Item key='5' icon={<UserSwitchOutlined />}>
-          <Link to='/ra/student-management'>Student Management</Link>
+        <Menu.Item key='4' icon={<BarChartOutlined />}>
+          <Link to='/student/tutorials'>Tutorials</Link>
         </Menu.Item>
       </Menu>
     </Sider>
