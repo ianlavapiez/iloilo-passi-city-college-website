@@ -10,7 +10,11 @@ const Navbar = () => {
   return (
     <Header
       className='site-layout-background'
-      style={{ padding: 0, display: 'flex', justifyContent: 'space-between' }}
+      style={{
+        padding: 0,
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
     >
       <Title
         level={4}
