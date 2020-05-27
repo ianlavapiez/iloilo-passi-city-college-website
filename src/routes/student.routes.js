@@ -6,6 +6,7 @@ import LoginPage from '../pages/student/login/login.page'
 import PaymentPage from '../pages/student/payment/payment.page'
 import SchedulePage from '../pages/student/schedule/schedule.page'
 import TutorialPage from '../pages/student/tutorial/tutorial.page'
+import ProfilePage from '../pages/student/profile/profile.page'
 
 const StudentRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const StudentRoutes = () => {
       <Route exact path='/student/payments' component={PaymentPage} />
       <Route exact path='/student/schedule' component={SchedulePage} />
       <Route exact path='/student/tutorials' component={TutorialPage} />
+      <Route exact path='/student/profile' component={ProfilePage} />
     </Route>
   )
 }
