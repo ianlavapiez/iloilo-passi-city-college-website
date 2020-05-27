@@ -39,6 +39,9 @@ const Sidebar = ({ number }) => {
         <Menu.Item key='4' icon={<BarChartOutlined />}>
           <Link to='/student/tutorials'>Tutorials</Link>
         </Menu.Item>
+        <Menu.Item key='5' icon={<BarChartOutlined />}>
+          <Link to='/student/profile'>User Profile</Link>
+        </Menu.Item>
       </Menu>
     </Sider>
   )
