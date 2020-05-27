@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Modal, Button, Input, Select, Form } from 'antd'
 
-import './student-modal.styles.scss'
+import { CalendarOutlined } from '@ant-design/icons'
+
+import './dispatching-schedule-modal.styles.scss'
 
 const { Option } = Select
 
-const StudentModal = (props) => {
+const DispatchingScheduleModal = (props) => {
   const [visible, setVisible] = useState(false)
 
   const showModal = () => {
@@ -29,16 +31,12 @@ const StudentModal = (props) => {
   return (
     <div>
       <Button
-        style={{
-          borderRadius: 5,
-          backgroundColor: '#f97204',
-          border: 'none',
-          marginBottom: '12px',
-        }}
+        style={{ borderRadius: 5, backgroundColor: '#f97204', border: 'none' }}
         type='primary'
         onClick={showModal}
+        icon={<CalendarOutlined />}
       >
-        Add Student Details
+        Dispatch Schedule Info
       </Button>
       <Modal
         title='Edit Student Details'
@@ -109,4 +107,4 @@ const StudentModal = (props) => {
   )
 }
 
-export default StudentModal
+export default DispatchingScheduleModal

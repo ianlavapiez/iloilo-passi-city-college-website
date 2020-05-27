@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Modal, Button, Input, Select, Form } from 'antd'
+import { Modal, Button, Select, Form, DatePicker } from 'antd'
+import { CalendarOutlined } from '@ant-design/icons'
 
-import './student-modal.styles.scss'
+import './attendance-modal.styles.scss'
 
 const { Option } = Select
 
-const StudentModal = (props) => {
+const AttendanceModal = (props) => {
   const [visible, setVisible] = useState(false)
 
   const showModal = () => {
@@ -29,31 +30,26 @@ const StudentModal = (props) => {
   return (
     <div>
       <Button
-        style={{
-          borderRadius: 5,
-          backgroundColor: '#f97204',
-          border: 'none',
-          marginBottom: '12px',
-        }}
+        style={{ borderRadius: 5, backgroundColor: '#f97204', border: 'none' }}
         type='primary'
         onClick={showModal}
+        icon={<CalendarOutlined />}
       >
-        Add Student Details
+        Add Attendance Sheet
       </Button>
       <Modal
-        title='Edit Student Details'
+        title='Add New Attendance Sheet'
         visible={visible}
         onCancel={handleCancel}
         footer={null}
       >
         <Form validateMessages={validateMessages} onFinish={onFinish}>
           <Form.Item
-            className='form-item'
-            name='fullname'
-            label='Fullname'
+            label='Date Picker'
+            name='date'
             rules={[{ required: true }]}
           >
-            <Input />
+            <DatePicker />
           </Form.Item>
           <Form.Item
             className='form-item'
@@ -79,17 +75,6 @@ const StudentModal = (props) => {
               <Option value='Government'>Program 3</Option>
             </Select>
           </Form.Item>
-          <Form.Item
-            className='form-item'
-            name={'status'}
-            label='Status'
-            rules={[{ required: true }]}
-          >
-            <Select placeholder='Select a status' name='status'>
-              <Option value='Academe'>Enrolled</Option>
-              <Option value='Community'>Pending</Option>
-            </Select>
-          </Form.Item>
           <Form.Item wrapperCol={{ offset: 20 }}>
             <Button
               style={{
@@ -109,4 +94,4 @@ const StudentModal = (props) => {
   )
 }
 
-export default StudentModal
+export default AttendanceModal

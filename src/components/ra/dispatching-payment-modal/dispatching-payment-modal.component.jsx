@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Modal, Button, Input, Select, Form } from 'antd'
+import { CreditCardOutlined } from '@ant-design/icons'
 
-import './student-modal.styles.scss'
+import './dispatching-payment-modal.styles.scss'
 
 const { Option } = Select
 
-const StudentModal = (props) => {
+const DispatchingPaymentModal = (props) => {
   const [visible, setVisible] = useState(false)
 
   const showModal = () => {
@@ -29,16 +30,12 @@ const StudentModal = (props) => {
   return (
     <div>
       <Button
-        style={{
-          borderRadius: 5,
-          backgroundColor: '#f97204',
-          border: 'none',
-          marginBottom: '12px',
-        }}
+        style={{ borderRadius: 5, backgroundColor: '#f97204', border: 'none' }}
         type='primary'
         onClick={showModal}
+        icon={<CreditCardOutlined />}
       >
-        Add Student Details
+        Dispatch Payment Info
       </Button>
       <Modal
         title='Edit Student Details'
@@ -109,4 +106,4 @@ const StudentModal = (props) => {
   )
 }
 
-export default StudentModal
+export default DispatchingPaymentModal
