@@ -1,11 +1,14 @@
 import React from 'react'
-import { Layout } from 'antd'
+import { Layout, Breadcrumb, Typography } from 'antd'
 
 import Sidebar from '../../../components/ra/sidebar/sidebar.component'
 import Navbar from '../../../components/ra/navbar/navbar.component'
 import RaFooter from '../../../components/ra/footer/footer.component'
+import AttendanceTable from '../../../components/ra/attendance-table/attendance-table.component'
+import AttendanceModal from '../../../components/ra/attendance-modal/attendance-modal.component'
 
 const { Content } = Layout
+const { Title } = Typography
 
 const AttendancePage = () => {
   return (
@@ -13,14 +16,26 @@ const AttendancePage = () => {
       <Sidebar number={'3'} />
       <Layout className='site-layout'>
         <Navbar />
-        <Content style={{ margin: '0 16px' }}>
-          <div
+        <Layout style={{ padding: '0 24px 24px' }}>
+          <Breadcrumb style={{ margin: '40px 0px -20px 30px' }}>
+            <Breadcrumb.Item>
+              <Title level={3}>List of Recorded Attendance</Title>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+          <Content
             className='site-layout-background'
-            style={{ padding: 20, minHeight: '85vh' }}
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: 280,
+            }}
           >
-            Attendance Page
-          </div>
-        </Content>
+            <Layout style={{ marginBottom: '12px' }}>
+              <AttendanceModal />
+            </Layout>
+            <AttendanceTable />
+          </Content>
+        </Layout>
         <RaFooter />
       </Layout>
     </Layout>
