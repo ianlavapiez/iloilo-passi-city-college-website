@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
-import { DashboardOutlined, BarChartOutlined } from '@ant-design/icons'
+import {
+  DashboardOutlined,
+  CreditCardOutlined,
+  CalendarOutlined,
+  AlignLeftOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 
 import './sidebar.styles.scss'
 
@@ -30,16 +36,16 @@ const Sidebar = ({ number }) => {
         <Menu.Item key='1' icon={<DashboardOutlined />}>
           <Link to='/student'>Enrollment</Link>
         </Menu.Item>
-        <Menu.Item key='2' icon={<BarChartOutlined />}>
+        <Menu.Item key='2' icon={<CreditCardOutlined />}>
           <Link to='/student/payments'>Payments</Link>
         </Menu.Item>
-        <Menu.Item key='3' icon={<BarChartOutlined />}>
+        <Menu.Item key='3' icon={<CalendarOutlined />}>
           <Link to='/student/schedule'>Your Schedule</Link>
         </Menu.Item>
-        <Menu.Item key='4' icon={<BarChartOutlined />}>
+        <Menu.Item key='4' icon={<AlignLeftOutlined />}>
           <Link to='/student/tutorials'>Tutorials</Link>
         </Menu.Item>
-        <Menu.Item key='5' icon={<BarChartOutlined />}>
+        <Menu.Item key='5' icon={<UserOutlined />}>
           <Link to='/student/profile'>User Profile</Link>
         </Menu.Item>
       </Menu>
