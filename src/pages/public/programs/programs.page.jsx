@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import ProgramCard from '../../../components/public/programs/program-card/program-card.component'
 
@@ -21,6 +21,10 @@ const programsArray = [
 ]
 
 const ProgramsPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <section className='section-program'>
       <div className='u-center-text u-margin-bottom-small'>
@@ -31,6 +35,7 @@ const ProgramsPage = () => {
         {programsArray.map((program) => {
           return (
             <ProgramCard
+              key={program.course}
               programs={program.programs}
               course={program.course}
               price={program.price}
