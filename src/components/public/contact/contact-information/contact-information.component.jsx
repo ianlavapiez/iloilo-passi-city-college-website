@@ -71,6 +71,12 @@ const ContactInformation = () => {
                   <span className='heading-primary-contact--contact-sub'>
                     (033) 508-21-23
                   </span>
+                  <span className='heading-primary-contact--contact-sub'>
+                    (Globe) 0917-308-6308
+                  </span>
+                  <span className='heading-primary-contact--contact-sub'>
+                    (Smart) 0999-961-5941
+                  </span>
                 </h1>
                 <h1 className='heading-primary-contact'>
                   <MailFilled style={{ fontSize: 50, color: '#ffb900' }} />
