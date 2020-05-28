@@ -39,6 +39,17 @@
   }
 }
 
+.section-program {
+  background-color: $color-grey-light-1;
+  padding: 25rem 0 15rem 0;
+  margin-top: -20rem;
+  width: 100%;
+
+  @include respond(tab-port) {
+    padding: 20rem 0 10rem 0;
+  }
+}
+
 .book {
   height: 650px;
   background-image: linear-gradient(
