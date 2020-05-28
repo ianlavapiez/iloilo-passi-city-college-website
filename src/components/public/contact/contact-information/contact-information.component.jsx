@@ -22,7 +22,7 @@ const ContactInformation = () => {
                     placeholder='Full name'
                     required
                   />
-                  <label for='name' className='form__label'>
+                  <label htmlFor='name' className='form__label'>
                     Full name
                   </label>
                 </div>
@@ -34,7 +34,7 @@ const ContactInformation = () => {
                     placeholder='Address'
                     required
                   />
-                  <label for='address' className='form__label'>
+                  <label htmlFor='address' className='form__label'>
                     Address
                   </label>
                 </div>
@@ -46,7 +46,7 @@ const ContactInformation = () => {
                     placeholder='Your message'
                     required
                   />
-                  <label for='message' className='form__label'>
+                  <label htmlFor='message' className='form__label'>
                     Your message
                   </label>
                 </div>
@@ -63,7 +63,7 @@ const ContactInformation = () => {
           <div>
             <div className='book__form'>
               <div>
-                <div className='u-margin-bottom-small'>
+                <div className='u-margin-bottom-small contact-upper'>
                   <h2 className='heading-secondary-contact'>Contact Us</h2>
                 </div>
                 <h1 className='heading-primary-contact'>
