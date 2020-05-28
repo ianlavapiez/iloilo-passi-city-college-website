@@ -15,7 +15,7 @@ const ProgramCard = ({ course, programs, price }) => {
           <div className='card__details'>
             <ul>
               {programs.map((program) => (
-                <li>{program}</li>
+                <li key={program}>{program}</li>
               ))}
             </ul>
           </div>

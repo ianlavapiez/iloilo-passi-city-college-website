@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import FirstImage from '../../../../assets/stories/alayssa.png'
 import SecondImage from '../../../../assets/stories/sanie.png'
@@ -61,12 +60,6 @@ const SectionStories = () => {
             </p>
           </div>
         </div>
-      </div>
-
-      <div className='u-center-text u-margin-top-huge'>
-        <Link to='/stories' className='btn-text'>
-          Read all stories &rarr;
-        </Link>
       </div>
     </section>
   )
