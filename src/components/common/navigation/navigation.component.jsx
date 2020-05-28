@@ -77,15 +77,6 @@ const Navigation = () => {
           <li className='navigation__item'>
             <Link
               className='navigation__link'
-              to='/about'
-              onClick={minimizeNav}
-            >
-              About Brainhub
-            </Link>
-          </li>
-          <li className='navigation__item'>
-            <Link
-              className='navigation__link'
               to='/contact'
               onClick={minimizeNav}
             >
