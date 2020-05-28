@@ -3,7 +3,6 @@ import { Layout } from 'antd'
 
 import Sidebar from '../../../components/student/sidebar/sidebar.component'
 import Navbar from '../../../components/student/navbar/navbar.component'
-import StudentFooter from '../../../components/student/footer/footer.component'
 import StudentCalendar from '../../../components/student/student-calendar/student-calendar.component'
 
 const { Content } = Layout
