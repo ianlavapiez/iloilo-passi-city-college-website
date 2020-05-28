@@ -1,4 +1,5 @@
 import React from 'react'
+import { PhoneFilled, MailFilled, FacebookFilled } from '@ant-design/icons'
 
 import './contact-information.styles.scss'
 
@@ -61,32 +62,30 @@ const ContactInformation = () => {
         <div className='col-1-of-2'>
           <div>
             <div className='book__form'>
-              <div className='form'>
+              <div>
                 <div className='u-margin-bottom-small'>
-                  <h2 className='heading-secondary'>Contact Us</h2>
+                  <h2 className='heading-secondary-contact'>Contact Us</h2>
                 </div>
                 <h1 className='heading-primary-contact'>
-                  <span className='heading-primary-contact--contact-main'>
-                    Phone
-                  </span>
+                  <PhoneFilled style={{ fontSize: 50, color: '#ffb900' }} />
                   <span className='heading-primary-contact--contact-sub'>
                     (033) 508-21-23
                   </span>
-                  <span className='heading-primary-contact--contact-main'>
-                    Email
-                  </span>
+                </h1>
+                <h1 className='heading-primary-contact'>
+                  <MailFilled style={{ fontSize: 50, color: '#ffb900' }} />
                   <a
                     className='heading-primary-contact--contact-link'
                     href='mailto:idccnreviewcenter14@yahoo.com'
                   >
                     idccnreviewcenter14@yahoo.com
                   </a>
-                  <span className='heading-primary-contact--contact-main'>
-                    Messenger
-                  </span>
+                </h1>
+                <h1 className='heading-primary-contact'>
+                  <FacebookFilled style={{ fontSize: 50, color: '#ffb900' }} />
                   <a
                     className='heading-primary-contact--contact-link'
-                    href='https://www.messenger.com/t/1712108522174873'
+                    href='https://www.facebook.com/Brainhub-Review-Specialist-1712108522174873/'
                   >
                     Brainhub Review Specialist
                   </a>

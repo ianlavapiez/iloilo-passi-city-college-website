@@ -70,6 +70,30 @@ body {
   }
 }
 
+.heading-secondary-contact {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline;
+  background-image: linear-gradient(
+    to right,
+    $color-grey-light-2,
+    $color-white
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 0.2rem;
+  text-shadow: 0.5rem 1rem 2rem rgba($color-black, 0.2);
+
+  @include respond(tab-port) {
+    font-size: 3rem;
+  }
+
+  @include respond(phone) {
+    font-size: 2.5rem;
+  }
+}
+
 .heading-tertiary {
   font-size: $default-font-size;
   font-weight: 700;
