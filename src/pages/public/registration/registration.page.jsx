@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react'
-import { Row, Col } from 'antd'
+import React, { Fragment, useEffect } from 'react'
 
 import './registration.styles.scss'
 
@@ -8,14 +7,16 @@ import RegistrationForm from '../../../components/public/registration/registrati
 import Footer from '../../../components/public/footer/footer.component'
 
 const RegistrationPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <Fragment>
-      <Row style={{ height: '100vh' }}>
-        <Col span={24}>
-          <Header />
-          <RegistrationForm />
-        </Col>
-      </Row>
+      <div className='row'>
+        <Header />
+        <RegistrationForm />
+      </div>
       <Footer />
     </Fragment>
   )
