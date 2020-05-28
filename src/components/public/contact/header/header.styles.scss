@@ -1,0 +1,31 @@
+.contact-header {
+  height: 20vh;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(#ffb900, 0.8),
+      rgba(#ff7730, 0.8)
+    ),
+    url(../../../../assets/contact-us.jpg);
+  background-size: cover;
+  background-position: bottom;
+  position: relative;
+
+  @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em),
+    only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em),
+    only screen and (min-width: 125em) {
+    background-image: linear-gradient(
+        to right bottom,
+        rgba(#ffb900, 0.8),
+        rgba(#ff7730, 0.8)
+      ),
+      url(../../../../assets/contact-us.jpg);
+  }
+
+  &__text-box {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+}

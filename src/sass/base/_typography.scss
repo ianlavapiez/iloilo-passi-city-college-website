@@ -70,6 +70,30 @@ body {
   }
 }
 
+.heading-secondary-contact {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline;
+  background-image: linear-gradient(
+    to right,
+    $color-grey-light-2,
+    $color-white
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 0.2rem;
+  text-shadow: 0.5rem 1rem 2rem rgba($color-black, 0.2);
+
+  @include respond(tab-port) {
+    font-size: 3rem;
+  }
+
+  @include respond(phone) {
+    font-size: 2.5rem;
+  }
+}
+
 .heading-tertiary {
   font-size: $default-font-size;
   font-weight: 700;
@@ -105,6 +129,99 @@ body {
 
   @include respond(phone) {
     font-size: 2.5rem;
+  }
+}
+
+.heading-primary-contact {
+  color: $color-white;
+
+  backface-visibility: hidden;
+  margin-bottom: 6rem;
+
+  &--main {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.5rem;
+    text-transform: uppercase;
+
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+
+    @include respond(phone) {
+      letter-spacing: 1rem;
+      font-family: 2rem;
+    }
+    /*
+          animation-delay: 3s;
+          animation-iteration-count: 3;
+          */
+  }
+
+  &--sub {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1rem;
+    text-transform: uppercase;
+    animation: moveInRight 1s ease-out;
+
+    @include respond(phone) {
+      letter-spacing: 0.5rem;
+    }
+  }
+
+  &--contact-main {
+    display: block;
+    font-size: 3rem;
+    font-weight: 200;
+    letter-spacing: 0;
+
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    text-transform: uppercase;
+
+    @include respond(phone) {
+      text-transform: uppercase;
+      font-family: 2rem;
+    }
+    /*
+          animation-delay: 3s;
+          animation-iteration-count: 3;
+          */
+  }
+
+  &--contact-sub {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0rem;
+    animation: moveInRight 1s ease-out;
+  }
+
+  &--contact-link {
+    &:visited,
+    &:link,
+    &:active {
+      color: $color-white;
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0rem;
+      animation: moveInRight 1s ease-out;
+
+      @include respond(phone) {
+        color: $color-white;
+        letter-spacing: 0.5rem;
+      }
+    }
+
+    &:hover {
+      color: $color-primary-light;
+      text-decoration: underline;
+    }
   }
 }
 
