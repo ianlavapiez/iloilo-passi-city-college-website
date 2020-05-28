@@ -1,6 +1,8 @@
 import React from 'react'
 import { Form, Input, Select, Button, Checkbox } from 'antd'
 
+import './registration-form.styles.scss'
+
 const { Option } = Select
 
 const layout = {
@@ -130,7 +132,7 @@ const RegistrationForm = () => {
       <Form.Item
         name='accept'
         valuePropName='checked'
-        wrapperCol={{ ...layout.wrapperCol, offset: 9 }}
+        className='checkbox-margin'
       >
         <Checkbox>
           I accept the <a href='#'>Terms of Service</a> and have read the{' '}
