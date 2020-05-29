@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import Logo from '../../../../assets/header-logo.png'
 
@@ -14,9 +15,9 @@ const Header = () => {
           <span className='heading-primary--sub'>clever minds trust us</span>
         </h1>
 
-        <a href='#section-about' className='btn btn--white btn--animated'>
+        <Link to='/registration' className='btn btn--white btn--animated'>
           Enroll Now!
-        </a>
+        </Link>
       </div>
     </header>
   )
