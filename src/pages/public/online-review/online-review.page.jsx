@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 
 import Header from '../../../components/public/online-review/header/header.component'
 import Guideline from '../../../components/public/online-review/guideline/guideline.component'
+import Footer from '../../../components/public/footer/footer.component'
 
 const OnlineReviewPage = () => {
   useEffect(() => {
@@ -12,6 +13,7 @@ const OnlineReviewPage = () => {
     <Fragment>
       <Header />
       <Guideline />
+      <Footer />
     </Fragment>
   )
 }
