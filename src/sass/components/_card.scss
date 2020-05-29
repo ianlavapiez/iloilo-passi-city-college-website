@@ -75,25 +75,56 @@
           $color-secondary-light,
           $color-secondary-dark
         ),
-        url(../../assets/header-wallpaper.jpg);
+        url(../../assets/programs/bscrim.jpg);
     }
 
     &--2 {
+      background-position: center;
       background-image: linear-gradient(
           to right bottom,
           $color-primary-light,
           $color-primary-dark
         ),
-        url(../../assets/header-wallpaper.jpg);
+        url(../../assets/programs/bsd.jpg);
     }
 
     &--3 {
+      background-position: center;
       background-image: linear-gradient(
           to right bottom,
           $color-tertiary-light,
           $color-tertiary-dark
         ),
-        url(../../assets/header-wallpaper.jpg);
+        url(../../assets/programs/bsmt.jpg);
+    }
+
+    &--4 {
+      background-image: linear-gradient(
+          to right bottom,
+          $color-secondary-light,
+          $color-secondary-dark
+        ),
+        url(../../assets/programs/bsn.jpg);
+    }
+
+    &--5 {
+      background-position: center;
+      background-image: linear-gradient(
+          to right bottom,
+          $color-primary-light,
+          $color-primary-dark
+        ),
+        url(../../assets/programs/bspt.jpg);
+    }
+
+    &--6 {
+      background-position: center;
+      background-image: linear-gradient(
+          to right bottom,
+          $color-tertiary-light,
+          $color-tertiary-dark
+        ),
+        url(../../assets/programs/bsrt.jpg);
     }
   }
 
