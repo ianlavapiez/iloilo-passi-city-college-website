@@ -1,24 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 
 import ProgramCard from '../../../components/public/programs/program-card/program-card.component'
+import Footer from '../../../components/public/footer/footer.component'
 
-const programsArray = [
-  {
-    course: 'BSN',
-    programs: ['Program 1', 'Program 2', 'Program 3', 'Program 4'],
-    price: 'P5,000.00',
-  },
-  {
-    course: 'BSMT',
-    programs: ['Program 1', 'Program 2', 'Program 3', 'Program 4'],
-    price: 'P55,000.00',
-  },
-  {
-    course: 'BSD',
-    programs: ['Program 1', 'Program 2', 'Program 3', 'Program 4'],
-    price: 'P65,000.00',
-  },
-]
+import {
+  programsOne,
+  programsTwo,
+} from '../../../data/public/programs/programs'
 
 const ProgramsPage = () => {
   useEffect(() => {
@@ -26,24 +14,41 @@ const ProgramsPage = () => {
   }, [])
 
   return (
-    <section className='section-program'>
-      <div className='u-center-text u-margin-bottom-small'>
-        <h2 className='heading-secondary'>Programs Offered</h2>
-      </div>
+    <Fragment>
+      <section className='section-program'>
+        <div className='u-center-text u-margin-bottom-small'>
+          <h2 className='heading-secondary'>Programs Offered</h2>
+        </div>
 
-      <div className='row'>
-        {programsArray.map((program) => {
-          return (
-            <ProgramCard
-              key={program.course}
-              programs={program.programs}
-              course={program.course}
-              price={program.price}
-            />
-          )
-        })}
-      </div>
-    </section>
+        <div className='row'>
+          {programsOne.map((program) => {
+            return (
+              <ProgramCard
+                key={program.course}
+                programs={program.programs}
+                course={program.course}
+                price={program.price}
+                imageId={program.imageId}
+              />
+            )
+          })}
+        </div>
+        <div className='row'>
+          {programsTwo.map((program) => {
+            return (
+              <ProgramCard
+                key={program.course}
+                programs={program.programs}
+                course={program.course}
+                price={program.price}
+                imageId={program.imageId}
+              />
+            )
+          })}
+        </div>
+      </section>
+      <Footer />
+    </Fragment>
   )
 }
 
