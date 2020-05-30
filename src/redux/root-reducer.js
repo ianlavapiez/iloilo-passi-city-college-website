@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 import userReducer from './user/user.reducer'
 import messageReducer from './public/message/message.reducer'
 import studentReducer from './student/student.reducer'
+import accountingReducer from './accounting/accounting.reducer'
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   publicMessage: messageReducer,
   students: studentReducer,
+  payments: accountingReducer,
 })
 
 export default persistReducer(persistConfig, rootReducer)
