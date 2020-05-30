@@ -3,20 +3,29 @@ import { Link, withRouter } from 'react-router-dom'
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 
-import { selectCurrentUser } from '../../../redux/user/user.selectors'
 import { signOutStart } from '../../../redux/user/user.actions'
+import { fetchStudentStart } from '../../../redux/student/student.actions'
+import { fetchAccountingDetailsStart } from '../../../redux/accounting/accounting.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = ({ currentUser, signOutStart, history }) => {
+const Navbar = ({
+  currentUser,
+  signOutStart,
+  fetchStudentStart,
+  fetchAccountingDetailsStart,
+  history,
+}) => {
   useEffect(() => {
-    if (currentUser === null) {
-      history.push('/ra/login')
+    if (currentUser && currentUser.type !== 'ra') {
+      return history.push('/ra/login')
     }
-  }, [currentUser, history])
+
+    fetchStudentStart()
+    fetchAccountingDetailsStart()
+  }, [fetchStudentStart, fetchAccountingDetailsStart, currentUser, history])
 
   const menu = (
     <Menu>
@@ -64,12 +73,15 @@ const Navbar = ({ currentUser, signOutStart, history }) => {
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser ? state.user.currentUser : [],
+  success: state.user.isSuccessful,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   signOutStart: () => dispatch(signOutStart()),
+  fetchStudentStart: () => dispatch(fetchStudentStart()),
+  fetchAccountingDetailsStart: () => dispatch(fetchAccountingDetailsStart()),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))
