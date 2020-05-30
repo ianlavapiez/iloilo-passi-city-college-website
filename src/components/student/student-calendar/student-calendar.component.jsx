@@ -5,27 +5,13 @@ function getListData(value) {
   let listData
   switch (value.date()) {
     case 8:
-      listData = [
-        { type: 'warning', content: 'This is warning event.' },
-        { type: 'success', content: 'This is usual event.' },
-      ]
+      listData = [{ type: 'success', content: 'Refresher subject 1' }]
       break
     case 10:
-      listData = [
-        { type: 'warning', content: 'This is warning event.' },
-        { type: 'success', content: 'This is usual event.' },
-        { type: 'error', content: 'This is error event.' },
-      ]
+      listData = [{ type: 'success', content: 'Refresher subject 2' }]
       break
     case 15:
-      listData = [
-        { type: 'warning', content: 'This is warning event' },
-        { type: 'success', content: 'This is very long usual event。。....' },
-        { type: 'error', content: 'This is error event 1.' },
-        { type: 'error', content: 'This is error event 2.' },
-        { type: 'error', content: 'This is error event 3.' },
-        { type: 'error', content: 'This is error event 4.' },
-      ]
+      listData = [{ type: 'success', content: 'Refresher subject 3' }]
       break
     default:
   }
