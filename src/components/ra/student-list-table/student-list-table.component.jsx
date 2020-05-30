@@ -1,50 +1,10 @@
-import React, { useState } from 'react'
-
-import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { Table, Input, Button, Space, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
-import {
-  SearchOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  MoreOutlined,
-} from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 
-const data = [
-  {
-    key: '1',
-    fullname: 'John Brown',
-    course: 'BSN',
-    program: 'Intensive',
-    status: 'Enrolled',
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    fullname: 'Joe Black',
-    course: 'BSN',
-    program: 'Intensive',
-    status: 'Enrolled',
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    fullname: 'Jim Green',
-    course: 'BSN',
-    program: 'Intensive',
-    status: 'Pending',
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    fullname: 'Jim Red',
-    course: 'BSN',
-    program: 'Intensive',
-    status: 'Enrolled',
-    address: 'London No. 2 Lake Park',
-  },
-]
-
-const StudentTable = () => {
+const StudentListTable = ({ students }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
@@ -126,71 +86,71 @@ const StudentTable = () => {
   const columns = [
     {
       title: 'Fullname',
-      dataIndex: 'fullname',
-      key: 'fullname',
-      width: '30%',
-      ...getColumnSearchProps('fullname'),
+      dataIndex: 'displayName',
+      key: 'displayName',
+      ...getColumnSearchProps('displayName'),
     },
     {
       title: 'Course',
       dataIndex: 'course',
       key: 'course',
-      width: '20%',
       ...getColumnSearchProps('course'),
     },
     {
       title: 'Program',
       dataIndex: 'program',
       key: 'program',
-      width: '20%',
       ...getColumnSearchProps('program'),
     },
     {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => {
-        if (status === 'Enrolled') {
+      title: 'Contact No.',
+      dataIndex: 'contact',
+      key: 'contact',
+      ...getColumnSearchProps('contact'),
+    },
+    {
+      title: 'Email Address',
+      dataIndex: 'email',
+      key: 'email',
+      ...getColumnSearchProps('email'),
+    },
+    {
+      title: 'Verified',
+      key: 'verified',
+      dataIndex: 'verified',
+      render: (verified) => {
+        if (verified === true) {
           return (
-            <Tag color={'green'} key={status}>
-              {status.toUpperCase()}
+            <Tag color={'green'} key={1}>
+              YES
             </Tag>
           )
         } else {
           return (
-            <Tag color={'volcano'} key={status}>
-              {status.toUpperCase()}
+            <Tag color={'volcano'} key={2}>
+              NO
             </Tag>
           )
         }
       },
     },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text) => (
-        <span>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <EditOutlined /> edit
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedDelete(text)}>
-                  <DeleteOutlined /> delete
-                </Menu.Item>
-              </Menu>
-            }
-            trigger={['click']}
-          >
-            <Button type='default' icon={<MoreOutlined />} />
-          </Dropdown>
-        </span>
-      ),
-    },
   ]
 
-  return <Table columns={columns} dataSource={data} />
+  return (
+    <Table
+      rowKey={(record) => record.id}
+      columns={columns}
+      dataSource={students ? students : []}
+    />
+  )
 }
 
-export default StudentTable
+const mapStateToProps = (state) => ({
+  students: state.students.students
+    ? state.students.students.filter(
+        (student) => student.type === 'student' && student.verified === true
+      )
+    : [],
+})
+
+export default connect(mapStateToProps)(StudentListTable)
