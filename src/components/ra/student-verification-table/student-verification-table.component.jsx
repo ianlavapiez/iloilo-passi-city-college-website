@@ -10,25 +10,29 @@ import {
 } from '@ant-design/icons'
 
 import { selectUnverifiedStudents } from '../../../redux/student/student.selectors'
+import { verifyStudentStart } from '../../../redux/student/student.actions'
 import { fireAlertWithConfirmation } from '../../common/confirmation-message/confirmation-message.component'
 
-const StudentVerificationTable = ({ students }) => {
+const StudentVerificationTable = ({ students, verifyStudentStart }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
 
-  const verifyStudent = (event) =>
+  const verifyStudent = (student) => {
+    student.verified = true
+
     fireAlertWithConfirmation(
       'Are you sure you want to verify the student?',
-      'Successfully deleted!',
+      'Successfully verified!',
       (confirmed) => {
         if (confirmed) {
-          this.props.softDeleteEvent(event)
+          verifyStudentStart(student)
         } else {
           return false
         }
       }
     )
+  }
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -190,4 +194,11 @@ const mapStateToProps = createStructuredSelector({
   students: selectUnverifiedStudents,
 })
 
-export default connect(mapStateToProps)(StudentVerificationTable)
+const mapDispatchToProps = (dispatch) => ({
+  verifyStudentStart: (student) => dispatch(verifyStudentStart(student)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StudentVerificationTable)
