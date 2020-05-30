@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Breadcrumb, Typography, Tabs } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky'
+import { createStructuredSelector } from 'reselect'
 
 import { fetchStudentStart } from '../../../redux/student/student.actions'
+import { selectIsSuccessful } from '../../../redux/student/student.selectors'
 
 import Sidebar from '../../../components/ra/sidebar/sidebar.component'
 import Navbar from '../../../components/ra/navbar/navbar.component'
@@ -27,14 +29,16 @@ const renderTabBar = (props, DefaultTabBar) => (
   </Sticky>
 )
 
-const StudentManagementPage = ({ fetchStudentStart }) => {
+const StudentManagementPage = ({ fetchStudentStart, success }) => {
   useEffect(() => {
     fetchStudentStart()
   }, [fetchStudentStart])
 
+  useEffect(() => {}, [success])
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sidebar number={'5'} />
+      <Sidebar number={'4'} />
       <Layout className='site-layout'>
         <Navbar />
         <Layout style={{ padding: '0 24px 24px' }}>
@@ -77,8 +81,15 @@ const StudentManagementPage = ({ fetchStudentStart }) => {
   )
 }
 
+const mapStateToProps = createStructuredSelector({
+  success: selectIsSuccessful,
+})
+
 const mapDispatchToProps = (dispatch) => ({
   fetchStudentStart: () => dispatch(fetchStudentStart()),
 })
 
-export default connect(null, mapDispatchToProps)(StudentManagementPage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StudentManagementPage)
