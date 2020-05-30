@@ -5,46 +5,33 @@ import Highlighter from 'react-highlight-words'
 import {
   SearchOutlined,
   InfoCircleOutlined,
-  DeleteOutlined,
+  CloseOutlined,
   MoreOutlined,
+  CheckOutlined,
 } from '@ant-design/icons'
 
 const data = [
   {
     key: '1',
-    type: 'Payment',
-    to: 'Ian Hero L. Lavapiez',
+    dateAndTime: 'May 19, 2020 11:00:00 AM',
     course: 'BSN',
     program: 'Intensive',
-    status: 'Sent',
+    payment: 1000,
+    method: 'Paymaya',
+    status: 'Cancelled',
+    ref: 'oiuydofysdu890738',
     address: 'New York No. 1 Lake Park',
   },
   {
     key: '2',
-    type: 'Payment',
-    to: 'ALL',
+    dateAndTime: 'May 20, 2020 11:00:00 PM',
     course: 'BSN',
     program: 'Intensive',
-    status: 'Sent',
+    payment: 2000,
+    method: 'Palawan',
+    status: 'ISU-IHT8V-ZAW',
+    ref: 'dsfj9873377fjdsbzzx',
     address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    type: 'Schedule',
-    to: 'ALL',
-    course: 'BSN',
-    program: 'Intensive',
-    status: 'Not Sent',
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    type: 'Schedule',
-    to: 'ALL',
-    course: 'BSN',
-    program: 'Intensive',
-    status: 'Sent',
-    address: 'London No. 2 Lake Park',
   },
 ]
 
@@ -129,52 +116,44 @@ const PaymentVerificationTable = () => {
 
   const columns = [
     {
-      title: 'Dispatch Type',
-      dataIndex: 'type',
-      key: 'type',
-      width: '20%',
-      ...getColumnSearchProps('type'),
-    },
-    {
-      title: 'To',
-      dataIndex: 'to',
-      key: 'to',
-      width: '20%',
-      ...getColumnSearchProps('to'),
+      title: 'Date and Time',
+      dataIndex: 'dateAndTime',
+      key: 'dateAndTime',
+      ...getColumnSearchProps('dateAndTime'),
     },
     {
       title: 'Course',
       dataIndex: 'course',
       key: 'course',
-      width: '20%',
       ...getColumnSearchProps('course'),
     },
     {
       title: 'Program',
       dataIndex: 'program',
       key: 'program',
-      width: '20%',
       ...getColumnSearchProps('program'),
     },
     {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => {
-        if (status === 'Sent') {
-          return (
-            <Tag color={'green'} key={status}>
-              {status.toUpperCase()}
-            </Tag>
-          )
-        } else {
-          return (
-            <Tag color={'volcano'} key={status}>
-              {status.toUpperCase()}
-            </Tag>
-          )
-        }
-      },
+      title: 'Payment Made',
+      dataIndex: 'payment',
+      key: 'payment',
+      ...getColumnSearchProps('payment'),
+    },
+    {
+      title: 'Payment Type',
+      dataIndex: 'method',
+      key: 'method',
+      ...getColumnSearchProps('method'),
+    },
+    {
+      title: 'Reference No.',
+      key: 'ref',
+      dataIndex: 'ref',
+      render: (ref) => (
+        <Tag color='green' key={ref}>
+          {ref.toUpperCase()}
+        </Tag>
+      ),
     },
     {
       title: 'Action',
@@ -185,10 +164,11 @@ const PaymentVerificationTable = () => {
             overlay={
               <Menu>
                 <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <InfoCircleOutlined /> info
+                  <CheckOutlined /> verify payment
                 </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedDelete(text)}>
-                  <DeleteOutlined /> delete
+                <Menu.Item onClick={() => this.onPressedEdit(text)}>
+                  <CloseOutlined />
+                  decline payment
                 </Menu.Item>
               </Menu>
             }

@@ -1,16 +1,45 @@
-import React from 'react'
-import { Layout, Menu, Typography } from 'antd'
-
+import React, { useEffect } from 'react'
+import { Link, withRouter } from 'react-router-dom'
+import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+
+import { signOutStart } from '../../../redux/user/user.actions'
+import { fetchAccountingDetailsStart } from '../../../redux/accounting/accounting.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = () => {
+const Navbar = ({
+  currentUser,
+  signOutStart,
+  history,
+  fetchAccountingDetailsStart,
+}) => {
+  useEffect(() => {
+    if (currentUser && currentUser.type !== 'student') {
+      return history.push('/student/login')
+    } else {
+      fetchAccountingDetailsStart()
+    }
+  }, [fetchAccountingDetailsStart, currentUser, history])
+
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={() => signOutStart()}>
+        <Link to='/'>Sign Out</Link>
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <Header
       className='site-layout-background'
-      style={{ padding: 0, display: 'flex', justifyContent: 'space-between' }}
+      style={{
+        padding: 0,
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
     >
       <Title
         level={4}
@@ -23,13 +52,32 @@ const Navbar = () => {
       >
         Student Portal
       </Title>
-      <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['2']}>
-        <Menu.Item key='1' icon={<UserOutlined />}>
-          User
-        </Menu.Item>
-      </Menu>
+      <Dropdown overlay={menu} placement='bottomCenter'>
+        <Button
+          style={{
+            backgroundColor: '#052240',
+            color: 'white',
+            border: 'none',
+            marginTop: 20,
+            marginRight: 10,
+          }}
+          icon={<UserOutlined />}
+        >
+          {currentUser ? currentUser.displayName : ''}
+        </Button>
+      </Dropdown>
     </Header>
   )
 }
 
-export default Navbar
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser ? state.user.currentUser : [],
+  success: state.user.isSuccessful,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  signOutStart: () => dispatch(signOutStart()),
+  fetchAccountingDetailsStart: () => dispatch(fetchAccountingDetailsStart()),
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))

@@ -1,21 +1,23 @@
 import React, { useState } from 'react'
-import { Modal, Button, Select, Form, DatePicker } from 'antd'
-import { CalendarOutlined } from '@ant-design/icons'
+import { Modal, Button, Select, Form, DatePicker, Input } from 'antd'
+import { CreditCardOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
 
 import './payment-management-modal.styles.scss'
 
+import { addAccountingDetailsStart } from '../../../redux/accounting/accounting.actions'
+
 const { Option } = Select
 
-const PaymentManagementModal = (props) => {
+const PaymentManagementModal = ({ students, addAccountingDetailsStart }) => {
   const [visible, setVisible] = useState(false)
 
   const showModal = () => {
     setVisible(true)
   }
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values)
-    // setVisible(false)
+  const onFinish = ({ accounting }) => {
+    addAccountingDetailsStart({ accounting })
   }
 
   const handleCancel = (e) => {
@@ -33,7 +35,7 @@ const PaymentManagementModal = (props) => {
         style={{ borderRadius: 5, backgroundColor: '#f97204', border: 'none' }}
         type='primary'
         onClick={showModal}
-        icon={<CalendarOutlined />}
+        icon={<CreditCardOutlined />}
       >
         Add Payment
       </Button>
@@ -45,35 +47,51 @@ const PaymentManagementModal = (props) => {
       >
         <Form validateMessages={validateMessages} onFinish={onFinish}>
           <Form.Item
-            label='Date Picker'
-            name='date'
-            rules={[{ required: true }]}
-          >
-            <DatePicker />
-          </Form.Item>
-          <Form.Item
             className='form-item'
-            name={'course'}
-            label='Course'
+            name={['accounting', 'fullname']}
+            label='Fullname'
             rules={[{ required: true }]}
           >
-            <Select placeholder='Select a course' name='course'>
-              <Option value='Academe'>Dentistry</Option>
-              <Option value='Community'>Radio Technology</Option>
-              <Option value='Government'>Nursing</Option>
+            <Select placeholder='Select a student' name='student'>
+              {students &&
+                students.map((student) => (
+                  <Option value={student.displayName}>
+                    {student.displayName}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item
             className='form-item'
-            name={'program'}
+            name={['accounting', 'schoolYear']}
+            label='School Year'
+            rules={[{ required: true }]}
+          >
+            <Select placeholder='Select a school year' name='year'>
+              <Option value='2020-2021'>2020-2021</Option>
+              <Option value='2021-2022'>2021-2022</Option>
+              <Option value='2022-2023'>2022-2023</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            className='form-item'
+            name={['accounting', 'program']}
             label='Program'
             rules={[{ required: true }]}
           >
-            <Select placeholder='Select a program' name='program'>
-              <Option value='Intensive'>Program 1</Option>
-              <Option value='Community'>Program 2</Option>
-              <Option value='Government'>Program 3</Option>
+            <Select placeholder='Select program' name='program'>
+              <Option value='Refresher'>Refresher</Option>
+              <Option value='Enhancement'>Enhancement</Option>
+              <Option value='Intensive'>Intensive</Option>
             </Select>
+          </Form.Item>
+          <Form.Item
+            className='form-item'
+            label='Tuition Fee'
+            name={['accounting', 'fee']}
+            rules={[{ required: true }]}
+          >
+            <Input type='number' />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 20 }}>
             <Button
@@ -94,4 +112,21 @@ const PaymentManagementModal = (props) => {
   )
 }
 
-export default PaymentManagementModal
+const mapStateToProps = (state) => ({
+  loading: state.students.isLoading,
+  students: state.students.students
+    ? state.students.students.filter(
+        (student) => student.type === 'student' && student.verified === true
+      )
+    : [],
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  addAccountingDetailsStart: (data) =>
+    dispatch(addAccountingDetailsStart(data)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PaymentManagementModal)

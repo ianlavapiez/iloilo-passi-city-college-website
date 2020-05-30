@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment, Suspense } from 'react'
 import { Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -6,12 +6,13 @@ import { createStructuredSelector } from 'reselect'
 import './sass/main.scss'
 
 import { checkUserSession } from './redux/user/user.actions'
-
 import { selectCurrentUser } from './redux/user/user.selectors'
 
 import Routes from './routes'
 
 import Navigation from './components/common/navigation/navigation.component'
+import ErrorBoundary from './components/common/error-boundary/error-boundary.component'
+import Spinner from './components/common/spinner/spinner.component'
 
 const App = ({ checkUserSession, currentUser, history }) => {
   useEffect(() => {
@@ -32,7 +33,11 @@ const App = ({ checkUserSession, currentUser, history }) => {
     <Fragment>
       {publicLinks.includes(pathname) ? <Navigation /> : null}
       <Switch>
-        <Routes />
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner />}>
+            <Routes />
+          </Suspense>
+        </ErrorBoundary>
       </Switch>
     </Fragment>
   )

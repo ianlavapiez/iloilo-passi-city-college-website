@@ -25,7 +25,7 @@ const Navbar = () => {
       </Title>
       <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['2']}>
         <Menu.Item key='1' icon={<UserOutlined />}>
-          User
+          Admin
         </Menu.Item>
       </Menu>
     </Header>

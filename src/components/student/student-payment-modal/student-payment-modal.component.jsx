@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Modal, Button, Input, Select, Form } from 'antd'
+import { Modal, Button, Input, Select, Form, Upload } from 'antd'
 
-import { CalendarOutlined } from '@ant-design/icons'
+import { CalendarOutlined, UploadOutlined } from '@ant-design/icons'
 
 import './student-payment-modal.styles.scss'
 
@@ -39,7 +39,7 @@ const StudentPaymentModal = (props) => {
         Upload Payment Made
       </Button>
       <Modal
-        title='Edit Student Details'
+        title='Upload Payment Made'
         visible={visible}
         onCancel={handleCancel}
         footer={null}
@@ -47,46 +47,35 @@ const StudentPaymentModal = (props) => {
         <Form validateMessages={validateMessages} onFinish={onFinish}>
           <Form.Item
             className='form-item'
-            name='fullname'
-            label='Fullname'
+            name='ref'
+            label='Reference No.'
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             className='form-item'
-            name={'course'}
-            label='Course'
+            name={'type'}
+            label='Payment Type'
             rules={[{ required: true }]}
           >
-            <Select placeholder='Select a course' name='course'>
-              <Option value='Academe'>Dentistry</Option>
-              <Option value='Community'>Radio Technology</Option>
-              <Option value='Government'>Nursing</Option>
+            <Select placeholder='Select a payment type' name='payment'>
+              <Option value='Palawan Pawnshop'>Palawan</Option>
+              <Option value='Cebuana Lhuiller'>Cebuana Lhuiller</Option>
+              <Option value='ML Kwarta Padala'>ML Kwarta Padala</Option>
+              <Option value='BDO Bank Deposit'>BDO Bank Deposit</Option>
             </Select>
           </Form.Item>
           <Form.Item
             className='form-item'
-            name={'program'}
-            label='Program'
-            rules={[{ required: true }]}
+            name={'type'}
+            label='Upload is required'
           >
-            <Select placeholder='Select a program' name='program'>
-              <Option value='Intensive'>Program 1</Option>
-              <Option value='Community'>Program 2</Option>
-              <Option value='Government'>Program 3</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            className='form-item'
-            name={'status'}
-            label='Status'
-            rules={[{ required: true }]}
-          >
-            <Select placeholder='Select a status' name='status'>
-              <Option value='Academe'>Enrolled</Option>
-              <Option value='Community'>Pending</Option>
-            </Select>
+            <Upload {...props}>
+              <Button>
+                <UploadOutlined /> Upload
+              </Button>
+            </Upload>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 20 }}>
             <Button

@@ -10,19 +10,7 @@ const DashboardStatistics = () => {
   return (
     <div className='site-statistic-demo-card'>
       <Row gutter={16}>
-        <Col span={6}>
-          <Card>
-            <Statistic
-              title='New Enrollees'
-              value={11.28}
-              precision={2}
-              valueStyle={{ color: '#3f8600' }}
-              prefix={<ArrowUpOutlined />}
-              suffix='%'
-            />
-          </Card>
-        </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Card>
             <Statistic
               title='Total Paid'
@@ -33,7 +21,7 @@ const DashboardStatistics = () => {
             />
           </Card>
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Card>
             <Statistic
               title='Total Balance'
@@ -44,7 +32,7 @@ const DashboardStatistics = () => {
             />
           </Card>
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Card>
             <Statistic
               title='Total'
