@@ -50,3 +50,17 @@ export const signUpFailure = (error) => ({
 export const checkUserSession = () => ({
   type: userActionTypes.CHECK_USER_SESSION,
 })
+
+export const fetchUserStart = () => ({
+  type: userActionTypes.FETCH_USER_START,
+})
+
+export const fetchUserSuccess = (user) => ({
+  type: userActionTypes.FETCH_USER_SUCCESS,
+  payload: user,
+})
+
+export const fetchUserFailure = (errorMessage) => ({
+  type: userActionTypes.FETCH_USER_FAILURE,
+  payload: errorMessage,
+})

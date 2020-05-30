@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 import { Form, Input, Button, Typography, Layout } from 'antd'
 import { MailOutlined, LockOutlined } from '@ant-design/icons'
 
 import './login.styles.scss'
 
+import {
+  emailSignInStart,
+  fetchUserStart,
+} from '../../../redux/user/user.actions'
+import { selectCurrentUser } from '../../../redux/user/user.selectors'
+
 const { Title } = Typography
 const { Content } = Layout
 
-const LoginForm = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values)
+const LoginForm = ({ emailSignInStart, currentUser, history }) => {
+  useEffect(() => {
+    if (currentUser && currentUser.type === 'ra') {
+      history.push('/ra')
+    }
+  }, [currentUser, history])
+
+  const onFinish = async ({ email, password }) => {
+    await emailSignInStart(email, password)
   }
 
   return (
@@ -26,11 +41,11 @@ const LoginForm = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          name='username'
+          name='email'
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: 'Please input your Email!',
             },
           ]}
         >
@@ -74,4 +89,16 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  emailSignInStart: (email, password) =>
+    dispatch(emailSignInStart({ email, password })),
+  fetchUserStart: () => dispatch(fetchUserStart()),
+})
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+)
