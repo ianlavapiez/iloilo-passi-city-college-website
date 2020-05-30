@@ -1,8 +1,16 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects'
 
-import { retrieveData } from '../../firebase/firebase-crud-factory.utils'
+import {
+  retrieveData,
+  updateData,
+} from '../../firebase/firebase-crud-factory.utils'
 
-import { fetchStudentSuccess, fetchStudentFailure } from './student.actions'
+import {
+  fetchStudentSuccess,
+  fetchStudentFailure,
+  verifyStudentSuccess,
+  verifyStudentFailure,
+} from './student.actions'
 
 import { studentActionTypes } from './student.types'
 
@@ -16,13 +24,14 @@ export function* fetchStudentsAsync() {
   }
 }
 
-export function* verifyStudentAsync() {
+export function* verifyStudentAsync({ payload }) {
   try {
-    const snapshot = yield retrieveData('users')
+    const snapshot = yield updateData('users', payload)
 
-    yield put(fetchStudentSuccess(snapshot))
+    yield put(verifyStudentSuccess(snapshot))
+    yield fetchStudentsStart()
   } catch (error) {
-    yield put(fetchStudentFailure(error.message))
+    yield put(verifyStudentFailure(error.message))
   }
 }
 
@@ -41,5 +50,5 @@ export function* verifyStudentStart() {
 }
 
 export function* studentSagas() {
-  yield all([call(fetchStudentsStart)])
+  yield all([call(fetchStudentsStart), call(verifyStudentStart)])
 }
