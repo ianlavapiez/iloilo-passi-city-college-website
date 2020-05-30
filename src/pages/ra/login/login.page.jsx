@@ -1,14 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Row, Col, Spin } from 'antd'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 
 import './login.styles.scss'
-
-import {
-  selectError,
-  selectIsLoading,
-} from '../../../redux/user/user.selectors'
 
 import LoginForm from '../../../components/ra/login/login.component'
 import LoginSideImage from '../../../components/ra/login-side-image/login-side-image.component'
@@ -22,7 +16,7 @@ const LoginPage = ({ loading, error }) => {
   const [errorMessage, setErrorMessage] = useState(error)
 
   const popupErrorMessageDialog = () => {
-    popupMessageDialog('warning', 'Error occurred')
+    popupMessageDialog('warning', 'error')
     setErrorMessage(null)
   }
 
@@ -43,9 +37,9 @@ const LoginPage = ({ loading, error }) => {
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  error: selectError,
-  loading: selectIsLoading,
+const mapStateToProps = (state) => ({
+  error: state.user.error,
+  loading: state.user.isLoading,
 })
 
 export default connect(mapStateToProps)(LoginPage)
