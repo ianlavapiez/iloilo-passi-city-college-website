@@ -46,19 +46,8 @@ const ContactInformation = ({ sendMessageStart, loading }) => {
       popupMessageDialog('warning', 'Please fill in all fields.')
     } else {
       const data = { fullname, address, contact, message }
-      const isAdded = sendMessageStart(data)
 
-      console.log(isAdded)
-
-      if (isAdded && !loading) {
-        popupMessageDialog(
-          'success',
-          'Your message has been sent. We will get back to you as soon as possible via your contact details.'
-        )
-        clearFields()
-      } else {
-        popupMessageDialog('warning', 'Something went wrong.')
-      }
+      sendMessageStart(data)
     }
   }
 
