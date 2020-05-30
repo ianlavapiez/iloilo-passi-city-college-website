@@ -25,6 +25,6 @@ export const fireAlertWithConfirmation = (
 export const fireAlert = (text, type) => {
   MySwal.fire({
     title: <p> {text}</p>,
-    type: type,
+    icon: type,
   })
 }
