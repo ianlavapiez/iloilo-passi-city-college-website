@@ -14,8 +14,9 @@ export const fetchStudentFailure = (errorMessage) => ({
   payload: errorMessage,
 })
 
-export const verifyStudentStart = () => ({
+export const verifyStudentStart = (studentData) => ({
   type: studentActionTypes.VERIFY_STUDENT_USER_START,
+  payload: studentData,
 })
 
 export const verifyStudentSuccess = (user) => ({
