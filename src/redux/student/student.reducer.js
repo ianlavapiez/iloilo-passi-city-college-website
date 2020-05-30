@@ -27,6 +27,7 @@ const studentReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
+        isSuccessful: true,
         students: action.payload,
       }
     case studentActionTypes.VERIFY_STUDENT_USER_FAILURE:
