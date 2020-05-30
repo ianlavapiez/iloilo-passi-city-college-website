@@ -24,7 +24,7 @@ const DashboardPage = () => {
             <Title level={2}>Overview</Title>
             <DashboardStatistics />
             <div style={{ marginTop: 50 }}>
-              <Title level={2}>List of Incoming Classes</Title>
+              <Title level={2}>RA Activities</Title>
               <DashboardTable />
             </div>
           </div>
