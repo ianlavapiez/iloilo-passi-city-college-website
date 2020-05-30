@@ -1,6 +1,7 @@
 import cuid from 'cuid'
 
 import { firestore } from './firebase.utils'
+import { fireAlert } from '../components/common/confirmation-message/confirmation-message.component'
 
 const convertCollectionsSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map((doc) => {
@@ -37,14 +38,29 @@ export const addData = async (collectionName, data) => {
       try {
         dataRef
           .set({ ...data, createdAt })
-          .then(() => (isAdded = true))
-          .catch(() => (isAdded = false))
+          .then(() => fireAlert('The data has been added.', 'success'))
+          .catch(() => fireAlert('Error occurred.', 'warning'))
       } catch (error) {
         console.log(error)
       }
     }
 
     return isAdded
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const updateData = async (collectionName, data) => {
+  try {
+    const dataRef = firestore.collection(collectionName).doc(data.id)
+    let batch = firestore.batch()
+
+    batch.update(dataRef, data)
+    await batch
+      .commit()
+      .then(() => fireAlert('The data has been updated.', 'success'))
+      .catch(() => fireAlert('Error occurred.', 'warning'))
   } catch (error) {
     console.log(error)
   }
