@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Table, Input, Button, Space, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
