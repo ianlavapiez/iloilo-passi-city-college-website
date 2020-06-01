@@ -30,9 +30,9 @@ const Sidebar = ({ number }) => {
         <Menu.Item key='1' icon={<DashboardOutlined />}>
           <Link to='/admin'>Dashboard</Link>
         </Menu.Item>
-        {/* <Menu.Item key='2' icon={<BarChartOutlined />}>
+        <Menu.Item key='2' icon={<BarChartOutlined />}>
           <Link to='/admin/statistics-and-reports'>Statistics and Reports</Link>
-        </Menu.Item> */}
+        </Menu.Item>
       </Menu>
     </Sider>
   )
