@@ -39,9 +39,9 @@ const Sidebar = ({ number }) => {
         <Menu.Item key='2' icon={<ReadOutlined />}>
           <Link to='/ra/accounting'>Accounting</Link>
         </Menu.Item>
-        {/* <Menu.Item key='3' icon={<CheckCircleOutlined />}>
+        <Menu.Item key='3' icon={<CheckCircleOutlined />}>
           <Link to='/ra/attendance'>Attendance</Link>
-        </Menu.Item> */}
+        </Menu.Item>
         <Menu.Item key='3' icon={<RightSquareOutlined />}>
           <Link to='/ra/dispatching'>Dispatching</Link>
         </Menu.Item>
