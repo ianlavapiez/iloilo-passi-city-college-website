@@ -4,7 +4,6 @@ import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
 import {
   SearchOutlined,
-  InfoCircleOutlined,
   CloseOutlined,
   MoreOutlined,
   CheckOutlined,
