@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, Button, Select, Form, DatePicker, Input } from 'antd'
+import { Modal, Button, Select, Form, Input } from 'antd'
 import { CreditCardOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
