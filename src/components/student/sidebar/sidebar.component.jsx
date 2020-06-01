@@ -42,12 +42,12 @@ const Sidebar = ({ number }) => {
         <Menu.Item key='3' icon={<CalendarOutlined />}>
           <Link to='/student/schedule'>Your Schedule</Link>
         </Menu.Item>
-        {/* <Menu.Item key='4' icon={<AlignLeftOutlined />}>
+        <Menu.Item key='4' icon={<AlignLeftOutlined />}>
           <Link to='/student/tutorials'>Tutorials</Link>
-        </Menu.Item> */}
-        {/* <Menu.Item key='5' icon={<UserOutlined />}>
+        </Menu.Item>
+        <Menu.Item key='5' icon={<UserOutlined />}>
           <Link to='/student/profile'>User Profile</Link>
-        </Menu.Item> */}
+        </Menu.Item>
       </Menu>
     </Sider>
   )
