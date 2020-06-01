@@ -41,13 +41,16 @@ const ContactInformation = ({ sendMessageStart, loading }) => {
     setMessage('')
   }
 
-  const onMessageSubmit = () => {
+  const onMessageSubmit = (event) => {
+    event.preventDefault()
+
     if (!fullname || !address || !contact || !message) {
       popupMessageDialog('warning', 'Please fill in all fields.')
     } else {
       const data = { fullname, address, contact, message }
 
       sendMessageStart(data)
+      clearFields()
     }
   }
 
