@@ -1,10 +1,6 @@
 import React from 'react'
 import { Statistic, Card, Row, Col } from 'antd'
-import {
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  LineOutlined,
-} from '@ant-design/icons'
+import { ArrowDownOutlined, LineOutlined } from '@ant-design/icons'
 
 const DashboardStatistics = () => {
   return (
