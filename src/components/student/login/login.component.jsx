@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import { Form, Input, Button, Typography, Layout } from 'antd'
 import { MailOutlined, LockOutlined } from '@ant-design/icons'
 
@@ -11,8 +10,6 @@ import {
   emailSignInStart,
   fetchUserStart,
 } from '../../../redux/user/user.actions'
-import { selectCurrentUser } from '../../../redux/user/user.selectors'
-import { popupMessageDialog } from '../../common/popup-message/popup-message.component'
 
 const { Title } = Typography
 const { Content } = Layout
