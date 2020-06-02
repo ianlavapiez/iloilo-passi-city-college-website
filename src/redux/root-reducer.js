@@ -1,17 +1,19 @@
 import { combineReducers } from 'redux'
-import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { firebaseReducer } from 'react-redux-firebase'
+import { firestoreReducer } from 'redux-firestore'
 
-import userReducer from './user/user.reducer'
-
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['cart'],
-}
+import publicMessagingReducer from './public-messaging/public-messaging.reducers'
+import asyncReducer from './async/async.reducer'
+import studentReducer from './students/students.reducers'
+import authReducer from './auth/auth.reducer'
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
+  async: asyncReducer,
+  auth: authReducer,
+  publicMessages: publicMessagingReducer,
+  students: studentReducer,
 })
 
-export default persistReducer(persistConfig, rootReducer)
+export default rootReducer

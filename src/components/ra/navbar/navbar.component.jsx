@@ -1,12 +1,20 @@
 import React from 'react'
-import { Layout, Menu, Typography } from 'antd'
-
+import { Link, withRouter } from 'react-router-dom'
+import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = () => {
+const Navbar = ({ history }) => {
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={() => history.push('/ra/login')}>
+        <Link to='/'>Sign Out</Link>
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <Header
       className='site-layout-background'
@@ -27,13 +35,22 @@ const Navbar = () => {
       >
         RA Portal
       </Title>
-      <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['2']}>
-        <Menu.Item key='1' icon={<UserOutlined />}>
-          User
-        </Menu.Item>
-      </Menu>
+      <Dropdown overlay={menu} placement='bottomCenter'>
+        <Button
+          style={{
+            backgroundColor: '#052240',
+            color: 'white',
+            border: 'none',
+            marginTop: 20,
+            marginRight: 10,
+          }}
+          icon={<UserOutlined />}
+        >
+          RA
+        </Button>
+      </Dropdown>
     </Header>
   )
 }
 
-export default Navbar
+export default withRouter(Navbar)

@@ -1,14 +1,8 @@
 import React, { useState } from 'react'
 
-import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
+import { Table, Input, Button, Space, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
-import {
-  SearchOutlined,
-  EditOutlined,
-  CheckCircleOutlined,
-  DeleteOutlined,
-  MoreOutlined,
-} from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 
 const data = [
   {
@@ -16,8 +10,10 @@ const data = [
     dateAndTime: 'May 19, 2020 11:00:00 AM',
     course: 'BSN',
     program: 'Intensive',
-    details: 'Sample Details',
+    payment: 1000,
+    method: 'Paymaya',
     status: 'Cancelled',
+    ref: 'oiuydofysdu890738',
     address: 'New York No. 1 Lake Park',
   },
   {
@@ -25,27 +21,11 @@ const data = [
     dateAndTime: 'May 20, 2020 11:00:00 PM',
     course: 'BSN',
     program: 'Intensive',
-    details: 'Sample Details',
-    status: 'Pending',
+    payment: 2000,
+    method: 'Palawan',
+    status: 'ISU-IHT8V-ZAW',
+    ref: 'dsfj9873377fjdsbzzx',
     address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    dateAndTime: 'May 21, 2020 09:00:00 AM',
-    course: 'BSN',
-    program: 'Intensive',
-    details: 'Sample Details',
-    status: 'Done',
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    dateAndTime: 'May 22, 2020 08:00:00 AM',
-    course: 'BSN',
-    program: 'Intensive',
-    details: 'Sample Details',
-    status: 'On-going',
-    address: 'London No. 2 Lake Park',
   },
 ]
 
@@ -133,78 +113,40 @@ const StudentPaymentTable = () => {
       title: 'Date and Time',
       dataIndex: 'dateAndTime',
       key: 'dateAndTime',
-      width: '20%',
       ...getColumnSearchProps('dateAndTime'),
     },
     {
       title: 'Course',
       dataIndex: 'course',
       key: 'course',
-      width: '20%',
       ...getColumnSearchProps('course'),
     },
     {
       title: 'Program',
       dataIndex: 'program',
       key: 'program',
-      width: '20%',
       ...getColumnSearchProps('program'),
     },
     {
-      title: 'Details',
-      dataIndex: 'details',
-      key: 'details',
-      width: '20%',
-      ...getColumnSearchProps('details'),
-    },
-
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => {
-        let color
-        if (status === 'On-going') {
-          color = 'blue'
-        } else if (status === 'Done') {
-          color = 'green'
-        } else if (status === 'Pending') {
-          color = 'orange'
-        } else {
-          color = 'volcano'
-        }
-
-        return (
-          <Tag color={color} key={status}>
-            {status.toUpperCase()}
-          </Tag>
-        )
-      },
+      title: 'Payment Made',
+      dataIndex: 'payment',
+      key: 'payment',
+      ...getColumnSearchProps('payment'),
     },
     {
-      title: 'Action',
-      key: 'action',
-      render: (text) => (
-        <span>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <CheckCircleOutlined /> manage attendance
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <EditOutlined /> edit details
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedDelete(text)}>
-                  <DeleteOutlined /> delete
-                </Menu.Item>
-              </Menu>
-            }
-            trigger={['click']}
-          >
-            <Button type='default' icon={<MoreOutlined />} />
-          </Dropdown>
-        </span>
+      title: 'Payment Type',
+      dataIndex: 'method',
+      key: 'method',
+      ...getColumnSearchProps('method'),
+    },
+    {
+      title: 'Reference No.',
+      key: 'ref',
+      dataIndex: 'ref',
+      render: (ref) => (
+        <Tag color='green' key={ref}>
+          {ref.toUpperCase()}
+        </Tag>
       ),
     },
   ]

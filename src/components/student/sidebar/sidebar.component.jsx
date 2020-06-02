@@ -43,7 +43,7 @@ const Sidebar = ({ number }) => {
           <Link to='/student/schedule'>Your Schedule</Link>
         </Menu.Item>
         <Menu.Item key='4' icon={<AlignLeftOutlined />}>
-          <Link to='/student/tutorials'>Tutorials</Link>
+          <Link to='/student/tutorials'>Zoom Tutorial</Link>
         </Menu.Item>
         <Menu.Item key='5' icon={<UserOutlined />}>
           <Link to='/student/profile'>User Profile</Link>

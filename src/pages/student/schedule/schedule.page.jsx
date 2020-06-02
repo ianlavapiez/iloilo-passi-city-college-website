@@ -1,11 +1,12 @@
 import React from 'react'
-import { Layout } from 'antd'
+import { Layout, Typography } from 'antd'
 
 import Sidebar from '../../../components/student/sidebar/sidebar.component'
 import Navbar from '../../../components/student/navbar/navbar.component'
 import StudentCalendar from '../../../components/student/student-calendar/student-calendar.component'
 
 const { Content } = Layout
+const { Title } = Typography
 
 const SchedulePage = () => {
   return (
@@ -18,6 +19,9 @@ const SchedulePage = () => {
             className='site-layout-background'
             style={{ padding: 10, height: '60vh' }}
           >
+            <Title style={{ marginTop: 20, marginBottom: 30 }}>
+              Your Calendar
+            </Title>
             <StudentCalendar />
           </div>
         </Content>

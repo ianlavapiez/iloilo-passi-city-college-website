@@ -45,11 +45,12 @@ const AttendanceModal = (props) => {
       >
         <Form validateMessages={validateMessages} onFinish={onFinish}>
           <Form.Item
-            label='Date Picker'
+            label='Date'
+            className='form-item'
             name='date'
             rules={[{ required: true }]}
           >
-            <DatePicker />
+            <DatePicker style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item
             className='form-item'

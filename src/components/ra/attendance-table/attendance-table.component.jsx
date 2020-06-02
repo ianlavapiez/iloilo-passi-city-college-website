@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-
+import React, { Fragment, useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
 import {
@@ -49,7 +49,7 @@ const data = [
   },
 ]
 
-const AttendanceTable = () => {
+const AttendanceTable = ({ history }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
@@ -188,17 +188,32 @@ const AttendanceTable = () => {
         <span>
           <Dropdown
             overlay={
-              <Menu>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <CheckCircleOutlined /> manage attendance
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <EditOutlined /> edit details
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedDelete(text)}>
-                  <DeleteOutlined /> delete
-                </Menu.Item>
-              </Menu>
+              <Fragment>
+                {text.status === 'On-going' ? (
+                  <Menu>
+                    <Menu.Item
+                      onClick={() => history.push('/ra/manage-attendance/')}
+                    >
+                      <CheckCircleOutlined /> manage attendance
+                    </Menu.Item>
+                    <Menu.Item onClick={() => this.onPressedEdit(text)}>
+                      <EditOutlined /> edit details
+                    </Menu.Item>
+                    <Menu.Item onClick={() => this.onPressedDelete(text)}>
+                      <DeleteOutlined /> delete
+                    </Menu.Item>
+                  </Menu>
+                ) : (
+                  <Menu>
+                    <Menu.Item onClick={() => this.onPressedEdit(text)}>
+                      <EditOutlined /> edit details
+                    </Menu.Item>
+                    <Menu.Item onClick={() => this.onPressedDelete(text)}>
+                      <DeleteOutlined /> delete
+                    </Menu.Item>
+                  </Menu>
+                )}
+              </Fragment>
             }
             trigger={['click']}
           >
@@ -212,4 +227,4 @@ const AttendanceTable = () => {
   return <Table columns={columns} dataSource={data} />
 }
 
-export default AttendanceTable
+export default withRouter(AttendanceTable)

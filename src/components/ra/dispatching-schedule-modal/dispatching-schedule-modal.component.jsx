@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, Button, Input, Select, Form } from 'antd'
+import { Modal, Button, Input, Form, Select, DatePicker } from 'antd'
 
 import { CalendarOutlined } from '@ant-design/icons'
 
@@ -39,7 +39,7 @@ const DispatchingScheduleModal = (props) => {
         Dispatch Schedule Info
       </Button>
       <Modal
-        title='Edit Student Details'
+        title='Dispatch Schedule Info'
         visible={visible}
         onCancel={handleCancel}
         footer={null}
@@ -47,46 +47,54 @@ const DispatchingScheduleModal = (props) => {
         <Form validateMessages={validateMessages} onFinish={onFinish}>
           <Form.Item
             className='form-item'
-            name='fullname'
-            label='Fullname'
+            name={['user', 'course']}
+            label='Course'
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select placeholder='Select course'>
+              <Option value='BSCRIM'>BS in Criminology</Option>
+              <Option value='BSD'>BS in Dentistry</Option>
+              <Option value='BSMT'>BS in Medical Technology</Option>
+              <Option value='BSN'>BS in Nursing</Option>
+              <Option value='BSPT'>BS in Physical Therapy</Option>
+              <Option value='BSRT'>BS in Radio Technology</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            className='form-item'
+            name={['user', 'program']}
+            label='Program'
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select placeholder='Select program'>
+              <Option value='Refresher'>Refresher</Option>
+              <Option value='Enhancement'>Enhancement</Option>
+              <Option value='Intensive'>Intensive</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            className='form-item'
+            name='date'
+            label='Class Date'
+            rules={[{ required: true }]}
+          >
+            <DatePicker style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item
+            className='form-item'
+            name='message'
+            label='Message'
             rules={[{ required: true }]}
           >
             <Input />
-          </Form.Item>
-          <Form.Item
-            className='form-item'
-            name={'course'}
-            label='Course'
-            rules={[{ required: true }]}
-          >
-            <Select placeholder='Select a course' name='course'>
-              <Option value='Academe'>Dentistry</Option>
-              <Option value='Community'>Radio Technology</Option>
-              <Option value='Government'>Nursing</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            className='form-item'
-            name={'program'}
-            label='Program'
-            rules={[{ required: true }]}
-          >
-            <Select placeholder='Select a program' name='program'>
-              <Option value='Intensive'>Program 1</Option>
-              <Option value='Community'>Program 2</Option>
-              <Option value='Government'>Program 3</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            className='form-item'
-            name={'status'}
-            label='Status'
-            rules={[{ required: true }]}
-          >
-            <Select placeholder='Select a status' name='status'>
-              <Option value='Academe'>Enrolled</Option>
-              <Option value='Community'>Pending</Option>
-            </Select>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 20 }}>
             <Button
