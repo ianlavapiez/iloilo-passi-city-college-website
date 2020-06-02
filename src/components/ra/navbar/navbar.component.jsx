@@ -19,13 +19,13 @@ const Navbar = ({
   history,
 }) => {
   useEffect(() => {
-    if (currentUser && currentUser.type !== 'ra') {
-      return history.push('/ra/login')
-    }
+    // if (currentUser && currentUser.type !== 'ra') {
+    //   return history.push('/ra/login')
+    // }
 
     fetchStudentStart()
     fetchAccountingDetailsStart()
-  }, [fetchStudentStart, fetchAccountingDetailsStart, currentUser, history])
+  }, [fetchStudentStart, fetchAccountingDetailsStart])
 
   const menu = (
     <Menu>

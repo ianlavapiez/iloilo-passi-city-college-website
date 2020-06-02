@@ -9,7 +9,11 @@ import { addAccountingDetailsStart } from '../../../redux/accounting/accounting.
 
 const { Option } = Select
 
-const PaymentManagementModal = ({ students, addAccountingDetailsStart }) => {
+const PaymentManagementModal = ({
+  students,
+  addAccountingDetailsStart,
+  currentUser,
+}) => {
   const [visible, setVisible] = useState(false)
 
   const showModal = () => {
@@ -17,6 +21,8 @@ const PaymentManagementModal = ({ students, addAccountingDetailsStart }) => {
   }
 
   const onFinish = ({ accounting }) => {
+    accounting.raId = currentUser.id
+
     addAccountingDetailsStart({ accounting })
   }
 
@@ -48,16 +54,14 @@ const PaymentManagementModal = ({ students, addAccountingDetailsStart }) => {
         <Form validateMessages={validateMessages} onFinish={onFinish}>
           <Form.Item
             className='form-item'
-            name={['accounting', 'fullname']}
+            name={['accounting', 'studentId']}
             label='Fullname'
             rules={[{ required: true }]}
           >
             <Select placeholder='Select a student' name='student'>
               {students &&
                 students.map((student) => (
-                  <Option value={student.displayName}>
-                    {student.displayName}
-                  </Option>
+                  <Option value={student.id}>{student.displayName}</Option>
                 ))}
             </Select>
           </Form.Item>
@@ -114,6 +118,7 @@ const PaymentManagementModal = ({ students, addAccountingDetailsStart }) => {
 
 const mapStateToProps = (state) => ({
   loading: state.students.isLoading,
+  currentUser: state.user.currentUser,
   students: state.students.students
     ? state.students.students.filter(
         (student) => student.type === 'student' && student.verified === true

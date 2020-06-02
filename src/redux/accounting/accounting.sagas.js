@@ -25,11 +25,12 @@ export function* fetchAccountingDetailsAsync() {
 }
 
 export function* addAccountingDetailsAsync({ payload }) {
-  const { fullname, fee, program, schoolYear } = payload.accounting
+  const { studentId, raId, fee, program, schoolYear } = payload.accounting
 
   try {
     const snapshot = yield addData('payments', {
-      fullname,
+      studentId,
+      raId,
       fee,
       program,
       schoolYear,

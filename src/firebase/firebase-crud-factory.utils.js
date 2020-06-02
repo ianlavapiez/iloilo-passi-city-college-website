@@ -25,7 +25,7 @@ export const retrieveData = async (collectionName) => {
   }
 }
 
-export const addData = async (collectionName, data) => {
+export const addData = async (collectionName, data, type = 'data') => {
   try {
     let isAdded
     const id = cuid()
@@ -38,7 +38,11 @@ export const addData = async (collectionName, data) => {
       try {
         dataRef
           .set({ ...data, createdAt })
-          .then(() => fireAlert('The data has been added.', 'success'))
+          .then(() =>
+            type === 'message'
+              ? fireAlert('Your message has been sent!', 'success')
+              : fireAlert('The data has been added.', 'success')
+          )
           .catch(() => fireAlert('Error occurred.', 'warning'))
       } catch (error) {
         console.log(error)

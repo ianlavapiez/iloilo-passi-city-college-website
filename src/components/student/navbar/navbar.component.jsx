@@ -17,12 +17,13 @@ const Navbar = ({
   fetchAccountingDetailsStart,
 }) => {
   useEffect(() => {
-    if (currentUser && currentUser.type !== 'student') {
-      return history.push('/student/login')
-    } else {
-      fetchAccountingDetailsStart()
-    }
-  }, [fetchAccountingDetailsStart, currentUser, history])
+    // if (currentUser && currentUser.type !== 'student') {
+    //   return history.push('/student/login')
+    // } else {
+    //   fetchAccountingDetailsStart()
+    // }
+    fetchAccountingDetailsStart()
+  }, [fetchAccountingDetailsStart])
 
   const menu = (
     <Menu>

@@ -9,12 +9,16 @@ import { addData } from '../../../firebase/firebase-crud-factory.utils'
 function* addSendMessage({ payload }) {
   try {
     const { address, contact, fullname, message } = payload
-    const isAdded = yield addData('public_message', {
-      address,
-      contact,
-      fullname,
-      message,
-    })
+    const isAdded = yield addData(
+      'public_message',
+      {
+        address,
+        contact,
+        fullname,
+        message,
+      },
+      'message'
+    )
 
     if (isAdded) {
       yield put(sendMessageSuccess())
