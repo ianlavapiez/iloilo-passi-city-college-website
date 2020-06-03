@@ -1,12 +1,10 @@
 import React from 'react'
-import { Tabs } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky'
-import { Layout, Breadcrumb, Typography } from 'antd'
+import { Layout, Breadcrumb, Typography, Tabs, Progress } from 'antd'
 
 import Sidebar from '../../../components/admin/sidebar/sidebar.component'
 import Navbar from '../../../components/admin/navbar/navbar.component'
 import AdminFooter from '../../../components/admin/footer/footer.component'
-import PaymentManagement from '../../../components/ra/payment-management/payment-management.component'
 import PaymentVerification from '../../../components/ra/payment-verification/payment-verification.component'
 
 const { TabPane } = Tabs
@@ -48,7 +46,10 @@ const StatisticsAndReportsPage = () => {
             <StickyContainer>
               <Tabs defaultActiveKey='1' renderTabBar={renderTabBar}>
                 <TabPane tab='Students' key='1' style={{ height: '65vh' }}>
-                  <PaymentManagement />
+                  <Title level={2}>Student Statistics and Reports</Title>
+                  <Progress type='circle' percent={75} />
+                  <Progress type='circle' percent={70} status='exception' />
+                  <Progress type='circle' percent={100} />
                 </TabPane>
                 <TabPane tab='Payments' key='2' style={{ height: '65vh' }}>
                   <PaymentVerification />
