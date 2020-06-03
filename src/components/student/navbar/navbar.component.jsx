@@ -2,6 +2,10 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+
+import { signOutStart } from '../../../redux/user/user.actions'
+import { fetchAccountingDetailsStart } from '../../../redux/accounting/accounting.actions'
 
 const { Header } = Layout
 const { Title } = Typography

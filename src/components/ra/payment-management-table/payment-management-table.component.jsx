@@ -176,4 +176,8 @@ const PaymentManagementTable = () => {
   return <Table columns={columns} dataSource={[]} />
 }
 
-export default PaymentManagementTable
+const mapStateToProps = (state) => ({
+  payments: state.payments.payments ? state.payments.payments : [],
+})
+
+export default connect(mapStateToProps)(PaymentManagementTable)

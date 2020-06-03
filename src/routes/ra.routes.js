@@ -12,6 +12,7 @@ import StudentManagementPage from '../pages/ra/student-management/student-manage
 const RARoutes = () => {
   return (
     <Route>
+      <Route exact path='/ra/login' component={LoginPage} />
       <Route exact path='/ra' component={DashboardPage} />
       <Route exact path='/ra/accounting' component={AccountingPage} />
       <Route exact path='/ra/attendance' component={AttendancePage} />
@@ -27,6 +28,7 @@ const RARoutes = () => {
         path='/ra/student-management'
         component={StudentManagementPage}
       />
+      <Route exact path='/ra/dispatching' component={DispatchingPage} />
     </Route>
   )
 }

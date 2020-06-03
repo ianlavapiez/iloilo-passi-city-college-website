@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import { Modal, Button, Input, Form, Select, DatePicker } from 'antd'
-
 import { CalendarOutlined } from '@ant-design/icons'
 
 import './dispatching-schedule-modal.styles.scss'
-
-const { Option } = Select
 
 const DispatchingScheduleModal = (props) => {
   const [visible, setVisible] = useState(false)

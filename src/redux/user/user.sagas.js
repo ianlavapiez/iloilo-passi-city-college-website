@@ -9,6 +9,8 @@ import {
   signOutFailure,
   signUpSuccess,
   signUpFailure,
+  fetchUserSuccess,
+  fetchUserFailure,
 } from './user.actions'
 
 import {
@@ -16,6 +18,8 @@ import {
   createUserProfileDocument,
   getCurrentUser,
 } from '../../firebase/firebase.utils'
+
+import { popupMessageDialog } from '../../components/common/popup-message/popup-message.component'
 
 function* getSnapshotFromUserAuth(userAuth, additionalData) {
   try {
@@ -26,7 +30,15 @@ function* getSnapshotFromUserAuth(userAuth, additionalData) {
     )
     const userSnapshot = yield userRef.get()
 
-    yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
+    if (userSnapshot.exists) {
+      yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
+      yield put(
+        fetchUserSuccess({ id: userSnapshot.id, ...userSnapshot.data() })
+      )
+    } else {
+      yield put(signInFailure('Something went wrong.'))
+      yield put(fetchUserFailure('Something went wrong.'))
+    }
   } catch (error) {
     yield put(signInFailure(error.message))
   }
@@ -54,11 +66,27 @@ function* isUserAuthenticated() {
   }
 }
 
-function* signUp({ payload: { email, password, displayName } }) {
+function* signUp({
+  payload: { address, contact, course, email, displayName, password, program },
+}) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password)
 
-    yield put(signUpSuccess({ user, additionalData: { displayName } }))
+    yield put(
+      signUpSuccess({
+        user,
+        additionalData: {
+          address,
+          contact,
+          course,
+          email,
+          displayName,
+          program,
+          type: 'student',
+          verified: false,
+        },
+      })
+    )
   } catch (error) {
     yield put(signUpFailure(error.message))
   }
@@ -66,6 +94,11 @@ function* signUp({ payload: { email, password, displayName } }) {
 
 function* signInAfterSignUp({ payload: { user, additionalData } }) {
   yield getSnapshotFromUserAuth(user, additionalData)
+  yield signOut()
+  yield popupMessageDialog(
+    'success',
+    'Thank you for registering. We will notify you once you are validated.'
+  )
 }
 
 function* signOut() {
