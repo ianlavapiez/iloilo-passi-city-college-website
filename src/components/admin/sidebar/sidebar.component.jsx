@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
-import { DashboardOutlined, BarChartOutlined } from '@ant-design/icons'
+import { DashboardOutlined } from '@ant-design/icons'
 
 import './sidebar.styles.scss'
 
@@ -30,9 +30,9 @@ const Sidebar = ({ number }) => {
         <Menu.Item key='1' icon={<DashboardOutlined />}>
           <Link to='/admin'>Dashboard</Link>
         </Menu.Item>
-        <Menu.Item key='2' icon={<BarChartOutlined />}>
+        {/* <Menu.Item key='2' icon={<BarChartOutlined />}>
           <Link to='/admin/statistics-and-reports'>Statistics and Reports</Link>
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
     </Sider>
   )
