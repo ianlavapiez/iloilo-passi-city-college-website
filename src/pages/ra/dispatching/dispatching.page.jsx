@@ -33,10 +33,10 @@ const DispatchingPage = () => {
           >
             <Layout style={{ marginBottom: '12px' }}>
               <Row>
-                <Col span={3}>
+                <Col span={5}>
                   <DispatchingPaymentModal />
                 </Col>
-                <Col span={3}>
+                <Col span={4}>
                   <DispatchingScheduleModal />
                 </Col>
               </Row>
