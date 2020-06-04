@@ -14,7 +14,7 @@ const { Title } = Typography
 const DispatchingPage = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sidebar number={'3'} />
+      <Sidebar number={'4'} />
       <Layout className='site-layout'>
         <Navbar />
         <Layout style={{ padding: '0 24px 24px' }}>

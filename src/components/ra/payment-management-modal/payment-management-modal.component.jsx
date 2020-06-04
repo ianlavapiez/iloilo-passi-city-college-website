@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import { Modal, Button, Select, Form, Input } from 'antd'
 import { CreditCardOutlined } from '@ant-design/icons'
-import { connect } from 'react-redux'
 
 import './payment-management-modal.styles.scss'
-
-import { addAccountingDetailsStart } from '../../../redux/accounting/accounting.actions'
 
 const { Option } = Select
 
@@ -116,22 +113,4 @@ const PaymentManagementModal = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  loading: state.students.isLoading,
-  currentUser: state.user.currentUser,
-  students: state.students.students
-    ? state.students.students.filter(
-        (student) => student.type === 'student' && student.verified === true
-      )
-    : [],
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  addAccountingDetailsStart: (data) =>
-    dispatch(addAccountingDetailsStart(data)),
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PaymentManagementModal)
+export default PaymentManagementModal
