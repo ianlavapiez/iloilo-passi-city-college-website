@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Suspense } from 'react'
 import { Switch, withRouter } from 'react-router-dom'
 
 import './sass/main.scss'
