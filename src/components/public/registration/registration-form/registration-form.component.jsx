@@ -53,7 +53,7 @@ const RegistrationForm = ({ registerUser, loading }) => {
       )
     }
 
-    await registerUser({
+    let result = await registerUser({
       address,
       contact,
       course,
@@ -63,7 +63,9 @@ const RegistrationForm = ({ registerUser, loading }) => {
       program,
     })
 
-    form.resetFields()
+    if (result) {
+      form.resetFields()
+    }
   }
 
   return (

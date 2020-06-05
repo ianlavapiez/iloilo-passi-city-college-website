@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-import { getFirebase } from 'react-redux-firebase'
+import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import { reduxFirestore, getFirestore } from 'redux-firestore'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
@@ -15,6 +15,7 @@ export const configureStore = () => {
   if (process.env.NODE_ENV === 'development') {
     composedEnhancer = composeWithDevTools(
       applyMiddleware(...middlewares),
+      reactReduxFirebase(firebase),
       reduxFirestore(firebase)
     )
   } else {

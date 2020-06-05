@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
 import {
@@ -8,11 +8,20 @@ import {
   MoreOutlined,
   EditOutlined,
 } from '@ant-design/icons'
+import { connect } from 'react-redux'
 
-const PaymentManagementTable = () => {
+import { getPayments } from '../../../redux/payments/payments.actions'
+
+const PaymentManagementTable = ({ getPayments, payments, raId }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
+
+  useEffect(() => {
+    if (raId) {
+      getPayments(raId)
+    }
+  }, [raId, getPayments])
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -90,10 +99,16 @@ const PaymentManagementTable = () => {
 
   const columns = [
     {
-      title: 'Fullname',
-      dataIndex: 'fullname',
-      key: 'fullname',
-      ...getColumnSearchProps('fullname'),
+      title: 'Payment ID',
+      dataIndex: 'id',
+      key: 'id',
+      ...getColumnSearchProps('id'),
+    },
+    {
+      title: 'Student Name',
+      dataIndex: 'studentName',
+      key: 'studentName',
+      ...getColumnSearchProps('studentName'),
     },
     {
       title: 'Program',
@@ -134,17 +149,6 @@ const PaymentManagementTable = () => {
       ),
     },
     {
-      title: 'Balance',
-      dataIndex: 'balance',
-      key: 'balance',
-      ...getColumnSearchProps('balance'),
-      render: (text) => (
-        <Tag color='red' key='1'>
-          10000
-        </Tag>
-      ),
-    },
-    {
       title: 'Action',
       key: 'action',
       render: (text) => (
@@ -173,7 +177,21 @@ const PaymentManagementTable = () => {
     },
   ]
 
-  return <Table columns={columns} dataSource={[]} />
+  return <Table columns={columns} dataSource={payments ? payments : []} />
 }
 
-export default PaymentManagementTable
+const mapStateToProps = (state) => {
+  return {
+    raId: state.firebase.auth.uid,
+    payments: state.payments.payments,
+  }
+}
+
+const mapDispatchToProps = {
+  getPayments,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PaymentManagementTable)

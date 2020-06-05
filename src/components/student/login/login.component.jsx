@@ -17,9 +17,7 @@ const LoginForm = ({ history, loading, studentLogin }) => {
   const onFinish = async (values) => {
     const isLoggedIn = await studentLogin(values)
 
-    if (!isLoggedIn) {
-      fireAlert('You are neither verified or credentials exist!', 'warning')
-    } else {
+    if (isLoggedIn) {
       fireAlert('Welcome Student!', 'success')
       history.push('/student')
     }

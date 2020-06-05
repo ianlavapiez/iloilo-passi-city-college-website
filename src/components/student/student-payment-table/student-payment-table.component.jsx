@@ -14,7 +14,7 @@ const data = [
     method: 'Paymaya',
     status: 'Cancelled',
     ref: 'oiuydofysdu890738',
-    address: 'New York No. 1 Lake Park',
+    verified: false,
   },
   {
     key: '2',
@@ -25,7 +25,7 @@ const data = [
     method: 'Palawan',
     status: 'ISU-IHT8V-ZAW',
     ref: 'dsfj9873377fjdsbzzx',
-    address: 'London No. 1 Lake Park',
+    verified: true,
   },
 ]
 
@@ -146,6 +146,16 @@ const StudentPaymentTable = () => {
       render: (ref) => (
         <Tag color='green' key={ref}>
           {ref.toUpperCase()}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Verified',
+      key: 'verified',
+      dataIndex: 'verified',
+      render: (verified) => (
+        <Tag color={verified ? 'green' : 'volcano'} key={verified}>
+          {verified ? 'Yes' : 'No'}
         </Tag>
       ),
     },

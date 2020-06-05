@@ -1,6 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Button, Select, Form, Input } from 'antd'
 import { CreditCardOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+
+import { getStudents } from '../../../redux/students/students.actions'
+import {
+  checkIfPaymentExists,
+  addPayments,
+} from '../../../redux/payments/payments.actions'
 
 import './payment-management-modal.styles.scss'
 
@@ -8,19 +15,34 @@ const { Option } = Select
 
 const PaymentManagementModal = ({
   students,
-  addAccountingDetailsStart,
-  currentUser,
+  getStudents,
+  addPayments,
+  raId,
+  checkIfPaymentExists,
+  loading,
 }) => {
   const [visible, setVisible] = useState(false)
+  const [studentId, setStudentId] = useState('')
+  const [studentName, setStudentName] = useState('')
+
+  useEffect(() => {
+    getStudents()
+  }, [getStudents])
 
   const showModal = () => {
     setVisible(true)
   }
 
-  const onFinish = ({ accounting }) => {
-    accounting.raId = currentUser.id
+  const onFinish = async ({ accounting }) => {
+    accounting.studentId = studentId
+    accounting.studentName = studentName
+    accounting.raId = raId
 
-    addAccountingDetailsStart({ accounting })
+    let result = await checkIfPaymentExists(accounting)
+
+    if (result) {
+      await addPayments(accounting)
+    }
   }
 
   const handleCancel = (e) => {
@@ -55,10 +77,22 @@ const PaymentManagementModal = ({
             label='Fullname'
             rules={[{ required: true }]}
           >
-            <Select placeholder='Select a student' name='student'>
+            <Select
+              placeholder='Select a student'
+              name='student'
+              onChange={(value) => {
+                setStudentId(value.substr(0, value.indexOf(' ')))
+                setStudentName(value.substr(value.indexOf(' ') + 1))
+              }}
+            >
               {students &&
                 students.map((student) => (
-                  <Option value={student.id}>{student.displayName}</Option>
+                  <Option
+                    key={student.id}
+                    value={`${student.id} ${student.displayName}`}
+                  >
+                    {student.displayName}
+                  </Option>
                 ))}
             </Select>
           </Form.Item>
@@ -96,6 +130,8 @@ const PaymentManagementModal = ({
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 20 }}>
             <Button
+              disabled={loading}
+              loading={loading}
               style={{
                 borderRadius: 5,
                 backgroundColor: '#f97204',
@@ -113,4 +149,23 @@ const PaymentManagementModal = ({
   )
 }
 
-export default PaymentManagementModal
+const mapStateToProps = (state) => {
+  return {
+    loading: state.async.loading,
+    raId: state.firebase.auth.uid,
+    students: state.students.students
+      ? state.students.students.filter((student) => student.verified === true)
+      : [],
+  }
+}
+
+const mapDispatchToProps = {
+  getStudents,
+  checkIfPaymentExists,
+  addPayments,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PaymentManagementModal)

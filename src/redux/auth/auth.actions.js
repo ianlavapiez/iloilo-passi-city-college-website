@@ -101,6 +101,10 @@ export const studentLogin = (credentials) => {
       if (user[0].type === 'student' && user[0].verified === true) {
         return true
       } else {
+        fireAlert(
+          'You are not yet verified. Please contact the Brainhub administrator.',
+          'warning'
+        )
         return false
       }
     } catch (error) {
@@ -153,12 +157,17 @@ export const registerUser = (user) => async (dispatch) => {
           'success'
         )
       )
-      .catch((error) => fireAlert(error.message, 'warning'))
+      .catch((error) => {
+        fireAlert(error.message, 'warning')
+        return false
+      })
 
     dispatch(asyncActionFinish())
+    return true
   } catch (error) {
     dispatch(asyncActionError())
     fireAlert(error.message, 'warning')
+    return false
   }
 }
 

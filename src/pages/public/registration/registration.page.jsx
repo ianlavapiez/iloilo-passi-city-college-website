@@ -1,11 +1,6 @@
-import React, { useEffect } from 'react'
-import { Spin } from 'antd'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
+import React, { useEffect, Fragment } from 'react'
 
 import './registration.styles.scss'
-
-import { selectIsLoading } from '../../../redux/user/user.selectors'
 
 import Header from '../../../components/public/registration/header/header.component'
 import RegistrationForm from '../../../components/public/registration/registration-form/registration-form.component'
@@ -17,18 +12,14 @@ const RegistrationPage = ({ loading }) => {
   }, [])
 
   return (
-    <Spin spinning={loading} delay={500}>
+    <Fragment>
       <div className='row'>
         <Header />
         <RegistrationForm />
       </div>
       <Footer />
-    </Spin>
+    </Fragment>
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  loading: selectIsLoading,
-})
-
-export default connect(mapStateToProps)(RegistrationPage)
+export default RegistrationPage
