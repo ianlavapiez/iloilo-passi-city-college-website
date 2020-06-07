@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
+import { Table, Input, Button, Space, Menu, Dropdown } from 'antd'
 import Highlighter from 'react-highlight-words'
+import { withRouter } from 'react-router-dom'
 import {
   SearchOutlined,
   InfoCircleOutlined,
@@ -12,7 +13,7 @@ import { connect } from 'react-redux'
 
 import { getPayments } from '../../../redux/payments/payments.actions'
 
-const PaymentManagementTable = ({ getPayments, payments, raId }) => {
+const PaymentManagementTable = ({ getPayments, payments, raId, history }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
@@ -129,26 +130,6 @@ const PaymentManagementTable = ({ getPayments, payments, raId }) => {
       ...getColumnSearchProps('fee'),
     },
     {
-      title: 'Payments Made',
-      key: 'paymentTrail',
-      dataIndex: 'paymentTrail',
-      render: (paymentTrail) => (
-        <>
-          {paymentTrail.length === 0 ? (
-            <Tag color='red' key='1'>
-              {'None'}
-            </Tag>
-          ) : (
-            paymentTrail.map((payment) => (
-              <Tag color='green' key={payment}>
-                {payment}
-              </Tag>
-            ))
-          )}
-        </>
-      ),
-    },
-    {
       title: 'Action',
       key: 'action',
       render: (text) => (
@@ -156,7 +137,9 @@ const PaymentManagementTable = ({ getPayments, payments, raId }) => {
           <Dropdown
             overlay={
               <Menu>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
+                <Menu.Item
+                  onClick={() => history.push(`/ra/accounting/${text.id}`)}
+                >
                   <InfoCircleOutlined /> info
                 </Menu.Item>
                 <Menu.Item onClick={() => this.onPressedEdit(text)}>
@@ -191,7 +174,6 @@ const mapDispatchToProps = {
   getPayments,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PaymentManagementTable)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PaymentManagementTable)
+)
