@@ -157,7 +157,6 @@ const AttendanceTable = ({ history }) => {
       width: '20%',
       ...getColumnSearchProps('details'),
     },
-
     {
       title: 'Status',
       key: 'status',
