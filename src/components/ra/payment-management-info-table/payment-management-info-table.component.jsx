@@ -1,34 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Input, Button, Space, Menu, Dropdown } from 'antd'
+import { Table, Input, Button, Space, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
 import { withRouter } from 'react-router-dom'
-import {
-  SearchOutlined,
-  InfoCircleOutlined,
-  DeleteOutlined,
-  MoreOutlined,
-  EditOutlined,
-} from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
-import { getPayments } from '../../../redux/payments/payments.actions'
+import { getPaymentTrail } from '../../../redux/payments/payments.actions'
 
 const PaymentManagementInfoTable = ({
-  getPayments,
-  payments,
-  raId,
+  paymentTrail,
+  getPaymentTrail,
   paymentId,
-  history,
 }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
 
   useEffect(() => {
-    if (raId) {
-      getPayments(raId)
+    if (paymentId) {
+      getPaymentTrail(paymentId)
     }
-  }, [raId, getPayments])
+  }, [paymentId, getPaymentTrail])
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -106,82 +98,65 @@ const PaymentManagementInfoTable = ({
 
   const columns = [
     {
-      title: 'Payment ID',
+      title: 'Reference ID',
       dataIndex: 'id',
       key: 'id',
       ...getColumnSearchProps('id'),
     },
     {
-      title: 'Student Name',
-      dataIndex: 'studentName',
-      key: 'studentName',
-      ...getColumnSearchProps('studentName'),
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+      ...getColumnSearchProps('date'),
     },
     {
-      title: 'Program',
-      dataIndex: 'program',
-      key: 'program',
-      ...getColumnSearchProps('program'),
+      title: 'Payment Made',
+      dataIndex: 'payment',
+      key: 'payment',
+      ...getColumnSearchProps('payment'),
     },
     {
-      title: 'School Year',
-      dataIndex: 'schoolYear',
-      key: 'schoolYear',
-      ...getColumnSearchProps('schoolYear'),
-    },
-    {
-      title: 'Tuition Fee',
-      dataIndex: 'fee',
-      key: 'fee',
-      ...getColumnSearchProps('fee'),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text) => (
-        <span>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item
-                  onClick={() => history.push(`/ra/accounting/${text.id}`)}
-                >
-                  <InfoCircleOutlined /> info
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <EditOutlined />
-                  update payment
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedDelete(text)}>
-                  <DeleteOutlined /> delete
-                </Menu.Item>
-              </Menu>
-            }
-            trigger={['click']}
-          >
-            <Button type='default' icon={<MoreOutlined />} />
-          </Dropdown>
-        </span>
-      ),
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (status) => {
+        let color, text
+        if (status === true) {
+          color = 'green'
+          text = 'Verified'
+        } else {
+          color = 'volcano'
+          text = 'Not Verified'
+        }
+
+        return (
+          <Tag color={color} key={status}>
+            {text.toUpperCase()}
+          </Tag>
+        )
+      },
     },
   ]
 
-  return <Table columns={columns} dataSource={payments ? payments : []} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={paymentTrail}
+      rowKey={(record) => record.refId}
+    />
+  )
 }
 
 const mapStateToProps = (state, ownParams) => {
   return {
     raId: state.firebase.auth.uid,
-    payments: state.payments.payments
-      ? state.payments.payments.filter(
-          (payment) => payment.id === ownParams.match.params.id
-        )
-      : [],
+    paymentId: ownParams.match.params.id,
+    paymentTrail: state.payments.paymentTrail,
   }
 }
 
 const mapDispatchToProps = {
-  getPayments,
+  getPaymentTrail,
 }
 
 export default withRouter(
