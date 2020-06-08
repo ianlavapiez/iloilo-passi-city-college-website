@@ -11,9 +11,22 @@ import {
 } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
-import { getPayments } from '../../../redux/payments/payments.actions'
+import {
+  getPayments,
+  deletePayment,
+} from '../../../redux/payments/payments.actions'
+import { fireAlertWithConfirmation } from '../../common/confirmation-message/confirmation-message.component'
 
-const PaymentManagementTable = ({ getPayments, payments, raId, history }) => {
+const PaymentManagementTable = ({
+  getPayments,
+  deletePayment,
+  payments,
+  raId,
+  history,
+  setData,
+  setEdit,
+  setModalVisible,
+}) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
@@ -23,6 +36,26 @@ const PaymentManagementTable = ({ getPayments, payments, raId, history }) => {
       getPayments(raId)
     }
   }, [raId, getPayments])
+
+  const editPaymentDetails = (payment) => {
+    setData(payment)
+    setEdit(true)
+    setModalVisible(true)
+  }
+
+  const deletePaymentDetails = (payment) => {
+    fireAlertWithConfirmation(
+      'Are you sure you want to delete?',
+      'Successfully deleted!',
+      (confirmed) => {
+        if (confirmed) {
+          deletePayment(payment)
+        } else {
+          return false
+        }
+      }
+    )
+  }
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -142,11 +175,11 @@ const PaymentManagementTable = ({ getPayments, payments, raId, history }) => {
                 >
                   <InfoCircleOutlined /> info
                 </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
+                <Menu.Item onClick={() => editPaymentDetails(text)}>
                   <EditOutlined />
                   update payment
                 </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedDelete(text)}>
+                <Menu.Item onClick={() => deletePaymentDetails(text)}>
                   <DeleteOutlined /> delete
                 </Menu.Item>
               </Menu>
@@ -160,7 +193,13 @@ const PaymentManagementTable = ({ getPayments, payments, raId, history }) => {
     },
   ]
 
-  return <Table columns={columns} dataSource={payments ? payments : []} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={payments ? payments : []}
+      rowKey={(record) => record.id}
+    />
+  )
 }
 
 const mapStateToProps = (state) => {
@@ -172,6 +211,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getPayments,
+  deletePayment,
 }
 
 export default withRouter(
