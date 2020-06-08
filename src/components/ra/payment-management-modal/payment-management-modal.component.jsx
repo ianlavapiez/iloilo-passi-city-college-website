@@ -7,6 +7,7 @@ import { getStudents } from '../../../redux/students/students.actions'
 import {
   checkIfPaymentExists,
   addPayments,
+  updatePaymentDetails,
 } from '../../../redux/payments/payments.actions'
 
 import './payment-management-modal.styles.scss'
@@ -17,26 +18,38 @@ const PaymentManagementModal = ({
   students,
   getStudents,
   addPayments,
+  updatePaymentDetails,
   raId,
   checkIfPaymentExists,
   loading,
+  setModalVisible,
+  setEdit,
+  modalVisible,
+  edit,
+  data,
 }) => {
-  const [visible, setVisible] = useState(false)
+  console.log(data)
   const [studentId, setStudentId] = useState('')
   const [studentName, setStudentName] = useState('')
 
   useEffect(() => {
     getStudents()
-  }, [getStudents])
+
+    if (edit) {
+      setStudentId(data.studentId)
+      setStudentName(data.studentName)
+    }
+  }, [getStudents, edit, data])
 
   const showModal = () => {
-    setVisible(true)
+    setModalVisible(true)
   }
 
   const onFinish = async ({ accounting }) => {
     accounting.studentId = studentId
     accounting.studentName = studentName
     accounting.raId = raId
+    accounting.fee = accounting.fee * 1
 
     let result = await checkIfPaymentExists(accounting)
 
@@ -45,8 +58,23 @@ const PaymentManagementModal = ({
     }
   }
 
+  const onUpdate = async ({ accounting }) => {
+    accounting.studentId = studentId
+    accounting.studentName = studentName
+    accounting.raId = raId
+    accounting.fee = accounting.fee * 1
+    accounting.id = data.id
+
+    let result = await checkIfPaymentExists(accounting)
+
+    if (result) {
+      await updatePaymentDetails(accounting)
+    }
+  }
+
   const handleCancel = (e) => {
-    setVisible(false)
+    setModalVisible(false)
+    setEdit(false)
   }
 
   const validateMessages = {
@@ -65,17 +93,22 @@ const PaymentManagementModal = ({
         Add Payment
       </Button>
       <Modal
-        title='Add Payment'
-        visible={visible}
+        title={!edit ? 'Add Payment' : 'Edit Payment'}
+        visible={modalVisible}
         onCancel={handleCancel}
         footer={null}
+        destroyOnClose={true}
       >
-        <Form validateMessages={validateMessages} onFinish={onFinish}>
+        <Form
+          validateMessages={validateMessages}
+          onFinish={!edit ? onFinish : onUpdate}
+        >
           <Form.Item
             className='form-item'
             name={['accounting', 'studentId']}
             label='Fullname'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : data.studentName}
           >
             <Select
               placeholder='Select a student'
@@ -101,6 +134,7 @@ const PaymentManagementModal = ({
             name={['accounting', 'schoolYear']}
             label='School Year'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : data.schoolYear}
           >
             <Select placeholder='Select a school year' name='year'>
               <Option value='2020-2021'>2020-2021</Option>
@@ -113,6 +147,7 @@ const PaymentManagementModal = ({
             name={['accounting', 'program']}
             label='Program'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : data.program}
           >
             <Select placeholder='Select program' name='program'>
               <Option value='Refresher'>Refresher</Option>
@@ -125,6 +160,7 @@ const PaymentManagementModal = ({
             label='Tuition Fee'
             name={['accounting', 'fee']}
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : data.fee.toString()}
           >
             <Input type='number' />
           </Form.Item>
@@ -163,6 +199,7 @@ const mapDispatchToProps = {
   getStudents,
   checkIfPaymentExists,
   addPayments,
+  updatePaymentDetails,
 }
 
 export default connect(
