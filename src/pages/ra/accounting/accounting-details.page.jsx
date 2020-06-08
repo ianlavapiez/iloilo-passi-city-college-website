@@ -18,7 +18,7 @@ const AccountingDetailsPage = () => {
         <Layout style={{ padding: '0 24px 24px' }}>
           <Breadcrumb style={{ margin: '40px 0px -20px 30px' }}>
             <Breadcrumb.Item>
-              <Title level={3}>Payment Details</Title>
+              <Title level={3}>Payment Trail Details</Title>
             </Breadcrumb.Item>
           </Breadcrumb>
           <Content
