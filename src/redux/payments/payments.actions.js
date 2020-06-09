@@ -1,4 +1,6 @@
-import { firestore } from '../../firebase/firebase.utils'
+import cuid from 'cuid'
+
+import firebase, { firestore } from '../../firebase/firebase.utils'
 import {
   asyncActionStart,
   asyncActionFinish,
@@ -221,5 +223,57 @@ export const deletePayment = (payment) => {
       dispatch(asyncActionError())
       console.log(error)
     }
+  }
+}
+
+export const uploadPayment = (file, data) => async (dispatch) => {
+  try {
+    dispatch(asyncActionStart())
+    let newData
+    let uniqueKey = cuid()
+    let storageRef = await firebase
+      .storage()
+      .ref('student_payments')
+      .child(uniqueKey)
+
+    await storageRef.putString(file, 'data_url').then(function (snapshot) {
+      storageRef
+        .getDownloadURL()
+        .then(function (url) {
+          newData = {
+            ...data,
+            imageUrl: url,
+            created: new Date(),
+            softDelete: false,
+            verified: false,
+          }
+        })
+        .then(function () {
+          firestore
+            .add('payment_trail', newData)
+            .then(() => {
+              fireAlert(
+                'The payment details have been successfully uploaded!',
+                'success'
+              )
+            })
+            .then(() => {
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000)
+            })
+            .catch((error) => {
+              console.log(error)
+              fireAlert('Oops! Something went wrong!', 'error')
+              dispatch(asyncActionError())
+            })
+
+          dispatch(asyncActionFinish())
+        })
+    })
+  } catch (error) {
+    dispatch(asyncActionError())
+    console.log(error.message)
+    console.log(error)
   }
 }
