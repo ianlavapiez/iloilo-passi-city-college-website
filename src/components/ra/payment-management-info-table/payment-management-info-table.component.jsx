@@ -116,12 +116,12 @@ const PaymentManagementInfoTable = ({
       ...getColumnSearchProps('payment'),
     },
     {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => {
+      title: 'Verified',
+      key: 'verified',
+      dataIndex: 'verified',
+      render: (verified) => {
         let color, text
-        if (status === true) {
+        if (verified === true) {
           color = 'green'
           text = 'Verified'
         } else {
@@ -130,7 +130,7 @@ const PaymentManagementInfoTable = ({
         }
 
         return (
-          <Tag color={color} key={status}>
+          <Tag color={color} key={verified}>
             {text.toUpperCase()}
           </Tag>
         )
