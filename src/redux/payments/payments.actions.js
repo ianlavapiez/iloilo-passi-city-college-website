@@ -9,6 +9,7 @@ import {
 import {
   FETCH_STUDENT_PAYMENTS,
   FETCH_STUDENT_PAYMENT_TRAIL,
+  FETCH_SPECIFIC_STUDENT_PAYMENT,
 } from './payments.constants'
 
 import { fireAlert } from '../../components/common/confirmation-message/confirmation-message.component'
@@ -42,6 +43,43 @@ export const getPayments = (raId) => {
         payments.push(payment)
       }
       dispatch({ type: FETCH_STUDENT_PAYMENTS, payload: { payments } })
+      dispatch(asyncActionFinish())
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError())
+    }
+  }
+}
+
+export const getStudentPayments = (studentId) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart())
+    const ref = firestore
+      .collection('payments')
+      .where('studentId', '==', studentId)
+      .where('softDelete', '==', false)
+      .orderBy('created', 'desc')
+
+    try {
+      let querySnapshot = await ref.get()
+
+      let payments = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return payments
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let payment = {
+          ...querySnapshot.docs[i].data(),
+          id: querySnapshot.docs[i].id,
+        }
+
+        payments.push(payment)
+      }
+      dispatch({ type: FETCH_SPECIFIC_STUDENT_PAYMENT, payload: { payments } })
       dispatch(asyncActionFinish())
     } catch (error) {
       console.log(error)
@@ -250,7 +288,8 @@ export const uploadPayment = (file, data) => async (dispatch) => {
         })
         .then(function () {
           firestore
-            .add('payment_trail', newData)
+            .collection('payment_trail')
+            .add(newData)
             .then(() => {
               fireAlert(
                 'The payment details have been successfully uploaded!',
@@ -261,14 +300,13 @@ export const uploadPayment = (file, data) => async (dispatch) => {
               setTimeout(() => {
                 window.location.reload()
               }, 2000)
+              dispatch(asyncActionFinish())
             })
             .catch((error) => {
               console.log(error)
               fireAlert('Oops! Something went wrong!', 'error')
               dispatch(asyncActionError())
             })
-
-          dispatch(asyncActionFinish())
         })
     })
   } catch (error) {
