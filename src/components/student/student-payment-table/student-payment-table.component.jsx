@@ -1,35 +1,10 @@
 import React, { useState } from 'react'
-
-import { Table, Input, Button, Space, Tag } from 'antd'
+import { Table, Input, Button, Space } from 'antd'
 import Highlighter from 'react-highlight-words'
 import { SearchOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
 
-const data = [
-  {
-    key: '1',
-    dateAndTime: 'May 19, 2020 11:00:00 AM',
-    course: 'BSN',
-    program: 'Intensive',
-    payment: 1000,
-    method: 'Paymaya',
-    status: 'Cancelled',
-    ref: 'oiuydofysdu890738',
-    verified: false,
-  },
-  {
-    key: '2',
-    dateAndTime: 'May 20, 2020 11:00:00 PM',
-    course: 'BSN',
-    program: 'Intensive',
-    payment: 2000,
-    method: 'Palawan',
-    status: 'ISU-IHT8V-ZAW',
-    ref: 'dsfj9873377fjdsbzzx',
-    verified: true,
-  },
-]
-
-const StudentPaymentTable = () => {
+const StudentPaymentTable = ({ studentPayments }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
@@ -110,16 +85,10 @@ const StudentPaymentTable = () => {
 
   const columns = [
     {
-      title: 'Date and Time',
-      dataIndex: 'dateAndTime',
-      key: 'dateAndTime',
-      ...getColumnSearchProps('dateAndTime'),
-    },
-    {
-      title: 'Course',
-      dataIndex: 'course',
-      key: 'course',
-      ...getColumnSearchProps('course'),
+      title: 'Payment ID',
+      dataIndex: 'id',
+      key: 'id',
+      ...getColumnSearchProps('id'),
     },
     {
       title: 'Program',
@@ -128,40 +97,31 @@ const StudentPaymentTable = () => {
       ...getColumnSearchProps('program'),
     },
     {
-      title: 'Payment Made',
-      dataIndex: 'payment',
-      key: 'payment',
-      ...getColumnSearchProps('payment'),
+      title: 'School Year',
+      dataIndex: 'schoolYear',
+      key: 'schoolYear',
+      ...getColumnSearchProps('schoolYear'),
     },
     {
-      title: 'Payment Type',
-      dataIndex: 'method',
-      key: 'method',
-      ...getColumnSearchProps('method'),
-    },
-    {
-      title: 'Reference No.',
-      key: 'ref',
-      dataIndex: 'ref',
-      render: (ref) => (
-        <Tag color='green' key={ref}>
-          {ref.toUpperCase()}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Verified',
-      key: 'verified',
-      dataIndex: 'verified',
-      render: (verified) => (
-        <Tag color={verified ? 'green' : 'volcano'} key={verified}>
-          {verified ? 'Yes' : 'No'}
-        </Tag>
-      ),
+      title: 'Tuition Fee',
+      dataIndex: 'fee',
+      key: 'fee',
+      ...getColumnSearchProps('fee'),
     },
   ]
 
-  return <Table columns={columns} dataSource={data} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={studentPayments ? studentPayments : []}
+    />
+  )
 }
 
-export default StudentPaymentTable
+const mapStateToProps = (state) => {
+  return {
+    studentPayments: state.payments.studentPayments,
+  }
+}
+
+export default connect(mapStateToProps)(StudentPaymentTable)
