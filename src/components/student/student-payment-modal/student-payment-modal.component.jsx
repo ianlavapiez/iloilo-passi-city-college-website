@@ -23,7 +23,7 @@ import { fireAlert } from '../../common/confirmation-message/confirmation-messag
 
 const { Option } = Select
 
-const StudentPaymentModal = ({ uploadPayment }) => {
+const StudentPaymentModal = ({ loading, uploadPayment }) => {
   const [visible, setVisible] = useState(false)
   const [photoLoading, setPhotoLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState(null)
@@ -153,11 +153,7 @@ const StudentPaymentModal = ({ uploadPayment }) => {
           >
             <Input type='number' />
           </Form.Item>
-          <Form.Item
-            className='form-item'
-            name={['payment', 'upload']}
-            label='Upload is required'
-          >
+          <Form.Item className='form-item' label='Upload is required'>
             <Upload
               listType='picture-card'
               className='avatar-uploader'
@@ -190,6 +186,7 @@ const StudentPaymentModal = ({ uploadPayment }) => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 20 }}>
             <Button
+              loading={loading}
               style={{
                 borderRadius: 5,
                 backgroundColor: '#f97204',
@@ -207,8 +204,14 @@ const StudentPaymentModal = ({ uploadPayment }) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    loading: state.async.loading,
+  }
+}
+
 const mapDispatchToProps = {
   uploadPayment,
 }
 
-export default connect(null, mapDispatchToProps)(StudentPaymentModal)
+export default connect(mapStateToProps, mapDispatchToProps)(StudentPaymentModal)
