@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Space } from 'antd'
+import { Table, Input, Button, Space, Dropdown, Menu, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
-import { SearchOutlined } from '@ant-design/icons'
+import {
+  SearchOutlined,
+  InfoCircleOutlined,
+  MoreOutlined,
+} from '@ant-design/icons'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
-const StudentPaymentTable = ({ studentPayments }) => {
+const StudentPaymentTable = ({ studentPayments, history }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
@@ -108,12 +113,62 @@ const StudentPaymentTable = ({ studentPayments }) => {
       key: 'fee',
       ...getColumnSearchProps('fee'),
     },
+    {
+      title: 'Accumulated Payment',
+      dataIndex: 'accumulatedPayment',
+      key: 'accumulatedPayment',
+      ...getColumnSearchProps('accumulatedPayment'),
+    },
+    {
+      title: 'Remaining Balance',
+      key: 'balance',
+      render: (text) => {
+        let balance = text.fee - text.accumulatedPayment
+
+        if (balance > 0) {
+          return (
+            <Tag color={'volcano'} key={balance}>
+              {balance}
+            </Tag>
+          )
+        } else {
+          return (
+            <Tag color={'green'} key={balance}>
+              {balance}
+            </Tag>
+          )
+        }
+      },
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text) => (
+        <span>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item
+                  onClick={() => history.push(`/student/payments/${text.id}`)}
+                >
+                  <InfoCircleOutlined /> info
+                </Menu.Item>
+              </Menu>
+            }
+            trigger={['click']}
+          >
+            <Button type='default' icon={<MoreOutlined />} />
+          </Dropdown>
+        </span>
+      ),
+    },
   ]
 
   return (
     <Table
       columns={columns}
       dataSource={studentPayments ? studentPayments : []}
+      rowKey={(record) => record.id}
     />
   )
 }
@@ -124,4 +179,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(StudentPaymentTable)
+export default withRouter(connect(mapStateToProps)(StudentPaymentTable))
