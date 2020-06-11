@@ -18,16 +18,28 @@ import { connect } from 'react-redux'
 
 import './student-payment-modal.styles.scss'
 
-import { uploadPayment } from '../../../redux/payments/payments.actions'
+import {
+  uploadPayment,
+  updateAccumulatedPayment,
+} from '../../../redux/payments/payments.actions'
 import { fireAlert } from '../../common/confirmation-message/confirmation-message.component'
 
 const { Option } = Select
 
-const StudentPaymentModal = ({ loading, uploadPayment }) => {
+const StudentPaymentModal = ({
+  loading,
+  uploadPayment,
+  updateAccumulatedPayment,
+  totalPayment,
+  payments,
+}) => {
   const [visible, setVisible] = useState(false)
   const [photoLoading, setPhotoLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState(null)
   const [date, setDate] = useState('')
+  const [paymentId, setPaymentId] = useState('')
+  let [fee, setFee] = useState(0)
+  let [accumulatedPayment, setAccumulatedPayment] = useState(0)
 
   const showModal = () => {
     setVisible(true)
@@ -73,15 +85,38 @@ const StudentPaymentModal = ({ loading, uploadPayment }) => {
   )
 
   const onFinish = async ({ payment }) => {
+    let balance = 0
+
     if (imageUrl === null) {
       return fireAlert('Please upload your receipt.', 'warning')
     }
 
-    let newValues = {
-      ...payment,
-      date: date,
+    payment.amount = payment.amount * 1
+    fee = fee * 1
+    accumulatedPayment = accumulatedPayment * 1
+    balance = fee - accumulatedPayment
+
+    if (payment.amount > balance) {
+      return fireAlert(
+        'The amount should not exceed to the current balance.',
+        'warning'
+      )
     }
 
+    accumulatedPayment = accumulatedPayment + payment.amount
+
+    let newValues = {
+      ...payment,
+      date,
+      paymentId,
+    }
+
+    let newUpdatedPayment = {
+      id: paymentId,
+      accumulatedPayment,
+    }
+
+    await updateAccumulatedPayment(newUpdatedPayment)
     await uploadPayment(imageUrl, newValues)
   }
 
@@ -105,6 +140,7 @@ const StudentPaymentModal = ({ loading, uploadPayment }) => {
         type='primary'
         onClick={showModal}
         icon={<CalendarOutlined />}
+        disabled={totalPayment > 0 ? false : true}
       >
         Upload Payment Made
       </Button>
@@ -115,6 +151,41 @@ const StudentPaymentModal = ({ loading, uploadPayment }) => {
         footer={null}
       >
         <Form validateMessages={validateMessages} onFinish={onFinish}>
+          <Form.Item
+            className='form-item'
+            name={['payment', 'paymentId']}
+            label='Payment ID'
+            rules={[{ required: true }]}
+          >
+            <Select
+              placeholder='Select a payment ID'
+              name='paymentId'
+              onChange={(value) => {
+                setPaymentId(value[0])
+                setAccumulatedPayment(value[1])
+                setFee(value[2])
+              }}
+            >
+              {payments &&
+                payments.map((payment) => {
+                  if (payment.fee === payment.accumulatedPayment) {
+                    return null
+                  }
+                  return (
+                    <Option
+                      key={payment.id}
+                      value={[
+                        `${payment.id}`,
+                        `${payment.accumulatedPayment}`,
+                        `${payment.fee}`,
+                      ]}
+                    >
+                      {payment.id}
+                    </Option>
+                  )
+                })}
+            </Select>
+          </Form.Item>
           <Form.Item
             className='form-item'
             name={['payment', 'referenceNo']}
@@ -130,7 +201,7 @@ const StudentPaymentModal = ({ loading, uploadPayment }) => {
             label='Date'
             rules={[{ required: true }]}
           >
-            <DatePicker onChange={onDateChange} />
+            <DatePicker onChange={onDateChange} style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item
             className='form-item'
@@ -138,7 +209,7 @@ const StudentPaymentModal = ({ loading, uploadPayment }) => {
             label='Payment Type'
             rules={[{ required: true }]}
           >
-            <Select placeholder='Select a payment type' name='payment'>
+            <Select placeholder='Select a payment type' name='type'>
               <Option value='Palawan Pawnshop'>Palawan</Option>
               <Option value='Cebuana Lhuiller'>Cebuana Lhuiller</Option>
               <Option value='ML Kwarta Padala'>ML Kwarta Padala</Option>
@@ -207,11 +278,13 @@ const StudentPaymentModal = ({ loading, uploadPayment }) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.async.loading,
+    payments: state.payments.studentPayments,
   }
 }
 
 const mapDispatchToProps = {
   uploadPayment,
+  updateAccumulatedPayment,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentPaymentModal)
