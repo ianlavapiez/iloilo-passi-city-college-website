@@ -165,6 +165,7 @@ export const addPayments = (data) => async (dispatch) => {
     data.softDelete = false
     data.paymentTrail = []
     data.created = new Date()
+    data.accumulatedPayment = 0
 
     await firestore
       .collection('payments')
@@ -192,8 +193,6 @@ export const addPayments = (data) => async (dispatch) => {
 export const updatePaymentDetails = (payment) => async (dispatch) => {
   try {
     dispatch(asyncActionStart())
-
-    console.log(payment)
 
     let docRef = firestore.collection('payments').doc(payment.id)
     let batch = firestore.batch()
@@ -313,5 +312,111 @@ export const uploadPayment = (file, data) => async (dispatch) => {
     dispatch(asyncActionError())
     console.log(error.message)
     console.log(error)
+  }
+}
+
+export const updateUploadedPayment = (file, data) => async (dispatch) => {
+  try {
+    dispatch(asyncActionStart())
+    let newData
+    let uniqueKey = cuid()
+    let storageRef = await firebase
+      .storage()
+      .ref('student_payments')
+      .child(uniqueKey)
+
+    await storageRef.putString(file, 'data_url').then(function (snapshot) {
+      storageRef
+        .getDownloadURL()
+        .then(function (url) {
+          newData = {
+            ...data,
+            imageUrl: url,
+          }
+        })
+        .then(async function () {
+          let docRef = firestore.collection('payment_trail').doc(data.id)
+          let batch = firestore.batch()
+
+          batch.update(docRef, newData)
+
+          await batch
+            .commit()
+            .then(() => {
+              fireAlert(
+                'The selected payment details has been successfully updated!',
+                'success'
+              )
+            })
+            .then(() => {
+              dispatch(asyncActionFinish())
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000)
+            })
+            .catch((error) => {
+              dispatch(asyncActionError())
+              console.log(error)
+              fireAlert('Oops! Something went wrong!', 'error')
+            })
+        })
+    })
+  } catch (error) {
+    dispatch(asyncActionError())
+    console.log(error.message)
+    console.log(error)
+  }
+}
+
+export const deleteUploadedPayment = (payment) => {
+  return async (dispatch) => {
+    try {
+      dispatch(asyncActionStart())
+      let docRef = firestore.collection('payment_trail').doc(payment.id)
+      let batch = firestore.batch()
+
+      let newData = {
+        ...payment,
+        softDelete: true,
+      }
+
+      batch.update(docRef, newData)
+
+      await batch
+        .commit()
+        .then(() => {
+          fireAlert(
+            'The selected payment details has been successfully deleted!',
+            'success'
+          )
+        })
+        .then(() => {
+          dispatch(asyncActionFinish())
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        })
+        .catch((error) => {
+          console.log(error)
+          fireAlert('Oops! Something went wrong!', 'error')
+        })
+    } catch (error) {
+      dispatch(asyncActionError())
+      console.log(error)
+    }
+  }
+}
+
+export const updateAccumulatedPayment = (payment) => async (dispatch) => {
+  try {
+    let docRef = firestore.collection('payments').doc(payment.id)
+    let batch = firestore.batch()
+
+    batch.update(docRef, payment)
+
+    await batch.commit()
+  } catch (error) {
+    console.log(error)
+    dispatch(asyncActionError())
   }
 }
