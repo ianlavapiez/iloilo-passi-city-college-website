@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom'
 import EnrollmentPage from '../pages/student/enrollment/enrollment.page'
 import LoginPage from '../pages/student/login/login.page'
 import PaymentPage from '../pages/student/payment/payment.page'
+import PaymentDetailsPage from '../pages/student/payment/payment-details.page'
 import SchedulePage from '../pages/student/schedule/schedule.page'
 import TutorialPage from '../pages/student/tutorial/tutorial.page'
 import ProfilePage from '../pages/student/profile/profile.page'
@@ -14,6 +15,11 @@ const StudentRoutes = () => {
       <Route exact path='/student' component={EnrollmentPage} />
       <Route exact path='/student/login' component={LoginPage} />
       <Route exact path='/student/payments' component={PaymentPage} />
+      <Route
+        exact
+        path='/student/payments/:id'
+        component={PaymentDetailsPage}
+      />
       <Route exact path='/student/schedule' component={SchedulePage} />
       <Route exact path='/student/tutorials' component={TutorialPage} />
       <Route exact path='/student/profile' component={ProfilePage} />
