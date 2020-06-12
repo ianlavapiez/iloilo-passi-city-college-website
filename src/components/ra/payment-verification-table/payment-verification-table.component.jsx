@@ -1,43 +1,73 @@
 import React, { useState } from 'react'
-
-import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
+import { Table, Input, Button, Space, Menu, Dropdown } from 'antd'
 import Highlighter from 'react-highlight-words'
 import {
   SearchOutlined,
   CloseOutlined,
   MoreOutlined,
   CheckOutlined,
+  PicCenterOutlined,
 } from '@ant-design/icons'
+import { connect } from 'react-redux'
 
-const data = [
-  {
-    key: '1',
-    dateAndTime: 'May 19, 2020 11:00:00 AM',
-    course: 'BSN',
-    program: 'Intensive',
-    payment: 1000,
-    method: 'Paymaya',
-    status: 'Cancelled',
-    ref: 'oiuydofysdu890738',
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    dateAndTime: 'May 20, 2020 11:00:00 PM',
-    course: 'BSN',
-    program: 'Intensive',
-    payment: 2000,
-    method: 'Palawan',
-    status: 'ISU-IHT8V-ZAW',
-    ref: 'dsfj9873377fjdsbzzx',
-    address: 'London No. 1 Lake Park',
-  },
-]
+import {
+  verifyPaymentDetails,
+  unVerifyPaymentDetails,
+  updateAccumulatedPayment,
+} from '../../../redux/payments/payments.actions'
 
-const PaymentVerificationTable = () => {
+import { fireAlertWithConfirmation } from '../../common/confirmation-message/confirmation-message.component'
+
+const PaymentVerificationTable = ({
+  paymentTrail,
+  setModalVisible,
+  setData,
+  verifyPaymentDetails,
+  updateAccumulatedPayment,
+  payments,
+}) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
+
+  const verifyPayment = (payment) => {
+    fireAlertWithConfirmation(
+      'Are you sure you want to verify the selected payment?',
+      'Successfully verified!',
+      (confirmed) => {
+        if (confirmed) {
+          verifyPaymentDetails(payment)
+        } else {
+          return false
+        }
+      }
+    )
+  }
+
+  const deletePayment = (payment) => {
+    fireAlertWithConfirmation(
+      'Are you sure you want to delete the selected payment? Once deleted, it cannot be undone!',
+      'Successfully deleted!',
+      async (confirmed) => {
+        if (confirmed) {
+          if (payments) {
+            let specificPayment = payments.map((p) => p.id === payment.id)
+            let accumulatedPayment =
+              payments.accumulatedPayment - payment.amount
+            let newUpdatedPayment = {
+              id: specificPayment.paymentId,
+              accumulatedPayment,
+            }
+
+            await unVerifyPaymentDetails(payment)
+            await updateAccumulatedPayment(newUpdatedPayment)
+          }
+        } else {
+          return false
+        }
+      }
+    )
+  }
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -113,46 +143,41 @@ const PaymentVerificationTable = () => {
     setSearchText('')
   }
 
+  const showDetails = (data) => {
+    setModalVisible(true)
+    setData(data)
+  }
+
   const columns = [
     {
-      title: 'Date and Time',
-      dataIndex: 'dateAndTime',
-      key: 'dateAndTime',
-      ...getColumnSearchProps('dateAndTime'),
+      title: 'Payment Trail ID',
+      dataIndex: 'id',
+      key: 'id',
+      ...getColumnSearchProps('id'),
     },
     {
-      title: 'Course',
-      dataIndex: 'course',
-      key: 'course',
-      ...getColumnSearchProps('course'),
-    },
-    {
-      title: 'Program',
-      dataIndex: 'program',
-      key: 'program',
-      ...getColumnSearchProps('program'),
-    },
-    {
-      title: 'Payment Made',
-      dataIndex: 'payment',
-      key: 'payment',
-      ...getColumnSearchProps('payment'),
-    },
-    {
-      title: 'Payment Type',
-      dataIndex: 'method',
-      key: 'method',
-      ...getColumnSearchProps('method'),
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+      ...getColumnSearchProps('date'),
     },
     {
       title: 'Reference No.',
-      key: 'ref',
-      dataIndex: 'ref',
-      render: (ref) => (
-        <Tag color='green' key={ref}>
-          {ref.toUpperCase()}
-        </Tag>
-      ),
+      dataIndex: 'referenceNo',
+      key: 'referenceNo',
+      ...getColumnSearchProps('referenceNo'),
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
+      ...getColumnSearchProps('type'),
+    },
+    {
+      title: 'Payment Made',
+      dataIndex: 'amount',
+      key: 'amount',
+      ...getColumnSearchProps('amount'),
     },
     {
       title: 'Action',
@@ -162,10 +187,13 @@ const PaymentVerificationTable = () => {
           <Dropdown
             overlay={
               <Menu>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
+                <Menu.Item onClick={() => showDetails(text)}>
+                  <PicCenterOutlined /> check uploaded receipt
+                </Menu.Item>
+                <Menu.Item onClick={() => verifyPayment(text)}>
                   <CheckOutlined /> verify payment
                 </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
+                <Menu.Item onClick={() => deletePayment(text)}>
                   <CloseOutlined />
                   decline payment
                 </Menu.Item>
@@ -180,7 +208,28 @@ const PaymentVerificationTable = () => {
     },
   ]
 
-  return <Table columns={columns} dataSource={data} />
+  return (
+    <Table
+      columns={columns}
+      rowKey={(record) => record.id}
+      dataSource={paymentTrail ? paymentTrail : []}
+    />
+  )
 }
 
-export default PaymentVerificationTable
+const mapStateToProps = (state) => {
+  return {
+    paymentTrail: state.payments.unverifiedPaymentTrail,
+    payments: state.payments.payments,
+  }
+}
+
+const mapDispatchToProps = {
+  verifyPaymentDetails,
+  updateAccumulatedPayment,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PaymentVerificationTable)
