@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, Spin, Button, Typography } from 'antd'
 import { connect } from 'react-redux'
 
@@ -7,7 +7,10 @@ import {
   updateStudentProfile,
 } from '../../../redux/auth/auth.actions'
 
-import { fireAlert } from '../../common/confirmation-message/confirmation-message.component'
+import {
+  fireAlert,
+  fireAlertWithConfirmation,
+} from '../../common/confirmation-message/confirmation-message.component'
 
 const { Title } = Typography
 
@@ -29,21 +32,24 @@ const ProfileForm = ({
   updateStudentProfile,
   loading,
   currentUser,
+  initialValues,
 }) => {
   const [form] = Form.useForm()
   const [secondForm] = Form.useForm()
 
-  const { displayName, address, contact } = currentUser
-    ? currentUser[0]
-    : [
-        {
-          displayName: '',
-          address: '',
-          contact: '',
-        },
-      ]
+  useEffect(() => {
+    if (currentUser) {
+      const { displayName, address, contact } = currentUser[0]
 
-  const onFinish = async ({ user }) => {
+      form.setFieldsValue({
+        displayName,
+        address,
+        contact,
+      })
+    }
+  }, [currentUser, form])
+
+  const onFinish = async (user) => {
     const { displayName, address, contact } = user
 
     await updateStudentProfile({
@@ -60,23 +66,34 @@ const ProfileForm = ({
     const { password, confirmPassword } = passwordDetails
 
     if (password.length < 8) {
-      return fireAlert('Password should be at least 8 characters in length.')
+      return fireAlert(
+        'Password should be at least 8 characters in length.',
+        'warning'
+      )
     }
 
     if (password !== confirmPassword) {
-      return fireAlert('Password does not match')
+      return fireAlert('Password does not match.', 'warning')
     }
 
-    await updatePassword(password)
-
-    secondForm.resetFields()
+    fireAlertWithConfirmation(
+      'Are you sure you want to update your password?',
+      'Successfully changed your password, please do login again.',
+      async (confirmed) => {
+        if (confirmed) {
+          await updatePassword(password)
+          secondForm.resetFields()
+        } else {
+          return false
+        }
+      }
+    )
   }
 
   return (
     <Spin spinning={loading} delay={500}>
       <Form
         {...layout}
-        name='nest-messages'
         onFinish={onFinish}
         validateMessages={validateMessages}
         form={form}
@@ -85,38 +102,35 @@ const ProfileForm = ({
           Basic Information
         </Title>
         <Form.Item
-          name={['user', 'displayName']}
+          name='displayName'
           label='Fullname'
           rules={[
             {
               required: true,
             },
           ]}
-          initialValue={displayName}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={['user', 'address']}
+          name='address'
           label='Address'
           rules={[
             {
               required: true,
             },
           ]}
-          initialValue={address}
         >
           <Input.TextArea />
         </Form.Item>
         <Form.Item
-          name={['user', 'contact']}
+          name='contact'
           label='Contact No.'
           rules={[
             {
               required: true,
             },
           ]}
-          initialValue={contact}
         >
           <Input />
         </Form.Item>
@@ -147,25 +161,25 @@ const ProfileForm = ({
         </Title>
         <Form.Item
           name={['passwordDetails', 'password']}
-          label='Password'
+          label='New Password'
           rules={[
             {
               required: true,
             },
           ]}
         >
-          <Input type='password' />
+          <Input.Password />
         </Form.Item>
         <Form.Item
           name={['passwordDetails', 'confirmPassword']}
-          label='Password'
+          label='Confirm Password'
           rules={[
             {
               required: true,
             },
           ]}
         >
-          <Input type='password' />
+          <Input.Password />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 9 }}>
           <Button
