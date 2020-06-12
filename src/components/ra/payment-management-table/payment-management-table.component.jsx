@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Table, Input, Button, Space, Menu, Dropdown } from 'antd'
 import Highlighter from 'react-highlight-words'
 import { withRouter } from 'react-router-dom'
@@ -11,17 +11,12 @@ import {
 } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
-import {
-  getPayments,
-  deletePayment,
-} from '../../../redux/payments/payments.actions'
+import { deletePayment } from '../../../redux/payments/payments.actions'
 import { fireAlertWithConfirmation } from '../../common/confirmation-message/confirmation-message.component'
 
 const PaymentManagementTable = ({
-  getPayments,
   deletePayment,
   payments,
-  raId,
   history,
   setData,
   setEdit,
@@ -30,12 +25,6 @@ const PaymentManagementTable = ({
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
-
-  useEffect(() => {
-    if (raId) {
-      getPayments(raId)
-    }
-  }, [raId, getPayments])
 
   const editPaymentDetails = (payment) => {
     setData(payment)
@@ -204,13 +193,11 @@ const PaymentManagementTable = ({
 
 const mapStateToProps = (state) => {
   return {
-    raId: state.firebase.auth.uid,
     payments: state.payments.payments,
   }
 }
 
 const mapDispatchToProps = {
-  getPayments,
   deletePayment,
 }
 
