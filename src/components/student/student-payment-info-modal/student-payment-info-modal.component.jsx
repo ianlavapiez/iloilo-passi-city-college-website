@@ -107,6 +107,7 @@ const StudentPaymentInfoModal = ({
       date,
       paymentId,
       raId,
+      verified: false,
     }
     let newUpdatedPayment
 
