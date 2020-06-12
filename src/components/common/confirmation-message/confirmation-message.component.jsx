@@ -14,8 +14,8 @@ export const fireAlertWithConfirmation = (
     footer: 'Brainhub',
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
+    confirmButtonColor: '#3085d6',
   }).then((confirmed) => {
     callback(confirmed && confirmed.value === true)
   })
