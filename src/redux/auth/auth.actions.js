@@ -1,4 +1,4 @@
-import firebase, { firestore } from '../../firebase/firebase.utils'
+import firebase, { firestore, auth } from '../../firebase/firebase.utils'
 
 import {
   asyncActionStart,
@@ -204,14 +204,14 @@ export const updateStudentProfile = (student) => async (dispatch) => {
   }
 }
 
-export const getUserDetails = () => {
+export const getUserDetails = (userId) => {
   return async (dispatch) => {
     dispatch(asyncActionStart())
     // const userId = firebase.auth().currentUser.uid
 
     const ref = firestore
       .collection('users')
-      .where('userId', '==', 'Th1Vw7kJjjVh9nfSQ0Z3ATrYQ7s1')
+      .where('userId', '==', userId)
       .where('softDelete', '==', false)
       .orderBy('created', 'desc')
 
@@ -266,16 +266,30 @@ export const resetPassword = (email) => async (
   }
 }
 
-export const updatePassword = (credentials) => async (dispatch) => {
+export const updatePassword = (password) => async (dispatch) => {
   const user = firebase.auth().currentUser
 
   try {
     dispatch(asyncActionStart())
-    await user.updatePassword(credentials.password)
+    await user
+      .updatePassword(password)
+      .then(() => {
+        fireAlert(
+          'Successfully changed your password, please do login again.',
+          'success'
+        )
+      })
+      .then(() => {
+        dispatch(asyncActionFinish())
+        auth.signOut()
+        setTimeout(() => {
+          window.location.href = '/student/login'
+        }, 2000)
+      })
 
     dispatch(asyncActionFinish())
   } catch (error) {
-    console.log(error)
+    fireAlert(error.message, 'warning')
     dispatch(asyncActionError())
   }
 }
