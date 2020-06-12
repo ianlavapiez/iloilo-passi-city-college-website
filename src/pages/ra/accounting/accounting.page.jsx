@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Tabs } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky'
 import { Layout, Breadcrumb, Typography } from 'antd'
+import { connect } from 'react-redux'
+
+import {
+  getPayments,
+  getUnverifiedPaymentTrail,
+} from '../../../redux/payments/payments.actions'
 
 import Sidebar from '../../../components/ra/sidebar/sidebar.component'
 import Navbar from '../../../components/ra/navbar/navbar.component'
@@ -25,7 +31,14 @@ const renderTabBar = (props, DefaultTabBar) => (
   </Sticky>
 )
 
-const AccountingPage = () => {
+const AccountingPage = ({ raId, getPayments, getUnverifiedPaymentTrail }) => {
+  useEffect(() => {
+    if (raId) {
+      getPayments(raId)
+      getUnverifiedPaymentTrail(raId)
+    }
+  }, [raId, getPayments, getUnverifiedPaymentTrail])
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sidebar number={'2'} />
@@ -71,4 +84,15 @@ const AccountingPage = () => {
   )
 }
 
-export default AccountingPage
+const mapStateToProps = (state) => {
+  return {
+    raId: state.firebase.auth.uid,
+  }
+}
+
+const mapDispatchToProps = {
+  getPayments,
+  getUnverifiedPaymentTrail,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountingPage)
