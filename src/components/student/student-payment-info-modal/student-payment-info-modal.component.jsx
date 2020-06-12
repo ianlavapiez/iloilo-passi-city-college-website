@@ -11,6 +11,7 @@ import {
 } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import './student-payment-info-modal.styles.scss'
 
@@ -27,6 +28,7 @@ const StudentPaymentInfoModal = ({
   updateUploadedPayment,
   updateAccumulatedPayment,
   payments,
+  paymentUid,
   data,
   modalVisible,
   setModalVisible,
@@ -35,6 +37,7 @@ const StudentPaymentInfoModal = ({
   const [imageUrl, setImageUrl] = useState(null)
   const [date, setDate] = useState('')
   const [paymentId, setPaymentId] = useState('')
+  const [raId, setRaId] = useState('')
   let [fee, setFee] = useState(0)
   let [accumulatedPayment, setAccumulatedPayment] = useState(0)
 
@@ -98,24 +101,31 @@ const StudentPaymentInfoModal = ({
 
     accumulatedPayment = accumulatedPayment + payment.amount
 
-    console.log(accumulatedPayment)
-
     let newValues = {
       id: data.id,
       ...payment,
       date,
       paymentId,
+      raId,
+    }
+    let newUpdatedPayment
+
+    if (data.paymentId !== paymentId) {
+      newUpdatedPayment = {
+        id: data.paymentId,
+        accumulatedPayment: accumulatedPayment - data.amount,
+      }
+
+      await updateAccumulatedPayment(newUpdatedPayment)
     }
 
-    let newUpdatedPayment = {
+    newUpdatedPayment = {
       id: paymentId,
       accumulatedPayment,
     }
 
-    console.log(newUpdatedPayment)
-
-    // await updateAccumulatedPayment(newUpdatedPayment)
-    // await updateUploadedPayment(imageUrl, newValues)
+    await updateAccumulatedPayment(newUpdatedPayment)
+    await updateUploadedPayment(imageUrl, newValues)
   }
 
   const handleCancel = () => {
@@ -154,14 +164,12 @@ const StudentPaymentInfoModal = ({
                 setPaymentId(value[0])
                 setAccumulatedPayment(value[1])
                 setFee(value[2])
+                setRaId(value[3])
               }}
             >
               {payments &&
                 payments.map((payment) => {
-                  if (
-                    payment.fee ===
-                    payment.fee - payment.accumulatedPayment
-                  ) {
+                  if (payment.id !== paymentUid) {
                     return null
                   }
                   return (
@@ -171,6 +179,7 @@ const StudentPaymentInfoModal = ({
                         `${payment.id}`,
                         `${payment.accumulatedPayment}`,
                         `${payment.fee}`,
+                        `${payment.raId}`,
                       ]}
                     >
                       {payment.id}
@@ -272,10 +281,11 @@ const StudentPaymentInfoModal = ({
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownParams) => {
   return {
     loading: state.async.loading,
     payments: state.payments.studentPayments,
+    paymentUid: ownParams.match.params.id,
   }
 }
 
@@ -284,7 +294,6 @@ const mapDispatchToProps = {
   updateAccumulatedPayment,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StudentPaymentInfoModal)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(StudentPaymentInfoModal)
+)
