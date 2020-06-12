@@ -504,7 +504,8 @@ export const unVerifyPaymentDetails = (payment) => async (dispatch) => {
   try {
     dispatch(asyncActionStart())
     let docRef = firestore.collection('payment_trail').doc(payment.id)
-    await docRef.delete
+    await docRef
+      .delete()
       .then(() => {
         fireAlert(
           'The selected payment details has been successfully deleted!',
