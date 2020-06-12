@@ -3,12 +3,14 @@ import {
   FETCH_STUDENT_PAYMENTS,
   FETCH_STUDENT_PAYMENT_TRAIL,
   FETCH_SPECIFIC_STUDENT_PAYMENT,
+  FETCH_STUDENT_UNVERIFIED_PAYMENT_TRAIL,
 } from './payments.constants'
 
 const initialState = {
   payments: [],
   studentPayments: [],
   paymentTrail: [],
+  unverifiedPaymentTrail: [],
 }
 
 const fetchPayments = (state, payload) => {
@@ -32,8 +34,16 @@ const fetchPaymentTrail = (state, payload) => {
   }
 }
 
+const fetchUnverifiedPaymentTrail = (state, payload) => {
+  return {
+    ...state,
+    unverifiedPaymentTrail: payload.paymentTrail,
+  }
+}
+
 export default createReducer(initialState, {
   [FETCH_STUDENT_PAYMENTS]: fetchPayments,
   [FETCH_SPECIFIC_STUDENT_PAYMENT]: fetchStudentPayments,
   [FETCH_STUDENT_PAYMENT_TRAIL]: fetchPaymentTrail,
+  [FETCH_STUDENT_UNVERIFIED_PAYMENT_TRAIL]: fetchUnverifiedPaymentTrail,
 })
