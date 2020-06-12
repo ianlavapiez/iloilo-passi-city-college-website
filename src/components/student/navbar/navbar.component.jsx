@@ -3,13 +3,20 @@ import { Link, withRouter } from 'react-router-dom'
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
+import { auth } from '../../../firebase/firebase.utils'
+
 const { Header } = Layout
 const { Title } = Typography
 
 const Navbar = ({ history }) => {
   const menu = (
     <Menu>
-      <Menu.Item onClick={() => history.push('/student/login')}>
+      <Menu.Item
+        onClick={() => {
+          auth.signOut()
+          history.push('/student/login')
+        }}
+      >
         <Link to='/'>Sign Out</Link>
       </Menu.Item>
     </Menu>
