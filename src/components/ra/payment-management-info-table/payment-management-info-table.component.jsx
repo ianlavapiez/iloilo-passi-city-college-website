@@ -111,9 +111,9 @@ const PaymentManagementInfoTable = ({
     },
     {
       title: 'Payment Made',
-      dataIndex: 'payment',
-      key: 'payment',
-      ...getColumnSearchProps('payment'),
+      dataIndex: 'amount',
+      key: 'amount',
+      ...getColumnSearchProps('amount'),
     },
     {
       title: 'Verified',
