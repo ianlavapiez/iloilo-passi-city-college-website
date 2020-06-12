@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Typography, Layout, Spin } from 'antd'
+import { Form, Input, Button, Typography, Layout } from 'antd'
 import { MailOutlined, LockOutlined } from '@ant-design/icons'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -13,7 +13,7 @@ import { fireAlert } from '../../common/confirmation-message/confirmation-messag
 const { Title } = Typography
 const { Content } = Layout
 
-const LoginForm = ({ history, loading, studentLogin }) => {
+const LoginForm = ({ history, studentLogin }) => {
   const onFinish = async (values) => {
     const isLoggedIn = await studentLogin(values)
 
@@ -24,80 +24,69 @@ const LoginForm = ({ history, loading, studentLogin }) => {
   }
 
   return (
-    <Spin spinning={loading} delay={500}>
-      <Content className='login-container'>
-        <Title level={2} style={{ fontWeight: 300 }}>
-          Welcome Student!
-        </Title>
-        <Form
-          name='normal_login'
-          className='login-form'
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onFinish}
+    <Content className='login-container'>
+      <Title level={2} style={{ fontWeight: 300 }}>
+        Welcome Student!
+      </Title>
+      <Form
+        name='normal_login'
+        className='login-form'
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+      >
+        <Form.Item
+          name='email'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Email!',
+            },
+          ]}
         >
-          <Form.Item
-            name='email'
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Email!',
-              },
-            ]}
+          <Input
+            type='email'
+            prefix={<MailOutlined className='site-form-item-icon' />}
+            placeholder='Email'
+          />
+        </Form.Item>
+        <Form.Item
+          name='password'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Password!',
+            },
+          ]}
+        >
+          <Input.Password
+            prefix={<LockOutlined className='site-form-item-icon' />}
+            placeholder='Password'
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            size='large'
+            style={{
+              borderRadius: 5,
+              backgroundColor: '#f97204',
+              border: 'none',
+            }}
+            type='primary'
+            htmlType='submit'
+            className='login-form-button'
           >
-            <Input
-              type='email'
-              prefix={<MailOutlined className='site-form-item-icon' />}
-              placeholder='Email'
-            />
-          </Form.Item>
-          <Form.Item
-            name='password'
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Password!',
-              },
-            ]}
-          >
-            <Input
-              prefix={<LockOutlined className='site-form-item-icon' />}
-              type='password'
-              placeholder='Password'
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              size='large'
-              style={{
-                borderRadius: 5,
-                backgroundColor: '#f97204',
-                border: 'none',
-              }}
-              type='primary'
-              htmlType='submit'
-              className='login-form-button'
-            >
-              Log in
-            </Button>
-          </Form.Item>
-        </Form>
-      </Content>
-    </Spin>
+            Log in
+          </Button>
+        </Form.Item>
+      </Form>
+    </Content>
   )
-}
-
-const mapStateToProps = (state) => {
-  return {
-    loading: state.async.loading,
-  }
 }
 
 const mapDispatchToProps = {
   studentLogin,
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(LoginForm)
-)
+export default withRouter(connect(null, mapDispatchToProps)(LoginForm))
