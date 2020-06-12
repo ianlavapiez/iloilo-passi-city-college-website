@@ -28,7 +28,6 @@ const PaymentManagementModal = ({
   edit,
   data,
 }) => {
-  console.log(data)
   const [studentId, setStudentId] = useState('')
   const [studentName, setStudentName] = useState('')
 
