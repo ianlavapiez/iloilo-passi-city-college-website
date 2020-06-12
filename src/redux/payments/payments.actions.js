@@ -10,6 +10,7 @@ import {
   FETCH_STUDENT_PAYMENTS,
   FETCH_STUDENT_PAYMENT_TRAIL,
   FETCH_SPECIFIC_STUDENT_PAYMENT,
+  FETCH_STUDENT_UNVERIFIED_PAYMENT_TRAIL,
 } from './payments.constants'
 
 import { fireAlert } from '../../components/common/confirmation-message/confirmation-message.component'
@@ -80,6 +81,47 @@ export const getStudentPayments = (studentId) => {
         payments.push(payment)
       }
       dispatch({ type: FETCH_SPECIFIC_STUDENT_PAYMENT, payload: { payments } })
+      dispatch(asyncActionFinish())
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError())
+    }
+  }
+}
+
+export const getUnverifiedPaymentTrail = (raId) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart())
+    const ref = firestore
+      .collection('payment_trail')
+      .where('raId', '==', raId)
+      .where('softDelete', '==', false)
+      .where('verified', '==', false)
+      .orderBy('created', 'desc')
+
+    try {
+      let querySnapshot = await ref.get()
+
+      let paymentTrail = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return paymentTrail
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let newData = {
+          ...querySnapshot.docs[i].data(),
+          id: querySnapshot.docs[i].id,
+        }
+
+        paymentTrail.push(newData)
+      }
+      dispatch({
+        type: FETCH_STUDENT_UNVERIFIED_PAYMENT_TRAIL,
+        payload: { paymentTrail },
+      })
       dispatch(asyncActionFinish())
     } catch (error) {
       console.log(error)
@@ -418,5 +460,69 @@ export const updateAccumulatedPayment = (payment) => async (dispatch) => {
   } catch (error) {
     console.log(error)
     dispatch(asyncActionError())
+  }
+}
+
+export const verifyPaymentDetails = (payment) => async (dispatch) => {
+  try {
+    dispatch(asyncActionStart())
+    let docRef = firestore.collection('payment_trail').doc(payment.id)
+    let batch = firestore.batch()
+
+    let newData = {
+      ...payment,
+      verified: true,
+    }
+
+    batch.update(docRef, newData)
+
+    await batch
+      .commit()
+      .then(() => {
+        fireAlert(
+          'The selected payment details has been successfully verified!',
+          'success'
+        )
+      })
+      .then(() => {
+        dispatch(asyncActionFinish())
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      })
+      .catch((error) => {
+        console.log(error)
+        fireAlert('Oops! Something went wrong!', 'error')
+      })
+  } catch (error) {
+    dispatch(asyncActionError())
+    console.log(error)
+  }
+}
+
+export const unVerifyPaymentDetails = (payment) => async (dispatch) => {
+  try {
+    dispatch(asyncActionStart())
+    let docRef = firestore.collection('payment_trail').doc(payment.id)
+    await docRef.delete
+      .then(() => {
+        fireAlert(
+          'The selected payment details has been successfully deleted!',
+          'success'
+        )
+      })
+      .then(() => {
+        dispatch(asyncActionFinish())
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      })
+      .catch((error) => {
+        console.log(error)
+        fireAlert('Oops! Something went wrong!', 'error')
+      })
+  } catch (error) {
+    dispatch(asyncActionError())
+    console.log(error)
   }
 }
