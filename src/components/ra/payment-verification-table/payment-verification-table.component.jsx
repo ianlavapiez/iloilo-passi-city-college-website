@@ -23,6 +23,7 @@ const PaymentVerificationTable = ({
   setModalVisible,
   setData,
   verifyPaymentDetails,
+  unVerifyPaymentDetails,
   updateAccumulatedPayment,
   payments,
 }) => {
@@ -51,11 +52,13 @@ const PaymentVerificationTable = ({
       async (confirmed) => {
         if (confirmed) {
           if (payments) {
-            let specificPayment = payments.map((p) => p.id === payment.id)
+            let specificPayment = payments.filter(
+              (p) => p.id === payment.paymentId
+            )
             let accumulatedPayment =
-              payments.accumulatedPayment - payment.amount
+              specificPayment[0].accumulatedPayment - payment.amount
             let newUpdatedPayment = {
-              id: specificPayment.paymentId,
+              id: specificPayment[0].id,
               accumulatedPayment,
             }
 
@@ -226,6 +229,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   verifyPaymentDetails,
+  unVerifyPaymentDetails,
   updateAccumulatedPayment,
 }
 
