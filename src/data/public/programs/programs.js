@@ -7,7 +7,6 @@ export const programsOne = [
       'Enhancement',
       'Intensive',
     ],
-    price: 'P5,000.00',
     imageId: '1',
   },
   {
@@ -18,7 +17,6 @@ export const programsOne = [
       'Enhancement',
       'Intensive',
     ],
-    price: 'P5,000.00',
     imageId: '2',
   },
   {
@@ -29,7 +27,6 @@ export const programsOne = [
       'Enhancement',
       'Intensive',
     ],
-    price: 'P5,000.00',
     imageId: '3',
   },
 ]
@@ -43,7 +40,6 @@ export const programsTwo = [
       'Enhancement',
       'Intensive',
     ],
-    price: 'P5,000.00',
     imageId: '4',
   },
   {
@@ -54,7 +50,6 @@ export const programsTwo = [
       'Enhancement',
       'Intensive',
     ],
-    price: 'P5,000.00',
     imageId: '5',
   },
   {
@@ -65,7 +60,6 @@ export const programsTwo = [
       'Enhancement',
       'Intensive',
     ],
-    price: 'P5,000.00',
     imageId: '6',
   },
 ]
