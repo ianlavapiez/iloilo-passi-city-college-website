@@ -25,8 +25,7 @@ const ProgramCard = ({ course, programs, price, imageId }) => {
         <div className='card__side card__side--back card__side--back-1'>
           <div className='card__cta'>
             <div className='card__price-box'>
-              <p className='card__price-only'>Price starts at</p>
-              <p className='card__price-value'>{price}</p>
+              <p className='card__price-only'>What are you waiting for?</p>
             </div>
             <Link to='/registration' className='btn btn--white'>
               Enroll now!
