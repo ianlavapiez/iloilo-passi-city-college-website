@@ -3,7 +3,7 @@ export const programsOne = [
     course: 'BSCRIM',
     programs: [
       'Bachelor of Science in Criminology',
-      'Refresher',
+      'Refresher Review',
       'Enhancement',
       'Intensive',
     ],
