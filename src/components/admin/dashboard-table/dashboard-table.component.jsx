@@ -18,7 +18,6 @@ const data = [
     program: 'Intensive',
     details: 'Sample Details',
     status: 'Cancelled',
-    address: 'New York No. 1 Lake Park',
   },
   {
     key: '2',
@@ -27,7 +26,6 @@ const data = [
     program: 'Intensive',
     details: 'Sample Details',
     status: 'Pending',
-    address: 'London No. 1 Lake Park',
   },
   {
     key: '3',
@@ -36,7 +34,6 @@ const data = [
     program: 'Intensive',
     details: 'Sample Details',
     status: 'Done',
-    address: 'Sidney No. 1 Lake Park',
   },
   {
     key: '4',
@@ -45,7 +42,6 @@ const data = [
     program: 'Intensive',
     details: 'Sample Details',
     status: 'On-going',
-    address: 'London No. 2 Lake Park',
   },
 ]
 
