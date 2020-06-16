@@ -25,7 +25,7 @@ const DashboardStatistics = () => {
         <Col span={6}>
           <Card>
             <Statistic
-              title='Total Paid'
+              title='Overall Paid'
               value={90000.05}
               precision={2}
               valueStyle={{ color: '#3f8600' }}
@@ -36,7 +36,7 @@ const DashboardStatistics = () => {
         <Col span={6}>
           <Card>
             <Statistic
-              title='Total Balance'
+              title='Overall Balance'
               value={10000.95}
               precision={2}
               valueStyle={{ color: '#cf1322' }}
@@ -71,7 +71,7 @@ const DashboardStatistics = () => {
         <Col span={8}>
           <Card>
             <Statistic
-              title='Total Paid Students'
+              title='Overall Paid Students'
               value={50}
               precision={0}
               valueStyle={{ color: '#000' }}
@@ -82,7 +82,7 @@ const DashboardStatistics = () => {
         <Col span={8}>
           <Card>
             <Statistic
-              title='Total Unpaid Students'
+              title='Overall Unpaid Students'
               value={50}
               precision={0}
               valueStyle={{ color: '#cf1322' }}
