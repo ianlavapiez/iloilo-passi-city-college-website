@@ -253,6 +253,22 @@ body {
   }
 }
 
+.privacy-policy-paragraph {
+  font-size: $secondary-font-size;
+  white-space: initial;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.cookies-list {
+  list-style: none;
+  margin-left: 1rem;
+}
+
 .paragraph-stories {
   font-size: $default-font-size;
   font-style: italic;
