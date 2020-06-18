@@ -5,7 +5,6 @@ import {
   DashboardOutlined,
   ReadOutlined,
   CheckCircleOutlined,
-  RightSquareOutlined,
   UserSwitchOutlined,
 } from '@ant-design/icons'
 
@@ -40,12 +39,12 @@ const Sidebar = ({ number }) => {
           <Link to='/ra/accounting'>Accounting</Link>
         </Menu.Item>
         <Menu.Item key='3' icon={<CheckCircleOutlined />}>
-          <Link to='/ra/attendance'>Attendance</Link>
+          <Link to='/ra/class'>Classes</Link>
         </Menu.Item>
-        <Menu.Item key='4' icon={<RightSquareOutlined />}>
+        {/* <Menu.Item  key='4' icon={<RightSquareOutlined />}>
           <Link to='/ra/dispatching'>Dispatching</Link>
-        </Menu.Item>
-        <Menu.Item key='5' icon={<UserSwitchOutlined />}>
+        </Menu.Item> */}
+        <Menu.Item key='4' icon={<UserSwitchOutlined />}>
           <Link to='/ra/student-management'>Student Management</Link>
         </Menu.Item>
       </Menu>
