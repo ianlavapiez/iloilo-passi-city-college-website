@@ -1,22 +1,31 @@
 import React from 'react'
-import { Row, Col } from 'antd'
+import { Row, Col, Spin } from 'antd'
+import { connect } from 'react-redux'
 
 import './login.styles.scss'
 
 import LoginForm from '../../../components/admin/login/login.component'
 import LoginSideImage from '../../../components/admin/login-side-image/login-side-image.component'
 
-const LoginPage = () => {
+const LoginPage = ({ loading }) => {
   return (
-    <Row className='container'>
-      <Col span={12}>
-        <LoginSideImage />
-      </Col>
-      <Col span={12}>
-        <LoginForm />
-      </Col>
-    </Row>
+    <Spin tip='Signing in...' spinning={loading} delay={500}>
+      <Row className='container'>
+        <Col span={12}>
+          <LoginSideImage />
+        </Col>
+        <Col span={12}>
+          <LoginForm />
+        </Col>
+      </Row>
+    </Spin>
   )
 }
 
-export default LoginPage
+const mapStateToProps = (state) => {
+  return {
+    loading: state.async.loading,
+  }
+}
+
+export default connect(mapStateToProps)(LoginPage)
