@@ -3,6 +3,8 @@ import { Layout, Typography } from 'antd'
 import { connect } from 'react-redux'
 
 import { getStudentPayments } from '../../../redux/payments/payments.actions'
+import { getStudentClasses } from '../../../redux/class/class.actions'
+import { getStudentDetails } from '../../../redux/students/students.actions'
 
 import Sidebar from '../../../components/student/sidebar/sidebar.component'
 import Navbar from '../../../components/student/navbar/navbar.component'
@@ -13,16 +15,33 @@ import EnrollmentTable from '../../../components/student/enrollment-table/enroll
 const { Content } = Layout
 const { Title } = Typography
 
-const EnrollmentPage = ({ getStudentPayments, studentId }) => {
+const EnrollmentPage = ({
+  getStudentPayments,
+  studentId,
+  getStudentDetails,
+  getStudentClasses,
+  currentStudent,
+}) => {
   useEffect(() => {
     if (studentId) {
-      async function getPayments() {
+      async function getPaymentsAndStudentDetails() {
         await getStudentPayments(studentId)
+        await getStudentDetails(studentId)
       }
 
-      getPayments()
+      getPaymentsAndStudentDetails()
     }
-  }, [studentId, getStudentPayments])
+  }, [studentId, getStudentPayments, getStudentDetails])
+
+  useEffect(() => {
+    if (currentStudent) {
+      if (currentStudent[0]) {
+        const { course, program } = currentStudent[0]
+
+        getStudentClasses(course, program)
+      }
+    }
+  }, [currentStudent, getStudentClasses])
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -52,11 +71,14 @@ const mapStateToProps = (state) => {
   return {
     studentId: state.firebase.auth.uid,
     payments: state.payments.studentPayments,
+    currentStudent: state.students.currentStudent,
   }
 }
 
 const mapDispatchToProps = {
   getStudentPayments,
+  getStudentClasses,
+  getStudentDetails,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnrollmentPage)
