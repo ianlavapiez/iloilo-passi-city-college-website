@@ -89,7 +89,7 @@ const ContactInformation = ({ addMessage, loading }) => {
                   <h1 className='heading-primary-contact'>
                     <PhoneFilled style={{ fontSize: 50, color: '#ffb900' }} />
                     <span className='heading-primary-contact--contact-sub'>
-                      (033) 508-21-23
+                      (033) 327-55-22
                     </span>
                     <span className='heading-primary-contact--contact-sub'>
                       (Globe) 0917-308-6308
