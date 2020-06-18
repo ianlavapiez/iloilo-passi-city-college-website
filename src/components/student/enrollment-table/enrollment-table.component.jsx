@@ -1,55 +1,11 @@
 import React, { useState } from 'react'
-
-import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
+import { withRouter } from 'react-router-dom'
+import { Table, Input, Button, Space, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
-import {
-  SearchOutlined,
-  EditOutlined,
-  CheckCircleOutlined,
-  DeleteOutlined,
-  MoreOutlined,
-} from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
 
-const data = [
-  {
-    key: '1',
-    dateAndTime: 'May 19, 2020 11:00:00 AM',
-    course: 'BSN',
-    program: 'Intensive',
-    details: 'Sample Details',
-    status: 'Cancelled',
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    dateAndTime: 'May 20, 2020 11:00:00 PM',
-    course: 'BSN',
-    program: 'Intensive',
-    details: 'Sample Details',
-    status: 'Pending',
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    dateAndTime: 'May 21, 2020 09:00:00 AM',
-    course: 'BSN',
-    program: 'Intensive',
-    details: 'Sample Details',
-    status: 'Done',
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    dateAndTime: 'May 22, 2020 08:00:00 AM',
-    course: 'BSN',
-    program: 'Intensive',
-    details: 'Sample Details',
-    status: 'On-going',
-    address: 'London No. 2 Lake Park',
-  },
-]
-
-const EnrollmentTable = () => {
+const EnrollmentTable = ({ classes }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   let searchInput
@@ -130,34 +86,47 @@ const EnrollmentTable = () => {
 
   const columns = [
     {
-      title: 'Date and Time',
-      dataIndex: 'dateAndTime',
-      key: 'dateAndTime',
-      width: '20%',
-      ...getColumnSearchProps('dateAndTime'),
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+      ...getColumnSearchProps('date'),
+    },
+    {
+      title: 'Start Time',
+      dataIndex: 'startTime',
+      key: 'startTime',
+      ...getColumnSearchProps('startTime'),
+    },
+    {
+      title: 'End Time',
+      dataIndex: 'endTime',
+      key: 'endTime',
+      ...getColumnSearchProps('endTime'),
     },
     {
       title: 'Course',
       dataIndex: 'course',
       key: 'course',
-      width: '20%',
       ...getColumnSearchProps('course'),
     },
     {
       title: 'Program',
       dataIndex: 'program',
       key: 'program',
-      width: '20%',
       ...getColumnSearchProps('program'),
     },
     {
-      title: 'Details',
-      dataIndex: 'details',
-      key: 'details',
-      width: '20%',
-      ...getColumnSearchProps('details'),
+      title: 'Subject',
+      dataIndex: 'subject',
+      key: 'subject',
+      ...getColumnSearchProps('subject'),
     },
-
+    {
+      title: 'Professor',
+      dataIndex: 'professor',
+      key: 'professor',
+      ...getColumnSearchProps('professor'),
+    },
     {
       title: 'Status',
       key: 'status',
@@ -181,35 +150,21 @@ const EnrollmentTable = () => {
         )
       },
     },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text) => (
-        <span>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <CheckCircleOutlined /> manage attendance
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedEdit(text)}>
-                  <EditOutlined /> edit details
-                </Menu.Item>
-                <Menu.Item onClick={() => this.onPressedDelete(text)}>
-                  <DeleteOutlined /> delete
-                </Menu.Item>
-              </Menu>
-            }
-            trigger={['click']}
-          >
-            <Button type='default' icon={<MoreOutlined />} />
-          </Dropdown>
-        </span>
-      ),
-    },
   ]
 
-  return <Table columns={columns} dataSource={data} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={classes ? classes : []}
+      rowKey={(record) => record.id}
+    />
+  )
 }
 
-export default EnrollmentTable
+const mapStateToProps = (state) => {
+  return {
+    classes: state.classes.studentClasses,
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(EnrollmentTable))
