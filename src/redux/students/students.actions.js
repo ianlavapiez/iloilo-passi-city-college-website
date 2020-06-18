@@ -4,7 +4,10 @@ import {
   asyncActionFinish,
   asyncActionError,
 } from '../async/async.actions'
-import { FETCH_STUDENT_USER } from './students.constants'
+import {
+  FETCH_STUDENT_USER,
+  FETCH_SPECIFIC_STUDENT_USER,
+} from './students.constants'
 
 import { fireAlert } from '../../components/common/confirmation-message/confirmation-message.component'
 
@@ -36,6 +39,43 @@ export const getStudents = () => {
         students.push(student)
       }
       dispatch({ type: FETCH_STUDENT_USER, payload: { students } })
+      dispatch(asyncActionFinish())
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError())
+    }
+  }
+}
+
+export const getStudentDetails = (studentId) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart())
+    const ref = firestore
+      .collection('users')
+      .where('userId', '==', studentId)
+      .where('softDelete', '==', false)
+      .orderBy('created', 'desc')
+
+    try {
+      let querySnapshot = await ref.get()
+
+      let students = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return students
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let student = {
+          ...querySnapshot.docs[i].data(),
+          id: querySnapshot.docs[i].id,
+        }
+
+        students.push(student)
+      }
+      dispatch({ type: FETCH_SPECIFIC_STUDENT_USER, payload: { students } })
       dispatch(asyncActionFinish())
     } catch (error) {
       console.log(error)
