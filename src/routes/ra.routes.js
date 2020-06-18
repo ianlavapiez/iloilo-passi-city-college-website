@@ -3,8 +3,8 @@ import { Route } from 'react-router-dom'
 
 import AccountingPage from '../pages/ra/accounting/accounting.page'
 import AccountingDetailsPage from '../pages/ra/accounting/accounting-details.page'
-import AttendancePage from '../pages/ra/attendance/attendance.page'
-import ManageAttendancePage from '../pages/ra/attendance/manage-attendance.page'
+import ClassPage from '../pages/ra/class/class.page'
+import ManageClassPage from '../pages/ra/class/manage-class.page'
 import DashboardPage from '../pages/ra/dashboard/dashboard.page'
 import DispatchingPage from '../pages/ra/dispatching/dispatching.page'
 import LoginPage from '../pages/ra/login/login.page'
@@ -21,12 +21,8 @@ const RARoutes = () => {
         path='/ra/accounting/:id'
         component={AccountingDetailsPage}
       />
-      <Route exact path='/ra/attendance' component={AttendancePage} />
-      <Route
-        exact
-        path='/ra/manage-attendance/'
-        component={ManageAttendancePage}
-      />
+      <Route exact path='/ra/class' component={ClassPage} />
+      <Route exact path='/ra/manage-class/' component={ManageClassPage} />
       <Route exact path='/ra/dispatching' component={DispatchingPage} />
       <Route exact path='/ra/login' component={LoginPage} />
       <Route
