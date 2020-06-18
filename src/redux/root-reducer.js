@@ -7,6 +7,7 @@ import asyncReducer from './async/async.reducer'
 import studentReducer from './students/students.reducers'
 import authReducer from './auth/auth.reducer'
 import paymentReducer from './payments/payments.reducers'
+import classReducer from './class/class.reducers'
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   publicMessages: publicMessagingReducer,
   students: studentReducer,
   payments: paymentReducer,
+  classes: classReducer,
 })
 
 export default rootReducer
