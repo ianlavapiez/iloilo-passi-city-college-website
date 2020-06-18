@@ -11,6 +11,7 @@ import {
   FETCH_STUDENT_PAYMENT_TRAIL,
   FETCH_SPECIFIC_STUDENT_PAYMENT,
   FETCH_STUDENT_UNVERIFIED_PAYMENT_TRAIL,
+  FETCH_ADMIN_PAYMENTS,
 } from './payments.constants'
 
 import { fireAlert } from '../../components/common/confirmation-message/confirmation-message.component'
@@ -44,6 +45,42 @@ export const getPayments = (raId) => {
         payments.push(payment)
       }
       dispatch({ type: FETCH_STUDENT_PAYMENTS, payload: { payments } })
+      dispatch(asyncActionFinish())
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError())
+    }
+  }
+}
+
+export const getAdminPayments = (raId) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart())
+    const ref = firestore
+      .collection('payments')
+      .where('softDelete', '==', false)
+      .orderBy('created', 'desc')
+
+    try {
+      let querySnapshot = await ref.get()
+
+      let payments = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return payments
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let payment = {
+          ...querySnapshot.docs[i].data(),
+          id: querySnapshot.docs[i].id,
+        }
+
+        payments.push(payment)
+      }
+      dispatch({ type: FETCH_ADMIN_PAYMENTS, payload: { payments } })
       dispatch(asyncActionFinish())
     } catch (error) {
       console.log(error)
