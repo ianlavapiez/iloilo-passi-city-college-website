@@ -1,15 +1,28 @@
 import React from 'react'
 import { Form, Input, Button, Typography, Layout } from 'antd'
 import { MailOutlined, LockOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
+import { adminLogin } from '../../../redux/auth/auth.actions'
 
 import './login.styles.scss'
+
+import { fireAlert } from '../../common/confirmation-message/confirmation-message.component'
 
 const { Title } = Typography
 const { Content } = Layout
 
-const LoginForm = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values)
+const LoginForm = ({ history, adminLogin }) => {
+  const onFinish = async (values) => {
+    const isLoggedIn = await adminLogin(values)
+
+    if (!isLoggedIn) {
+      return
+    } else {
+      fireAlert('Welcome Admin!', 'success')
+      history.push('/admin')
+    }
   }
 
   return (
@@ -26,11 +39,11 @@ const LoginForm = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          name='username'
+          name='email'
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: 'Please input your Email!',
             },
           ]}
         >
@@ -73,4 +86,8 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+const mapDispatchToProps = {
+  adminLogin,
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(LoginForm))
