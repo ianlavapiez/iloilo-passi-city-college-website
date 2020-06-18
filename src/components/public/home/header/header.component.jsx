@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Logo from '../../../../assets/header-logo.png'
+import Logo from '../../../../assets/brainhub-logo.png'
 
 const Header = () => {
   return (
