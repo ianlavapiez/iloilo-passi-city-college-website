@@ -6,7 +6,7 @@ import {
   asyncActionFinish,
 } from '../async/async.actions'
 
-import { FETCH_USER } from './auth.constants'
+import { FETCH_USER, FETCH_ADMIN_USER } from './auth.constants'
 import { fireAlert } from '../../components/common/confirmation-message/confirmation-message.component'
 
 export const raLogin = (credentials) => {
@@ -48,6 +48,59 @@ export const raLogin = (credentials) => {
       dispatch(asyncActionFinish())
 
       if (user[0].type === 'ra') {
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      dispatch(asyncActionFinish())
+      fireAlert(error.message, 'warning')
+      return false
+    }
+  }
+}
+
+export const adminLogin = (credentials) => {
+  return async (dispatch) => {
+    const { email, password } = credentials
+    const userRef = firestore
+      .collection('admin_users')
+      .where('email', '==', email)
+
+    try {
+      dispatch(asyncActionStart())
+      await firebase.auth().signInWithEmailAndPassword(email, password)
+
+      let userUid = firebase.auth().currentUser.uid
+      let querySnapshot = await userRef.get()
+
+      let user = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return user
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        if (querySnapshot.docs[i].id === userUid) {
+          let newUser = {
+            ...querySnapshot.docs[i].data(),
+            id: querySnapshot.docs[i].id,
+          }
+
+          user.push(newUser)
+        }
+      }
+
+      dispatch({
+        type: FETCH_USER,
+        payload: { user },
+      })
+
+      dispatch(asyncActionFinish())
+
+      if (user[0].type === 'admin') {
         return true
       } else {
         return false
@@ -201,6 +254,43 @@ export const updateStudentProfile = (student) => async (dispatch) => {
   } catch (error) {
     console.log(error)
     dispatch(asyncActionError())
+  }
+}
+
+export const getAdminDetails = (adminId) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart())
+
+    const ref = firestore
+      .collection('admin_users')
+      .where('adminId', '==', adminId)
+
+    try {
+      let querySnapshot = await ref.get()
+
+      let user = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return user
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let newUser = {
+          ...querySnapshot.docs[i].data(),
+          id: querySnapshot.docs[i].id,
+        }
+
+        user.push(newUser)
+      }
+
+      dispatch({ type: FETCH_ADMIN_USER, payload: { user } })
+      dispatch(asyncActionFinish())
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError())
+    }
   }
 }
 
