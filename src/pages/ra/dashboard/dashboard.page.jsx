@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Layout, Typography } from 'antd'
+import { connect } from 'react-redux'
+
+import { getStudents } from '../../../redux/students/students.actions'
+import { getPayments } from '../../../redux/payments/payments.actions'
+import { getRAClasses } from '../../../redux/class/class.actions'
 
 import Sidebar from '../../../components/ra/sidebar/sidebar.component'
 import Navbar from '../../../components/ra/navbar/navbar.component'
@@ -10,7 +15,16 @@ import DashboardTable from '../../../components/ra/dashboard-table/dashboard-tab
 const { Content } = Layout
 const { Title } = Typography
 
-const DashboardPage = () => {
+const DashboardPage = ({ raId, getPayments, getStudents, getRAClasses }) => {
+  useEffect(() => {
+    getStudents()
+
+    if (raId) {
+      getPayments(raId)
+      getRAClasses(raId)
+    }
+  }, [getStudents, getPayments, getRAClasses, raId])
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sidebar number={'1'} />
@@ -35,4 +49,16 @@ const DashboardPage = () => {
   )
 }
 
-export default DashboardPage
+const mapStateToProps = (state) => {
+  return {
+    raId: state.firebase.auth.uid,
+  }
+}
+
+const mapDispatchToProps = {
+  getStudents,
+  getPayments,
+  getRAClasses,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage)
