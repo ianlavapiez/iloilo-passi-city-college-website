@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Row, Col, Spin } from 'antd'
 import { connect } from 'react-redux'
 
@@ -9,18 +9,16 @@ import LoginSideImage from '../../../components/ra/login-side-image/login-side-i
 
 const LoginPage = ({ loading, error }) => {
   return (
-    <Fragment>
-      <Spin tip='Signing in...' spinning={loading} delay={500}>
-        <Row className='container'>
-          <Col span={12}>
-            <LoginSideImage />
-          </Col>
-          <Col span={12}>
-            <LoginForm />
-          </Col>
-        </Row>
-      </Spin>
-    </Fragment>
+    <Spin tip='Signing in...' spinning={loading} delay={500}>
+      <Row className='container'>
+        <Col span={12}>
+          <LoginSideImage />
+        </Col>
+        <Col span={12}>
+          <LoginForm />
+        </Col>
+      </Row>
+    </Spin>
   )
 }
 
