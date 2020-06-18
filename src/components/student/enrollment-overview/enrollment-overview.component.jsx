@@ -71,7 +71,7 @@ const EnrollmentOverview = ({ payments }) => {
               title='Total'
               value={total}
               precision={2}
-              valueStyle={{ color: '#3f8600' }}
+              valueStyle={{ color: '#000' }}
               prefix='P'
             />
           </Card>
