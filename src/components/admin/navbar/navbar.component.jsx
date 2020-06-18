@@ -1,15 +1,45 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+
+import { auth } from '../../../firebase/firebase.utils'
+import { getAdminDetails } from '../../../redux/auth/auth.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = ({ history }) => {
+const Navbar = ({ history, adminId, getAdminDetails, currentUser }) => {
+  const [user, setUser] = useState({})
+
+  useEffect(() => {
+    if (adminId) {
+      getAdminDetails(adminId)
+    }
+  }, [adminId, getAdminDetails])
+
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser[0]) {
+        setUser(currentUser[0])
+
+        if (currentUser[0].role !== 'admin') {
+          auth.signOut()
+          return history.push('/admin/login')
+        }
+      }
+    }
+  }, [setUser, currentUser, user, history])
+
   const menu = (
     <Menu>
-      <Menu.Item onClick={() => history.push('/admin/login')}>
+      <Menu.Item
+        onClick={() => {
+          auth.signOut()
+          history.push('/admin/login')
+        }}
+      >
         <Link to='/'>Sign Out</Link>
       </Menu.Item>
     </Menu>
@@ -33,7 +63,7 @@ const Navbar = ({ history }) => {
           paddingLeft: 17,
         }}
       >
-        RA Portal
+        Admin Portal
       </Title>
       <Dropdown overlay={menu} placement='bottomCenter'>
         <Button
@@ -46,11 +76,22 @@ const Navbar = ({ history }) => {
           }}
           icon={<UserOutlined />}
         >
-          Admin
+          {user ? user.displayName : 'Admin'}
         </Button>
       </Dropdown>
     </Header>
   )
 }
 
-export default withRouter(Navbar)
+const mapStateToProps = (state) => {
+  return {
+    adminId: state.firebase.auth.uid,
+    currentUser: state.auth.adminUser,
+  }
+}
+
+const mapDispatchToProps = {
+  getAdminDetails,
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))
