@@ -86,16 +86,8 @@ const LoginForm = ({ raLogin, history }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.async.loading,
-  }
-}
-
 const mapDispatchToProps = {
   raLogin,
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(LoginForm)
-)
+export default withRouter(connect(null, mapDispatchToProps)(LoginForm))
