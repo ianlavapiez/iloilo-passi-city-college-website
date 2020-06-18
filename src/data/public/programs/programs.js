@@ -3,7 +3,6 @@ export const programsOne = [
     course: 'BSCRIM',
     programs: [
       'Bachelor of Science in Criminology',
-      'Refresher',
       'Enhancement',
       'Intensive',
     ],
@@ -11,19 +10,13 @@ export const programsOne = [
   },
   {
     course: 'BSD',
-    programs: [
-      'Bachelor of Science in Dentistry',
-      'Refresher',
-      'Enhancement',
-      'Intensive',
-    ],
+    programs: ['Bachelor of Science in Dentistry', 'Enhancement', 'Intensive'],
     imageId: '2',
   },
   {
     course: 'BSMT',
     programs: [
       'Bachelor of Science in Medical Technology',
-      'Refresher',
       'Enhancement',
       'Intensive',
     ],
@@ -34,19 +27,13 @@ export const programsOne = [
 export const programsTwo = [
   {
     course: 'BSN',
-    programs: [
-      'Bachelor of Science in Nursing',
-      'Refresher',
-      'Enhancement',
-      'Intensive',
-    ],
+    programs: ['Bachelor of Science in Nursing', 'Enhancement', 'Intensive'],
     imageId: '4',
   },
   {
     course: 'BSPT',
     programs: [
       'Bachelor of Science in Physical Therapy',
-      'Refresher',
       'Enhancement',
       'Intensive',
     ],
@@ -56,7 +43,6 @@ export const programsTwo = [
     course: 'BSRT',
     programs: [
       'Bachelor of Science in Radio Technology',
-      'Refresher',
       'Enhancement',
       'Intensive',
     ],
