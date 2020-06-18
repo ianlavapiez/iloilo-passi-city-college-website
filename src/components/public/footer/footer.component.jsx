@@ -1,14 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import FooterLogo from '../../../assets/header-logo.png'
+import FooterLogo from '../../../assets/brainhub-logo.png'
 
 const Footer = () => {
   return (
     <footer className='footer'>
       <div className='footer__logo-box'>
         <img src={FooterLogo} alt='Full logo' className='footer__logo' />
-        <h2 className='heading-footer'>&copy; Brainhub</h2>
       </div>
       <div className='row'>
         <div className='col-1-of-2'>
