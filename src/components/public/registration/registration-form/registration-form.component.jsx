@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Select, Button, Checkbox, Spin } from 'antd'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -7,7 +7,6 @@ import './registration-form.styles.scss'
 
 import { registerUser } from '../../../../redux/auth/auth.actions'
 import { fireAlert } from '../../../common/confirmation-message/confirmation-message.component'
-import { useState } from 'react'
 
 const { Option } = Select
 
