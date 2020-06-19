@@ -12,7 +12,7 @@ const Header = () => {
       <div className='header__text-box'>
         <h1 className='heading-primary'>
           <span className='heading-primary--main'>Brainhub</span>
-          <span className='heading-primary--sub'>clever minds trust us</span>
+          <span className='heading-primary--sub'>clever minds trust us!</span>
         </h1>
 
         <Link to='/registration' className='btn btn--white btn--animated'>
