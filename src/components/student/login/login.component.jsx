@@ -29,8 +29,6 @@ const LoginForm = ({ history, studentLogin }) => {
         Welcome Student!
       </Title>
       <Form
-        name='normal_login'
-        className='login-form'
         initialValues={{
           remember: true,
         }}
@@ -75,7 +73,6 @@ const LoginForm = ({ history, studentLogin }) => {
             }}
             type='primary'
             htmlType='submit'
-            className='login-form-button'
           >
             Log in
           </Button>
