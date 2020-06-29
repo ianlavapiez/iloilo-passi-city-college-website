@@ -1,14 +1,45 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
 import { auth } from '../../../firebase/firebase.utils'
+import { getUserDetails } from '../../../redux/auth/auth.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = ({ history }) => {
+const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
+  const checkIfUserIsStudent = useCallback(() => {
+    if (currentUser === null || currentUser.length === 0) {
+      auth.signOut()
+      return history.push('/student/login')
+    } else {
+      if (currentUser && currentUser[0]) {
+        if (currentUser[0].type !== 'student') {
+          auth.signOut()
+          return history.push('/student/login')
+        }
+      }
+    }
+  }, [])
+
+  const getDetails = useCallback(async () => {
+    if (uid) {
+      await getUserDetails(uid)
+
+      checkIfUserIsStudent()
+    } else {
+      auth.signOut()
+      return history.push('/student/login')
+    }
+  }, [getUserDetails, uid, checkIfUserIsStudent, history])
+
+  useEffect(() => {
+    getDetails()
+  }, [getDetails])
+
   const menu = (
     <Menu>
       <Menu.Item
@@ -60,4 +91,15 @@ const Navbar = ({ history }) => {
   )
 }
 
-export default withRouter(Navbar)
+const mapStateToProps = (state) => {
+  return {
+    uid: state.firebase.auth.uid,
+    currentUser: state.auth.currentUser,
+  }
+}
+
+const mapDispatchToProps = {
+  getUserDetails,
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))
