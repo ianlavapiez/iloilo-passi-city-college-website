@@ -5,19 +5,12 @@ import { UserOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
 import { auth } from '../../../firebase/firebase.utils'
-import { getAdminDetails } from '../../../redux/auth/auth.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = ({ history, adminId, getAdminDetails, currentUser }) => {
+const Navbar = ({ history, adminId, currentUser }) => {
   const [user, setUser] = useState({})
-
-  useEffect(() => {
-    if (adminId) {
-      getAdminDetails(adminId)
-    }
-  }, [adminId, getAdminDetails])
 
   useEffect(() => {
     if (currentUser) {
@@ -90,8 +83,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = {
-  getAdminDetails,
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))
+export default withRouter(connect(mapStateToProps)(Navbar))
