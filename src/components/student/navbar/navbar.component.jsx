@@ -27,7 +27,7 @@ const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
 
   const getDetails = useCallback(async () => {
     if (uid) {
-      await getUserDetails(uid)
+      await getUserDetails(uid, 'student')
 
       checkIfUserIsStudent()
     } else {
