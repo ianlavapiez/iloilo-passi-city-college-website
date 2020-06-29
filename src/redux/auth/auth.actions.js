@@ -257,16 +257,31 @@ export const updateStudentProfile = (student) => async (dispatch) => {
   }
 }
 
-export const getUserDetails = (userId) => {
+export const getUserDetails = (userId, type) => {
   return async (dispatch) => {
     dispatch(asyncActionStart())
-    // const userId = firebase.auth().currentUser.uid
 
-    const ref = firestore
-      .collection('users')
-      .where('userId', '==', userId)
-      .where('softDelete', '==', false)
-      .orderBy('created', 'desc')
+    let ref
+
+    if (type === 'student') {
+      ref = firestore
+        .collection('users')
+        .where('userId', '==', userId)
+        .where('softDelete', '==', false)
+        .orderBy('created', 'desc')
+    } else if (type === 'ra') {
+      ref = firestore
+        .collection('ra_users')
+        .where('userId', '==', userId)
+        .where('softDelete', '==', false)
+        .orderBy('created', 'desc')
+    } else if (type === 'admin') {
+      ref = firestore
+        .collection('admin_users')
+        .where('userId', '==', userId)
+        .where('softDelete', '==', false)
+        .orderBy('created', 'desc')
+    }
 
     try {
       let querySnapshot = await ref.get()
