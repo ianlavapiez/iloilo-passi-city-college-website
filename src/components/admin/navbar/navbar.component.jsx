@@ -1,29 +1,44 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
 import { auth } from '../../../firebase/firebase.utils'
+import { getUserDetails } from '../../../redux/auth/auth.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = ({ history, adminId, currentUser }) => {
-  const [user, setUser] = useState({})
-
-  useEffect(() => {
-    if (currentUser) {
-      if (currentUser[0]) {
-        setUser(currentUser[0])
-
-        if (currentUser[0].role !== 'admin') {
+const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
+  const checkIfUserIsAdmin = useCallback(() => {
+    if (currentUser === null || currentUser.length === 0) {
+      auth.signOut()
+      return history.push('/admin/login')
+    } else {
+      if (currentUser && currentUser[0]) {
+        if (currentUser[0].type !== 'admin') {
           auth.signOut()
           return history.push('/admin/login')
         }
       }
     }
-  }, [setUser, currentUser, user, history])
+  }, [])
+
+  const getDetails = useCallback(async () => {
+    if (uid) {
+      await getUserDetails(uid, 'admin')
+
+      checkIfUserIsAdmin()
+    } else {
+      auth.signOut()
+      return history.push('/admin/login')
+    }
+  }, [uid, checkIfUserIsAdmin, history])
+
+  useEffect(() => {
+    getDetails()
+  }, [getDetails])
 
   const menu = (
     <Menu>
@@ -69,7 +84,7 @@ const Navbar = ({ history, adminId, currentUser }) => {
           }}
           icon={<UserOutlined />}
         >
-          {user ? user.displayName : 'Admin'}
+          {currentUser && currentUser[0] ? currentUser[0].displayName : 'Admin'}
         </Button>
       </Dropdown>
     </Header>
@@ -78,9 +93,13 @@ const Navbar = ({ history, adminId, currentUser }) => {
 
 const mapStateToProps = (state) => {
   return {
-    adminId: state.firebase.auth.uid,
-    currentUser: state.auth.adminUser,
+    uid: state.firebase.auth.uid,
+    currentUser: state.auth.currentUser,
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Navbar))
+const mapDispatchToProps = {
+  getUserDetails,
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))
