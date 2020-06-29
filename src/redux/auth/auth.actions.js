@@ -6,7 +6,7 @@ import {
   asyncActionFinish,
 } from '../async/async.actions'
 
-import { FETCH_USER, FETCH_ADMIN_USER } from './auth.constants'
+import { FETCH_USER } from './auth.constants'
 import { fireAlert } from '../../components/common/confirmation-message/confirmation-message.component'
 
 export const raLogin = (credentials) => {
@@ -257,43 +257,6 @@ export const updateStudentProfile = (student) => async (dispatch) => {
   }
 }
 
-export const getAdminDetails = (adminId) => {
-  return async (dispatch) => {
-    dispatch(asyncActionStart())
-
-    const ref = firestore
-      .collection('admin_users')
-      .where('adminId', '==', adminId)
-
-    try {
-      let querySnapshot = await ref.get()
-
-      let user = []
-
-      if (querySnapshot.docs.length === 0) {
-        dispatch(asyncActionFinish())
-
-        return user
-      }
-
-      for (let i = 0; i < querySnapshot.docs.length; i++) {
-        let newUser = {
-          ...querySnapshot.docs[i].data(),
-          id: querySnapshot.docs[i].id,
-        }
-
-        user.push(newUser)
-      }
-
-      dispatch({ type: FETCH_ADMIN_USER, payload: { user } })
-      dispatch(asyncActionFinish())
-    } catch (error) {
-      console.log(error)
-      dispatch(asyncActionError())
-    }
-  }
-}
-
 export const getUserDetails = (userId) => {
   return async (dispatch) => {
     dispatch(asyncActionStart())
@@ -381,29 +344,5 @@ export const updatePassword = (password) => async (dispatch) => {
   } catch (error) {
     fireAlert(error.message, 'warning')
     dispatch(asyncActionError())
-  }
-}
-
-export const getFullNameVerification = (fullname) => {
-  return async (dispatch) => {
-    const tbiRef = firestore
-      .collection('tbi_users')
-      .where('tbiName', '==', fullname)
-
-    try {
-      dispatch(asyncActionStart())
-      let querySnapshot = await tbiRef.get()
-
-      if (querySnapshot.empty === false) {
-        dispatch(asyncActionFinish())
-
-        return false
-      } else {
-        return true
-      }
-    } catch (error) {
-      console.log(error)
-      dispatch(asyncActionError())
-    }
   }
 }
