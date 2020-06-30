@@ -291,7 +291,7 @@ export const getUserDetails = (userId, type) => {
       if (querySnapshot.docs.length === 0) {
         dispatch(asyncActionFinish())
 
-        return user
+        return false
       }
 
       for (let i = 0; i < querySnapshot.docs.length; i++) {
@@ -304,6 +304,7 @@ export const getUserDetails = (userId, type) => {
       }
       dispatch({ type: FETCH_USER, payload: { user } })
       dispatch(asyncActionFinish())
+      return true
     } catch (error) {
       console.log(error)
       dispatch(asyncActionError())
