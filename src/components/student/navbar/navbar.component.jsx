@@ -42,12 +42,7 @@ const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
 
   const menu = (
     <Menu>
-      <Menu.Item
-        onClick={() => {
-          auth.signOut()
-          history.push('/student/login')
-        }}
-      >
+      <Menu.Item onClick={() => history.push('/student/login')}>
         <Link to='/'>Sign Out</Link>
       </Menu.Item>
     </Menu>
