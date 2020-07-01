@@ -5,36 +5,29 @@ import { UserOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
 import { auth } from '../../../firebase/firebase.utils'
-import { getUserDetails } from '../../../redux/auth/auth.actions'
+import { getAdminUserDetails } from '../../../redux/auth/auth.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
-  const checkIfUserIsAdmin = useCallback(() => {
-    if (currentUser === null || currentUser.length === 0) {
-      auth.signOut()
-      return history.push('/admin/login')
-    } else {
-      if (currentUser && currentUser[0]) {
-        if (currentUser[0].type !== 'admin') {
-          auth.signOut()
-          return history.push('/admin/login')
-        }
-      }
-    }
-  }, [])
-
+const Navbar = ({ history, getAdminUserDetails, uid, currentUser }) => {
   const getDetails = useCallback(async () => {
-    if (uid) {
-      await getUserDetails(uid, 'admin')
+    let newStorage = {}
+    if (uid !== undefined) {
+      localStorage.setItem('uid', uid)
+      return await getAdminUserDetails(uid)
+    }
 
-      checkIfUserIsAdmin()
-    } else {
+    newStorage.uid = localStorage.getItem('uid')
+    newStorage.type = localStorage.getItem('type')
+
+    if (newStorage.uid === '' || newStorage.type !== 'admin') {
+      localStorage.setItem('uid', '')
+      localStorage.setItem('type', '')
       auth.signOut()
       return history.push('/admin/login')
     }
-  }, [uid, checkIfUserIsAdmin, history])
+  }, [getAdminUserDetails, uid, history])
 
   useEffect(() => {
     getDetails()
@@ -44,6 +37,8 @@ const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
     <Menu>
       <Menu.Item
         onClick={() => {
+          localStorage.setItem('uid', '')
+          localStorage.setItem('type', '')
           auth.signOut()
           history.push('/admin/login')
         }}
@@ -99,7 +94,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  getUserDetails,
+  getAdminUserDetails,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))
