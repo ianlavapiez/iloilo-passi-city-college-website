@@ -4,37 +4,30 @@ import { connect } from 'react-redux'
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
+import { getStudentUserDetails } from '../../../redux/auth/auth.actions'
 import { auth } from '../../../firebase/firebase.utils'
-import { getUserDetails } from '../../../redux/auth/auth.actions'
 
 const { Header } = Layout
 const { Title } = Typography
 
-const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
-  const checkIfUserIsStudent = useCallback(() => {
-    if (currentUser === null || currentUser.length === 0) {
-      auth.signOut()
-      return history.push('/student/login')
-    } else {
-      if (currentUser && currentUser[0]) {
-        if (currentUser[0].type !== 'student') {
-          auth.signOut()
-          return history.push('/student/login')
-        }
-      }
-    }
-  }, [])
-
+const Navbar = ({ history, getStudentUserDetails, uid, currentUser }) => {
   const getDetails = useCallback(async () => {
-    if (uid) {
-      await getUserDetails(uid, 'student')
+    let newStorage = {}
+    if (uid !== undefined) {
+      localStorage.setItem('uid', uid)
+      return await getStudentUserDetails(uid)
+    }
 
-      checkIfUserIsStudent()
-    } else {
+    newStorage.uid = localStorage.getItem('uid')
+    newStorage.type = localStorage.getItem('type')
+
+    if (newStorage.uid === '' || newStorage.type !== 'student') {
+      localStorage.setItem('uid', '')
+      localStorage.setItem('type', '')
       auth.signOut()
       return history.push('/student/login')
     }
-  }, [getUserDetails, uid, checkIfUserIsStudent, history])
+  }, [getStudentUserDetails, uid, history])
 
   useEffect(() => {
     getDetails()
@@ -42,7 +35,14 @@ const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={() => history.push('/student/login')}>
+      <Menu.Item
+        onClick={() => {
+          localStorage.setItem('uid', '')
+          localStorage.setItem('type', '')
+          auth.signOut()
+          history.push('/student/login')
+        }}
+      >
         <Link to='/'>Sign Out</Link>
       </Menu.Item>
     </Menu>
@@ -79,7 +79,9 @@ const Navbar = ({ history, getUserDetails, uid, currentUser }) => {
           }}
           icon={<UserOutlined />}
         >
-          Student
+          {currentUser && currentUser[0]
+            ? currentUser[0].displayName
+            : 'Student'}
         </Button>
       </Dropdown>
     </Header>
@@ -94,7 +96,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  getUserDetails,
+  getStudentUserDetails,
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar))
