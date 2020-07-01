@@ -54,7 +54,7 @@ export const raLogin = (credentials) => {
       }
     } catch (error) {
       dispatch(asyncActionFinish())
-      fireAlert(error.message, 'warning')
+      fireAlert('Something went wrong.', 'warning')
       return false
     }
   }
@@ -107,7 +107,7 @@ export const adminLogin = (credentials) => {
       }
     } catch (error) {
       dispatch(asyncActionFinish())
-      fireAlert(error.message, 'warning')
+      fireAlert('Something went wrong.', 'warning')
       return false
     }
   }
@@ -162,7 +162,7 @@ export const studentLogin = (credentials) => {
       }
     } catch (error) {
       dispatch(asyncActionFinish())
-      fireAlert(error.message, 'warning')
+      fireAlert('Something went wrong.', 'warning')
       return false
     }
   }
@@ -257,31 +257,15 @@ export const updateStudentProfile = (student) => async (dispatch) => {
   }
 }
 
-export const getUserDetails = (userId, type) => {
+export const getStudentUserDetails = (userId) => {
   return async (dispatch) => {
     dispatch(asyncActionStart())
 
-    let ref
-
-    if (type === 'student') {
-      ref = firestore
-        .collection('users')
-        .where('userId', '==', userId)
-        .where('softDelete', '==', false)
-        .orderBy('created', 'desc')
-    } else if (type === 'ra') {
-      ref = firestore
-        .collection('ra_users')
-        .where('userId', '==', userId)
-        .where('softDelete', '==', false)
-        .orderBy('created', 'desc')
-    } else if (type === 'admin') {
-      ref = firestore
-        .collection('admin_users')
-        .where('userId', '==', userId)
-        .where('softDelete', '==', false)
-        .orderBy('created', 'desc')
-    }
+    let ref = firestore
+      .collection('users')
+      .where('userId', '==', userId)
+      .where('softDelete', '==', false)
+      .orderBy('created', 'desc')
 
     try {
       let querySnapshot = await ref.get()
@@ -291,7 +275,7 @@ export const getUserDetails = (userId, type) => {
       if (querySnapshot.docs.length === 0) {
         dispatch(asyncActionFinish())
 
-        return false
+        return (window.location.href = '/student/login')
       }
 
       for (let i = 0; i < querySnapshot.docs.length; i++) {
@@ -304,7 +288,106 @@ export const getUserDetails = (userId, type) => {
       }
       dispatch({ type: FETCH_USER, payload: { user } })
       dispatch(asyncActionFinish())
-      return true
+
+      localStorage.setItem('type', user[0].type)
+
+      if (user && user[0]) {
+        if (user[0].type !== 'student') {
+          window.location.href = '/student/login'
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError())
+    }
+  }
+}
+
+export const getRAUserDetails = (userId) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart())
+
+    let ref = firestore
+      .collection('ra_users')
+      .where('userId', '==', userId)
+      .where('softDelete', '==', false)
+      .orderBy('created', 'desc')
+
+    try {
+      let querySnapshot = await ref.get()
+
+      let user = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return (window.location.href = '/ra/login')
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let newUser = {
+          ...querySnapshot.docs[i].data(),
+          id: querySnapshot.docs[i].id,
+        }
+
+        user.push(newUser)
+      }
+      dispatch({ type: FETCH_USER, payload: { user } })
+      dispatch(asyncActionFinish())
+
+      localStorage.setItem('type', user[0].type)
+
+      if (user && user[0]) {
+        if (user[0].type !== 'ra') {
+          window.location.href = '/ra/login'
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      dispatch(asyncActionError())
+    }
+  }
+}
+
+export const getAdminUserDetails = (userId) => {
+  return async (dispatch) => {
+    dispatch(asyncActionStart())
+
+    let ref = firestore
+      .collection('admin_users')
+      .where('userId', '==', userId)
+      .where('softDelete', '==', false)
+      .orderBy('created', 'desc')
+
+    try {
+      let querySnapshot = await ref.get()
+
+      let user = []
+
+      if (querySnapshot.docs.length === 0) {
+        dispatch(asyncActionFinish())
+
+        return (window.location.href = '/admin/login')
+      }
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let newUser = {
+          ...querySnapshot.docs[i].data(),
+          id: querySnapshot.docs[i].id,
+        }
+
+        user.push(newUser)
+      }
+      dispatch({ type: FETCH_USER, payload: { user } })
+      dispatch(asyncActionFinish())
+
+      localStorage.setItem('type', user[0].type)
+
+      if (user && user[0]) {
+        if (user[0].type !== 'admin') {
+          window.location.href = '/admin/login'
+        }
+      }
     } catch (error) {
       console.log(error)
       dispatch(asyncActionError())
