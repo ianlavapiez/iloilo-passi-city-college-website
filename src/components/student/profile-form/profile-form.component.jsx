@@ -83,6 +83,7 @@ const ProfileForm = ({
         if (confirmed) {
           await updatePassword(password)
           secondForm.resetFields()
+          localStorage.setItem('uid', '')
         } else {
           return false
         }
