@@ -13,13 +13,16 @@ import { fireAlert } from '../../common/confirmation-message/confirmation-messag
 const { Title } = Typography
 const { Content } = Layout
 
-const LoginForm = ({ history, adminLogin }) => {
+const LoginForm = ({ history, adminLogin, setIsLoading }) => {
   const onFinish = async (values) => {
+    setIsLoading(true)
     const isLoggedIn = await adminLogin(values)
 
     if (!isLoggedIn) {
+      setIsLoading(false)
       return
     } else {
+      setIsLoading(false)
       fireAlert('Welcome Admin!', 'success')
       history.push('/admin')
     }
@@ -31,8 +34,6 @@ const LoginForm = ({ history, adminLogin }) => {
         Welcome Admin!
       </Title>
       <Form
-        name='normal_login'
-        className='login-form'
         initialValues={{
           remember: true,
         }}
@@ -48,6 +49,7 @@ const LoginForm = ({ history, adminLogin }) => {
           ]}
         >
           <Input
+            type='email'
             prefix={<MailOutlined className='site-form-item-icon' />}
             placeholder='Email'
           />
