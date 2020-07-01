@@ -13,13 +13,16 @@ import { fireAlert } from '../../common/confirmation-message/confirmation-messag
 const { Title } = Typography
 const { Content } = Layout
 
-const LoginForm = ({ raLogin, history }) => {
+const LoginForm = ({ raLogin, history, setIsLoading }) => {
   const onFinish = async (values) => {
+    setIsLoading(true)
     const isLoggedIn = await raLogin(values)
 
     if (!isLoggedIn) {
+      setIsLoading(false)
       return
     } else {
+      setIsLoading(false)
       fireAlert('Welcome RA!', 'success')
       history.push('/ra')
     }
@@ -31,7 +34,6 @@ const LoginForm = ({ raLogin, history }) => {
         Welcome RA!
       </Title>
       <Form
-        className='login-form'
         initialValues={{
           remember: true,
         }}
