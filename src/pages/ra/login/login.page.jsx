@@ -1,31 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Spin } from 'antd'
-import { connect } from 'react-redux'
 
 import './login.styles.scss'
 
 import LoginForm from '../../../components/ra/login/login.component'
 import LoginSideImage from '../../../components/ra/login-side-image/login-side-image.component'
 
-const LoginPage = ({ loading, error }) => {
+const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
-    <Spin tip='Signing in...' spinning={loading} delay={500}>
+    <Spin tip='Signing in...' spinning={isLoading} delay={500}>
       <Row className='container'>
         <Col span={12}>
           <LoginSideImage />
         </Col>
         <Col span={12}>
-          <LoginForm />
+          <LoginForm setIsLoading={setIsLoading} />
         </Col>
       </Row>
     </Spin>
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.async.loading,
-  }
-}
-
-export default connect(mapStateToProps)(LoginPage)
+export default LoginPage
