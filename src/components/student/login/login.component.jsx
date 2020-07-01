@@ -13,13 +13,18 @@ import { fireAlert } from '../../common/confirmation-message/confirmation-messag
 const { Title } = Typography
 const { Content } = Layout
 
-const LoginForm = ({ history, studentLogin }) => {
+const LoginForm = ({ history, studentLogin, setIsLoading }) => {
   const onFinish = async (values) => {
+    setIsLoading(true)
     const isLoggedIn = await studentLogin(values)
 
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
+      setIsLoading(false)
+      return
+    } else {
+      setIsLoading(false)
       fireAlert('Welcome Student!', 'success')
-      history.push('/student')
+      history.push('/ra')
     }
   }
 
