@@ -1,22 +1,23 @@
-import React, { Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Row, Col, Spin } from 'antd'
-import { connect } from 'react-redux'
 
 import './login.styles.scss'
 
 import LoginForm from '../../../components/student/login/login.component'
 import LoginSideImage from '../../../components/student/login-side-image/login-side-image.component'
 
-const LoginPage = ({ loading }) => {
+const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
     <Fragment>
-      <Spin tip='Signing in...' spinning={loading} delay={500}>
+      <Spin tip='Signing in...' spinning={isLoading} delay={500}>
         <Row className='container'>
           <Col span={12}>
             <LoginSideImage />
           </Col>
           <Col span={12}>
-            <LoginForm />
+            <LoginForm setIsLoading={setIsLoading} />
           </Col>
         </Row>
       </Spin>
@@ -24,10 +25,4 @@ const LoginPage = ({ loading }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.async.loading,
-  }
-}
-
-export default connect(mapStateToProps)(LoginPage)
+export default LoginPage
