@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Layout, Typography } from 'antd'
 import { connect } from 'react-redux'
 
-import { getUserDetails } from '../../../redux/auth/auth.actions'
+import { getStudentUserDetails } from '../../../redux/auth/auth.actions'
 
 import Sidebar from '../../../components/student/sidebar/sidebar.component'
 import Navbar from '../../../components/student/navbar/navbar.component'
@@ -12,12 +12,12 @@ import ProfileForm from '../../../components/student/profile-form/profile-form.c
 const { Content } = Layout
 const { Title } = Typography
 
-const ProfilePage = ({ getUserDetails, studentId }) => {
+const ProfilePage = ({ getStudentUserDetails, studentId }) => {
   useEffect(() => {
     if (studentId) {
-      getUserDetails(studentId)
+      getStudentUserDetails(studentId)
     }
-  }, [getUserDetails, studentId])
+  }, [getStudentUserDetails, studentId])
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -48,7 +48,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  getUserDetails,
+  getStudentUserDetails,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)
