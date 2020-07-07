@@ -24,7 +24,7 @@ const LoginForm = ({ history, studentLogin, setIsLoading }) => {
     } else {
       setIsLoading(false)
       fireAlert('Welcome Student!', 'success')
-      history.push('/ra')
+      history.push('/student')
     }
   }
 

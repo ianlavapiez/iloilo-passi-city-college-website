@@ -22,7 +22,7 @@ const PaymentManagementInfoTable = ({
     }
   }, [paymentId, getPaymentTrail])
 
-  const getColumnSearchProps = (dataIndex) => ({
+  const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -34,7 +34,7 @@ const PaymentManagementInfoTable = ({
           ref={(node) => {
             searchInput = node
           }}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={`Search ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -101,19 +101,25 @@ const PaymentManagementInfoTable = ({
       title: 'Reference ID',
       dataIndex: 'id',
       key: 'id',
-      ...getColumnSearchProps('id'),
+      ...getColumnSearchProps('id', 'Reference ID'),
     },
     {
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
-      ...getColumnSearchProps('date'),
+      ...getColumnSearchProps('date', 'Date'),
     },
     {
       title: 'Payment Made',
       dataIndex: 'amount',
       key: 'amount',
-      ...getColumnSearchProps('amount'),
+      ...getColumnSearchProps('amount', 'Amount'),
+    },
+    {
+      title: 'Payment Type',
+      dataIndex: 'type',
+      key: 'type',
+      ...getColumnSearchProps('type', 'Payment Type'),
     },
     {
       title: 'Verified',

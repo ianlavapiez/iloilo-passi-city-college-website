@@ -37,9 +37,21 @@ export const getPayments = (raId) => {
       }
 
       for (let i = 0; i < querySnapshot.docs.length; i++) {
+        let status
+
+        if (
+          querySnapshot.docs[i].data().accumulatedPayment ===
+          querySnapshot.docs[i].data().fee
+        ) {
+          status = 'fully paid'
+        } else {
+          status = 'has balance'
+        }
+
         let payment = {
           ...querySnapshot.docs[i].data(),
           id: querySnapshot.docs[i].id,
+          status,
         }
 
         payments.push(payment)
@@ -242,12 +254,43 @@ export const addPayments = (data) => async (dispatch) => {
     dispatch(asyncActionStart())
 
     data.softDelete = false
-    data.paymentTrail = []
     data.created = new Date()
     data.accumulatedPayment = 0
 
     await firestore
       .collection('payments')
+      .add(data)
+      .then(() => {
+        fireAlert('The payment details has been successfully added!', 'success')
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      })
+      .then(() => {
+        dispatch(asyncActionFinish())
+      })
+      .catch((error) => {
+        console.log(error)
+        fireAlert('Oops! Something went wrong!', 'error')
+        dispatch(asyncActionError())
+      })
+  } catch (error) {
+    console.log(error)
+    dispatch(asyncActionError())
+  }
+}
+
+export const addPaymentsFromRA = (data) => async (dispatch) => {
+  try {
+    dispatch(asyncActionStart())
+
+    data.softDelete = false
+    data.created = new Date()
+    data.verified = true
+    data.referenceNo = cuid()
+
+    await firestore
+      .collection('payment_trail')
       .add(data)
       .then(() => {
         fireAlert('The payment details has been successfully added!', 'success')

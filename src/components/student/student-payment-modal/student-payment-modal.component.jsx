@@ -32,6 +32,7 @@ const StudentPaymentModal = ({
   updateAccumulatedPayment,
   totalPayment,
   payments,
+  raId,
 }) => {
   const [visible, setVisible] = useState(false)
   const [photoLoading, setPhotoLoading] = useState(false)
@@ -109,6 +110,7 @@ const StudentPaymentModal = ({
       ...payment,
       date,
       paymentId,
+      raId,
     }
 
     let newUpdatedPayment = {
@@ -279,6 +281,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.async.loading,
     payments: state.payments.studentPayments,
+    raId: state.firebase.auth.uid,
   }
 }
 

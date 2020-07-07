@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Space, Menu, Dropdown } from 'antd'
+import { Table, Input, Button, Space, Menu, Dropdown, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
 import { withRouter } from 'react-router-dom'
 import {
@@ -8,6 +8,7 @@ import {
   DeleteOutlined,
   MoreOutlined,
   EditOutlined,
+  PlusCircleOutlined,
 } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
@@ -21,6 +22,7 @@ const PaymentManagementTable = ({
   setData,
   setEdit,
   setModalVisible,
+  setSubModalVisible,
 }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
@@ -46,7 +48,7 @@ const PaymentManagementTable = ({
     )
   }
 
-  const getColumnSearchProps = (dataIndex) => ({
+  const getColumnSearchProps = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -58,7 +60,7 @@ const PaymentManagementTable = ({
           ref={(node) => {
             searchInput = node
           }}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={`Search ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -125,31 +127,56 @@ const PaymentManagementTable = ({
       title: 'Payment ID',
       dataIndex: 'id',
       key: 'id',
-      ...getColumnSearchProps('id'),
+      ...getColumnSearchProps('id', 'Payment ID'),
     },
     {
       title: 'Student Name',
       dataIndex: 'studentName',
       key: 'studentName',
-      ...getColumnSearchProps('studentName'),
+      ...getColumnSearchProps('studentName', 'Student Name'),
     },
     {
       title: 'Program',
       dataIndex: 'program',
       key: 'program',
-      ...getColumnSearchProps('program'),
+      ...getColumnSearchProps('program', 'Program'),
     },
     {
       title: 'School Year',
       dataIndex: 'schoolYear',
       key: 'schoolYear',
-      ...getColumnSearchProps('schoolYear'),
+      ...getColumnSearchProps('schoolYear', 'School Year'),
     },
     {
       title: 'Tuition Fee',
       dataIndex: 'fee',
       key: 'fee',
-      ...getColumnSearchProps('fee'),
+      ...getColumnSearchProps('fee', 'Fee'),
+    },
+    {
+      title: 'Total Paid',
+      dataIndex: 'accumulatedPayment',
+      key: 'accumulatedPayment',
+      ...getColumnSearchProps('accumulatedPayment', 'Total Paid'),
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (status) => {
+        let color
+        if (status === 'fully paid') {
+          color = 'green'
+        } else {
+          color = 'red'
+        }
+
+        return (
+          <Tag color={color} key={status}>
+            {status.toUpperCase()}
+          </Tag>
+        )
+      },
     },
     {
       title: 'Action',
@@ -163,6 +190,14 @@ const PaymentManagementTable = ({
                   onClick={() => history.push(`/ra/accounting/${text.id}`)}
                 >
                   <InfoCircleOutlined /> info
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => {
+                    setData(text)
+                    setSubModalVisible(true)
+                  }}
+                >
+                  <PlusCircleOutlined /> add sub-payment
                 </Menu.Item>
                 <Menu.Item onClick={() => editPaymentDetails(text)}>
                   <EditOutlined />
