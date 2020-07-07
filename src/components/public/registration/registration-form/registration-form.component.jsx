@@ -221,7 +221,7 @@ const RegistrationForm = ({ registerUser, loading }) => {
         ) : null}
         {selectedProgram === 'Enhancement' ? (
           <Form.Item
-            name={['user', 'semester']}
+            name={['user', 'category']}
             label='Semester'
             rules={[
               {
