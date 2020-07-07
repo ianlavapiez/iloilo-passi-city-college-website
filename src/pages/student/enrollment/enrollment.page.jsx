@@ -36,9 +36,9 @@ const EnrollmentPage = ({
   useEffect(() => {
     if (currentStudent) {
       if (currentStudent[0]) {
-        const { course, program } = currentStudent[0]
+        const { course, program, category } = currentStudent[0]
 
-        getStudentClasses(course, program)
+        getStudentClasses(course, program, category)
       }
     }
   }, [currentStudent, getStudentClasses])
