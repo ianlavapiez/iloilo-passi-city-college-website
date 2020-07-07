@@ -49,15 +49,16 @@ export const getRAClasses = (raId) => {
   }
 }
 
-export const getStudentClasses = (course, program) => {
+export const getStudentClasses = (course, program, category) => {
   return async (dispatch) => {
     dispatch(asyncActionStart())
     const ref = firestore
       .collection('classes')
       .where('course', '==', course)
       .where('program', '==', program)
+      .where('category', '==', category)
       .where('softDelete', '==', false)
-      .orderBy('created', 'desc')
+      .orderBy('trueDate', 'desc')
 
     try {
       let querySnapshot = await ref.get()
@@ -74,6 +75,8 @@ export const getStudentClasses = (course, program) => {
         let newClass = {
           ...querySnapshot.docs[i].data(),
           id: querySnapshot.docs[i].id,
+          month: querySnapshot.docs[i].data().date.substring(8, 10) * 1,
+          day: querySnapshot.docs[i].data().date.substring(5, 7) * 1,
         }
 
         classes.push(newClass)
