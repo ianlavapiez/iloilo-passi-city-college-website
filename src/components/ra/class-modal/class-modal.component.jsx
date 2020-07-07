@@ -36,7 +36,9 @@ const ClassModal = ({
   setEdit,
 }) => {
   const [date, setDate] = useState('')
+  const [momentDate, setMomentDate] = useState(null)
   const [time, setTime] = useState('')
+  const [selectedProgram, setSelectedProgram] = useState('')
 
   useEffect(() => {
     if (data) {
@@ -54,6 +56,7 @@ const ClassModal = ({
     let newValues = {
       ...values,
       date,
+      trueDate: momentDate,
       raId,
       startTime: time[0],
       endTime: time[1],
@@ -93,11 +96,11 @@ const ClassModal = ({
   }
 
   const onDateChange = (date, dateString) => {
+    setMomentDate(new Date(dateString))
     setDate(dateString)
   }
 
   const onTimeChange = (time, timeString) => {
-    console.log(time)
     setTime(timeString)
   }
 
@@ -165,18 +168,61 @@ const ClassModal = ({
             </Select>
           </Form.Item>
           <Form.Item
-            className='form-item'
             name={'program'}
             label='Program'
-            rules={[{ required: true }]}
+            className='form-item'
+            rules={[
+              {
+                required: true,
+              },
+            ]}
             initialValue={!edit ? '' : data.program}
           >
-            <Select placeholder='Select a program'>
-              <Option value='Refresher'>Refresher</Option>
+            <Select
+              placeholder='Select program'
+              onChange={(value) => setSelectedProgram(value)}
+            >
               <Option value='Enhancement'>Enhancement</Option>
               <Option value='Intensive'>Intensive</Option>
             </Select>
           </Form.Item>
+          {selectedProgram === 'Intensive' ? (
+            <Form.Item
+              name={'category'}
+              label='Category'
+              className='form-item'
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              initialValue={!edit ? '' : data.category}
+            >
+              <Select placeholder='Select category'>
+                <Option value='Refresher'>Refresher</Option>
+                <Option value='Intensive'>Intensive</Option>
+                <Option value='Final Coaching'>Final Coaching</Option>
+              </Select>
+            </Form.Item>
+          ) : null}
+          {selectedProgram === 'Enhancement' ? (
+            <Form.Item
+              name={'category'}
+              label='Semester'
+              className='form-item'
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              initialValue={!edit ? '' : data.category}
+            >
+              <Select placeholder='Select semester'>
+                <Option value='1st Semester'>1st Semester</Option>
+                <Option value='2nd Semester'>2nd Semester</Option>
+              </Select>
+            </Form.Item>
+          ) : null}
           <Form.Item
             className='form-item'
             name={'subject'}
