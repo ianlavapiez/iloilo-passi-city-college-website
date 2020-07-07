@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Table, Input, Button, Space, Tag } from 'antd'
 import Highlighter from 'react-highlight-words'
@@ -8,7 +8,18 @@ import { connect } from 'react-redux'
 const EnrollmentTable = ({ classes }) => {
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
+  const [schedule, setSchedule] = useState([])
   let searchInput
+
+  useEffect(() => {
+    if (classes.length > 0) {
+      const todaySchedule = classes.filter(
+        (schedule) => schedule.trueDate.seconds * 1000 >= Date.now()
+      )
+
+      setSchedule(todaySchedule)
+    }
+  }, [classes])
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -155,7 +166,7 @@ const EnrollmentTable = ({ classes }) => {
   return (
     <Table
       columns={columns}
-      dataSource={classes ? classes : []}
+      dataSource={schedule.length > 0 ? schedule : []}
       rowKey={(record) => record.id}
     />
   )
