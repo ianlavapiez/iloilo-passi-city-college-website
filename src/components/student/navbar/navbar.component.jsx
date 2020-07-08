@@ -14,18 +14,24 @@ const Navbar = ({ history, getStudentUserDetails, uid, currentUser }) => {
   const getDetails = useCallback(async () => {
     let newStorage = {}
     if (uid !== undefined) {
-      localStorage.setItem('uid', uid)
+      window.localStorage.setItem('uid', uid)
       return await getStudentUserDetails(uid)
     }
 
-    newStorage.uid = localStorage.getItem('uid')
-    newStorage.type = localStorage.getItem('type')
+    newStorage.uid = window.localStorage.getItem('uid')
+    newStorage.type = window.localStorage.getItem('type')
 
     if (newStorage.uid === '' || newStorage.type !== 'student') {
-      localStorage.setItem('uid', '')
-      localStorage.setItem('type', '')
+      window.localStorage.setItem('uid', '')
+      window.localStorage.setItem('type', '')
       auth.signOut()
-      return history.push('/student/login')
+
+      const redirect = () => {
+        history.push('student/login')
+        window.location.reload()
+      }
+
+      return redirect()
     }
   }, [getStudentUserDetails, uid, history])
 
@@ -37,8 +43,8 @@ const Navbar = ({ history, getStudentUserDetails, uid, currentUser }) => {
     <Menu>
       <Menu.Item
         onClick={() => {
-          localStorage.setItem('uid', '')
-          localStorage.setItem('type', '')
+          window.localStorage.setItem('uid', '')
+          window.localStorage.setItem('type', '')
           auth.signOut()
           history.push('/student/login')
         }}
