@@ -14,18 +14,24 @@ const Navbar = ({ history, getAdminUserDetails, uid, currentUser }) => {
   const getDetails = useCallback(async () => {
     let newStorage = {}
     if (uid !== undefined) {
-      localStorage.setItem('uid', uid)
+      window.localStorage.setItem('uid', uid)
       return await getAdminUserDetails(uid)
     }
 
-    newStorage.uid = localStorage.getItem('uid')
-    newStorage.type = localStorage.getItem('type')
+    newStorage.uid = window.localStorage.getItem('uid')
+    newStorage.type = window.localStorage.getItem('type')
 
     if (newStorage.uid === '' || newStorage.type !== 'admin') {
-      localStorage.setItem('uid', '')
-      localStorage.setItem('type', '')
+      window.localStorage.setItem('uid', '')
+      window.localStorage.setItem('type', '')
       auth.signOut()
-      return history.push('/admin/login')
+
+      const redirect = () => {
+        history.push('admin/login')
+        window.location.reload()
+      }
+
+      return redirect()
     }
   }, [getAdminUserDetails, uid, history])
 
@@ -37,8 +43,8 @@ const Navbar = ({ history, getAdminUserDetails, uid, currentUser }) => {
     <Menu>
       <Menu.Item
         onClick={() => {
-          localStorage.setItem('uid', '')
-          localStorage.setItem('type', '')
+          window.localStorage.setItem('uid', '')
+          window.localStorage.setItem('type', '')
           auth.signOut()
           history.push('/admin/login')
         }}
