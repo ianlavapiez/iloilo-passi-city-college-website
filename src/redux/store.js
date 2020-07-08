@@ -15,11 +15,21 @@ export const configureStore = () => {
   if (process.env.NODE_ENV === 'development') {
     composedEnhancer = composeWithDevTools(
       applyMiddleware(...middlewares),
-      reactReduxFirebase(firebase),
+      reactReduxFirebase(firebase, {
+        userProfile: 'users',
+        attachAuthIsReady: true,
+      }),
       reduxFirestore(firebase)
     )
   } else {
-    composedEnhancer = compose(applyMiddleware(...middlewares))
+    composedEnhancer = compose(
+      applyMiddleware(...middlewares),
+      reactReduxFirebase(firebase, {
+        userProfile: 'users',
+        attachAuthIsReady: true,
+      }),
+      reduxFirestore(firebase)
+    )
   }
 
   const store = createStore(rootReducer, composedEnhancer)
