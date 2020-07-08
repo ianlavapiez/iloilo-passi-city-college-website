@@ -289,7 +289,7 @@ export const getStudentUserDetails = (userId) => {
       dispatch({ type: FETCH_USER, payload: { user } })
       dispatch(asyncActionFinish())
 
-      localStorage.setItem('type', user[0].type)
+      window.localStorage.setItem('type', user[0].type)
 
       if (user && user[0]) {
         if (user[0].type !== 'student') {
@@ -335,7 +335,7 @@ export const getRAUserDetails = (userId) => {
       dispatch({ type: FETCH_USER, payload: { user } })
       dispatch(asyncActionFinish())
 
-      localStorage.setItem('type', user[0].type)
+      window.localStorage.setItem('type', user[0].type)
 
       if (user && user[0]) {
         if (user[0].type !== 'ra') {
@@ -381,7 +381,7 @@ export const getAdminUserDetails = (userId) => {
       dispatch({ type: FETCH_USER, payload: { user } })
       dispatch(asyncActionFinish())
 
-      localStorage.setItem('type', user[0].type)
+      window.localStorage.setItem('type', user[0].type)
 
       if (user && user[0]) {
         if (user[0].type !== 'admin') {
