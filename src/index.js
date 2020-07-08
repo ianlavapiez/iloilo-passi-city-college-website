@@ -10,14 +10,27 @@ import 'antd/dist/antd.css'
 import App from './App'
 
 const store = configureStore()
+const rootElement = document.getElementById('root')
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+let render = () => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </React.StrictMode>,
+    rootElement
+  )
+}
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    setTimeout(render)
+  })
+}
+
+store.firebaseAuthIsReady.then(() => {
+  render()
+})
