@@ -28,6 +28,7 @@ const PaymentManagementModal = ({
   edit,
   data,
 }) => {
+  const [selectedProgram, setSelectedProgram] = useState('')
   const [studentId, setStudentId] = useState('')
   const [studentName, setStudentName] = useState('')
 
@@ -148,12 +149,50 @@ const PaymentManagementModal = ({
             rules={[{ required: true }]}
             initialValue={!edit ? '' : data.program}
           >
-            <Select placeholder='Select program' name='program'>
-              <Option value='Refresher'>Refresher</Option>
+            <Select
+              placeholder='Select program'
+              onChange={(value) => setSelectedProgram(value)}
+            >
               <Option value='Enhancement'>Enhancement</Option>
               <Option value='Intensive'>Intensive</Option>
             </Select>
           </Form.Item>
+          {selectedProgram === 'Intensive' ? (
+            <Form.Item
+              className='form-item'
+              name={['accounting', 'category']}
+              label='Category'
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Select placeholder='Select category'>
+                <Option value='Refresher'>Refresher</Option>
+                <Option value='Intensive'>Intensive</Option>
+                <Option value='Final Coaching'>Final Coaching</Option>
+              </Select>
+            </Form.Item>
+          ) : null}
+          {selectedProgram === 'Enhancement' ? (
+            <Form.Item
+              className='form-item'
+              name={['accounting', 'category']}
+              label='Semester'
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Select placeholder='Select semester'>
+                <Option value='Summer'>Summer</Option>
+                <Option value='1st Semester'>1st Semester</Option>
+                <Option value='2nd Semester'>2nd Semester</Option>
+              </Select>
+            </Form.Item>
+          ) : null}
           <Form.Item
             className='form-item'
             label='Tuition Fee'

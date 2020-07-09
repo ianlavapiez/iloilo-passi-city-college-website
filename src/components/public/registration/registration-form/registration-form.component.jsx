@@ -230,6 +230,7 @@ const RegistrationForm = ({ registerUser, loading }) => {
             ]}
           >
             <Select placeholder='Select semester'>
+              <Option value='Summer'>Summer</Option>
               <Option value='1st Semester'>1st Semester</Option>
               <Option value='2nd Semester'>2nd Semester</Option>
             </Select>

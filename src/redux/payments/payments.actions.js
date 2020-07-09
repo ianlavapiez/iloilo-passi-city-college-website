@@ -141,6 +141,7 @@ export const getStudentPayments = (studentId) => {
 export const getUnverifiedPaymentTrail = (raId) => {
   return async (dispatch) => {
     dispatch(asyncActionStart())
+    console.log(raId)
     const ref = firestore
       .collection('payment_trail')
       .where('raId', '==', raId)
@@ -167,6 +168,8 @@ export const getUnverifiedPaymentTrail = (raId) => {
 
         paymentTrail.push(newData)
       }
+
+      console.log(paymentTrail)
       dispatch({
         type: FETCH_STUDENT_UNVERIFIED_PAYMENT_TRAIL,
         payload: { paymentTrail },

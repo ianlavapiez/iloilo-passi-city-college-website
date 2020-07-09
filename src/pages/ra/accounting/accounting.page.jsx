@@ -35,9 +35,14 @@ const AccountingPage = ({ raId, getPayments, getUnverifiedPaymentTrail }) => {
   useEffect(() => {
     if (raId) {
       getPayments(raId)
+    }
+  }, [raId, getPayments])
+
+  useEffect(() => {
+    if (raId) {
       getUnverifiedPaymentTrail(raId)
     }
-  }, [raId, getPayments, getUnverifiedPaymentTrail])
+  }, [raId, getUnverifiedPaymentTrail])
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

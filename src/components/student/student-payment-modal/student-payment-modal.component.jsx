@@ -32,7 +32,6 @@ const StudentPaymentModal = ({
   updateAccumulatedPayment,
   totalPayment,
   payments,
-  raId,
 }) => {
   const [visible, setVisible] = useState(false)
   const [photoLoading, setPhotoLoading] = useState(false)
@@ -110,7 +109,7 @@ const StudentPaymentModal = ({
       ...payment,
       date,
       paymentId,
-      raId,
+      raId: '8HDm7W8CqnSpmX2b8ZbTAsZVpW32',
     }
 
     let newUpdatedPayment = {
@@ -212,10 +211,14 @@ const StudentPaymentModal = ({
             rules={[{ required: true }]}
           >
             <Select placeholder='Select a payment type' name='type'>
-              <Option value='Palawan Pawnshop'>Palawan</Option>
-              <Option value='Cebuana Lhuiller'>Cebuana Lhuiller</Option>
-              <Option value='ML Kwarta Padala'>ML Kwarta Padala</Option>
-              <Option value='BDO Bank Deposit'>BDO Bank Deposit</Option>
+              <Option value='BDO'>BDO</Option>
+              <Option value='Cebuana'>Cebuana</Option>
+              <Option value='LBC'>LBC</Option>
+              <Option value='MLhuillier'>MLhuillier</Option>
+              <Option value='Palawan'>Palawan</Option>
+              <Option value='R.D'>R.D</Option>
+              <Option value='Other Banks'>Other Banks</Option>
+              <Option value='Other Remittances'>Other Remittances</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -281,7 +284,6 @@ const mapStateToProps = (state) => {
   return {
     loading: state.async.loading,
     payments: state.payments.studentPayments,
-    raId: state.firebase.auth.uid,
   }
 }
 
