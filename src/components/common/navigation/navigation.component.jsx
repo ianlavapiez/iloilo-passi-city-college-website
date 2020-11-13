@@ -50,28 +50,37 @@ const Navigation = () => {
           <li className='navigation__item'>
             <Link
               className='navigation__link'
-              to='/programs'
+              to='/courses'
               onClick={minimizeNav}
             >
-              Programs
+              Courses
             </Link>
           </li>
           <li className='navigation__item'>
             <Link
               className='navigation__link'
-              to='/online-review'
+              to='/facilities'
               onClick={minimizeNav}
             >
-              Online Review
+              Facilities
             </Link>
           </li>
           <li className='navigation__item'>
             <Link
               className='navigation__link'
-              to='/registration'
+              to='/faculty'
               onClick={minimizeNav}
             >
-              Student Registration
+              Faculty
+            </Link>
+          </li>
+          <li className='navigation__item'>
+            <Link
+              className='navigation__link'
+              to='/news-and-events'
+              onClick={minimizeNav}
+            >
+              News and Events
             </Link>
           </li>
           <li className='navigation__item'>

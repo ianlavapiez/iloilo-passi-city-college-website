@@ -18,7 +18,7 @@ const PublicRoutes = () => {
       <Route exact path='/contact' component={ContactPage} />
       <Route exact path='/online-review' component={OnlineReviewPage} />
       <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
-      <Route exact path='/programs' component={ProgramsPage} />
+      <Route exact path='/courses' component={ProgramsPage} />
       <Route exact path='/registration' component={RegistrationPage} />
       <Route exact path='/stories' component={StoriesPage} />
     </Route>

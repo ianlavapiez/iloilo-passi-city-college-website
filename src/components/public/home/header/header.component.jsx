@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Logo from '../../../../assets/brainhub-logo.png'
+import Logo from '../../../../assets/passi-logo.jpg'
 
 const Header = () => {
   return (
@@ -11,12 +11,12 @@ const Header = () => {
       </div>
       <div className='header__text-box'>
         <h1 className='heading-primary'>
-          <span className='heading-primary--main'>Brainhub</span>
-          <span className='heading-primary--sub'>clever minds trust us!</span>
+          <span className='heading-primary--main'>Passi City College</span>
+          <span className='heading-primary--sub'>The center of hope!</span>
         </h1>
 
-        <Link to='/registration' className='btn btn--white btn--animated'>
-          Enroll Now!
+        <Link to='/courses' className='btn btn--white btn--animated'>
+          View Courses Offered
         </Link>
       </div>
     </header>

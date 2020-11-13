@@ -13,7 +13,7 @@ const App = ({ history }) => {
   const { pathname } = history.location
   const publicLinks = [
     '/',
-    '/programs',
+    '/courses',
     '/online-review',
     '/registration',
     '/about',

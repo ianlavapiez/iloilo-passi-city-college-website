@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import FooterLogo from '../../../assets/brainhub-logo.png'
+import FooterLogo from '../../../assets/passi-logo.jpg'
 
 const Footer = () => {
   return (
@@ -14,8 +14,8 @@ const Footer = () => {
           <div className='footer__navigation'>
             <ul className='footer__list'>
               <li className='footer__item'>
-                <Link to='/programs' className='footer__link'>
-                  Programs
+                <Link to='/courses' className='footer__link'>
+                  Courses
                 </Link>
               </li>
               <li className='footer__item'>
