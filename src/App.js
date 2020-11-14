@@ -15,10 +15,9 @@ const App = ({ history }) => {
     '/',
     '/courses',
     '/online-review',
-    '/registration',
     '/about',
     '/contact',
-    '/privacy-policy',
+    '/facilities',
   ]
 
   return (

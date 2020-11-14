@@ -17,7 +17,7 @@ const ProgramsPage = () => {
     <Fragment>
       <section className='section-program'>
         <div className='u-center-text u-margin-bottom-small'>
-          <h2 className='heading-secondary'>Programs Offered</h2>
+          <h2 className='heading-secondary'>Courses Offered</h2>
         </div>
 
         <div className='row'>

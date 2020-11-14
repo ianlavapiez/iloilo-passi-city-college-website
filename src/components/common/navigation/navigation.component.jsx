@@ -68,15 +68,6 @@ const Navigation = () => {
           <li className='navigation__item'>
             <Link
               className='navigation__link'
-              to='/faculty'
-              onClick={minimizeNav}
-            >
-              Faculty
-            </Link>
-          </li>
-          <li className='navigation__item'>
-            <Link
-              className='navigation__link'
               to='/news-and-events'
               onClick={minimizeNav}
             >
