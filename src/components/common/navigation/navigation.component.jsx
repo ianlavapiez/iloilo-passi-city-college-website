@@ -68,19 +68,10 @@ const Navigation = () => {
           <li className='navigation__item'>
             <Link
               className='navigation__link'
-              to='/news-and-events'
+              to='/events'
               onClick={minimizeNav}
             >
-              News and Events
-            </Link>
-          </li>
-          <li className='navigation__item'>
-            <Link
-              className='navigation__link'
-              to='/contact'
-              onClick={minimizeNav}
-            >
-              Contact Us
+              Events
             </Link>
           </li>
         </ul>

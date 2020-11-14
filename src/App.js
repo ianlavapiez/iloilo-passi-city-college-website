@@ -11,14 +11,7 @@ import Spinner from './components/common/spinner/spinner.component'
 
 const App = ({ history }) => {
   const { pathname } = history.location
-  const publicLinks = [
-    '/',
-    '/courses',
-    '/online-review',
-    '/about',
-    '/contact',
-    '/facilities',
-  ]
+  const publicLinks = ['/', '/courses', '/events', '/facilities']
 
   return (
     <Fragment>

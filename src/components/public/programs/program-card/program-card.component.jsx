@@ -1,7 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-const ProgramCard = ({ course, programs, price, imageId }) => {
+const ProgramCard = ({ course, programs, imageId }) => {
   const pictureClass = `card__picture card__picture--${imageId}`
 
   return (
@@ -25,11 +24,11 @@ const ProgramCard = ({ course, programs, price, imageId }) => {
         <div className='card__side card__side--back card__side--back-1'>
           <div className='card__cta'>
             <div className='card__price-box'>
-              <p className='card__price-only'>Interested on our programs?</p>
+              <p className='card__price-only'>Interested on our courses?</p>
             </div>
-            <Link to='/registration' className='btn btn--white'>
-              Enroll now!
-            </Link>
+            <div className='card__price-box'>
+              <p className='card__price-only'>Enroll Now!</p>
+            </div>
           </div>
         </div>
       </div>
