@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import FooterLogo from '../../../assets/passi-logo.jpg'
+import FooterLogo from '../../../assets/passi-logo.jpg';
 
 const Footer = () => {
   return (
@@ -14,23 +14,23 @@ const Footer = () => {
           <div className='footer__navigation'>
             <ul className='footer__list'>
               <li className='footer__item'>
+                <Link to='/' className='footer__link'>
+                  Home
+                </Link>
+              </li>
+              <li className='footer__item'>
                 <Link to='/courses' className='footer__link'>
                   Courses
                 </Link>
               </li>
               <li className='footer__item'>
-                <Link to='/online-review' className='footer__link'>
-                  Online Review
+                <Link to='/facilities' className='footer__link'>
+                  Facilities
                 </Link>
               </li>
               <li className='footer__item'>
-                <Link to='/contact' className='footer__link'>
-                  Contact Us
-                </Link>
-              </li>
-              <li className='footer__item'>
-                <Link to='/privacy-policy' className='footer__link'>
-                  Privacy Policy
+                <Link to='/events' className='footer__link'>
+                  Events
                 </Link>
               </li>
             </ul>
@@ -43,7 +43,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

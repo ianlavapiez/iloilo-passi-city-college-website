@@ -1,7 +1,7 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/auth'
-import 'firebase/storage'
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/storage';
 
 const config = {
   apiKey: 'AIzaSyCAlfWz6ZLhzh0xsi70cH0-dUoHT-7EraM',
@@ -12,17 +12,26 @@ const config = {
   messagingSenderId: '3981955536',
   appId: '1:3981955536:web:5cbab7e5ceeb08e68529d5',
   measurementId: 'G-XM6ZMVTWXV',
-}
+};
+
+export const createData = (user, data) => {
+  return {
+    ...data,
+    userUid: user.uid,
+    softDelete: false,
+    created: new Date(),
+  };
+};
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
-  if (!userAuth) return
+  if (!userAuth) return;
 
-  const userRef = firestore.doc(`users/${userAuth.uid}`)
-  const snapShot = await userRef.get()
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const snapShot = await userRef.get();
 
   if (!snapShot.exists) {
-    const { displayName, email } = userAuth
-    const createdAt = new Date()
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
 
     try {
       await userRef.set({
@@ -30,27 +39,28 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         email,
         createdAt,
         ...additionalData,
-      })
+      });
     } catch (error) {
-      console.log('error creating user', error.message)
+      console.log('error creating user', error.message);
     }
   }
 
-  return userRef
-}
+  return userRef;
+};
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
-      unsubscribe()
-      resolve(userAuth)
-    }, reject)
-  })
-}
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
 
-firebase.initializeApp(config)
+firebase.initializeApp(config);
 
-export const auth = firebase.auth()
-export const firestore = firebase.firestore()
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+export const storage = firebase.storage();
 
-export default firebase
+export default firebase;
