@@ -54,9 +54,7 @@ export const addCourse = (file, details) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    const firebase = getFirebase();
     const firestore = getFirestore();
-    const user = firebase.auth().currentUser;
     const uploadTask = storage.ref(`/course/${file.name}`).put(file);
 
     dispatch(asyncActionStart());
@@ -70,7 +68,8 @@ export const addCourse = (file, details) => async (
       },
       (err) => {
         dispatch(asyncActionFinish());
-        throw Error('Something went wrong.');
+        console.log(err);
+        throw Error(err);
       },
       () => {
         storage
@@ -84,7 +83,7 @@ export const addCourse = (file, details) => async (
             };
           })
           .then(function () {
-            const newDetail = createData(user, newDetails);
+            const newDetail = createData(newDetails);
             firestore
               .add('course', newDetail)
               .then(() => {
@@ -231,22 +230,22 @@ export const softDeleteCourse = (details) => {
 
       batch.update(docRef, newDetails);
 
-      await batch.commit();
-
-      if (!batch._committed) {
-        fireAlert('Oops! Something went wrong!', 'error');
-      } else {
-        fireAlert(
-          'The selected course details has been successfully deleted!',
-          'success'
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
+      await batch
+        .commit()
+        .then(() => {
+          fireAlert(
+            'The selected course details has been successfully deleted!',
+            'success'
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch(() => fireAlert('Oops! Something went wrong!', 'error'));
 
       dispatch(asyncActionFinish());
     } catch (error) {
+      console.log(error);
       dispatch(asyncActionError());
     }
   };

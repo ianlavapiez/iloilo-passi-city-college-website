@@ -1,32 +1,19 @@
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Layout, Menu, Typography, Button, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-
-import { auth } from '../../../firebase/firebase.utils';
+import { authenticatedFalse } from '../../../redux/authenticated/authenticated.actions';
 
 const { Header } = Layout;
 const { Title } = Typography;
 
-const Navbar = ({ history, currentUser }) => {
-  const checkUser = useCallback(() => {
-    if (currentUser === null || currentUser.length === 0) {
-      auth.signOut();
-      return history.push('/');
-    }
-  }, [currentUser, history]);
-
-  useEffect(() => {
-    checkUser();
-  }, [checkUser]);
-
+const Navbar = ({ history }) => {
   const menu = (
     <Menu>
       <Menu.Item
         onClick={() => {
-          auth.signOut();
-          history.push('/');
+          authenticatedFalse();
+          history.push('/admin/login');
         }}
       >
         <Link to='/'>Sign Out</Link>
@@ -72,10 +59,4 @@ const Navbar = ({ history, currentUser }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    currentUser: state.auth.currentUser,
-  };
-};
-
-export default withRouter(connect(mapStateToProps)(Navbar));
+export default withRouter(Navbar);

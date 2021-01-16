@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Typography } from 'antd';
-
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Sidebar from '../../../components/admin/sidebar/sidebar.component';
 import Navbar from '../../../components/admin/navbar/navbar.component';
 import Footer from '../../../components/admin/footer/footer.component';
@@ -11,9 +12,13 @@ const { Content } = Layout;
 const { Title } = Typography;
 
 const EventsPage = () => {
+  const [data, setData] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [edit, setEdit] = useState(false);
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sidebar number={'2'} />
+      <Sidebar number={'3'} />
       <Layout className='site-layout'>
         <Navbar />
         <Content style={{ margin: '0 16px' }}>
@@ -24,9 +29,19 @@ const EventsPage = () => {
             <div style={{ marginTop: 0 }}>
               <Title level={2}>Events</Title>
               <div style={{ marginBottom: 15 }}>
-                <Modal />
+                <Modal
+                  setVisible={setVisible}
+                  edit={edit}
+                  visible={visible}
+                  events={data}
+                  setEdit={setEdit}
+                />
               </div>
-              <Table />
+              <Table
+                setVisible={setVisible}
+                setData={setData}
+                setEdit={setEdit}
+              />
             </div>
           </div>
         </Content>
@@ -36,4 +51,10 @@ const EventsPage = () => {
   );
 };
 
-export default EventsPage;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.isAuthenticated.isAuthenticated,
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(EventsPage));

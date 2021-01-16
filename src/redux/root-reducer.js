@@ -7,6 +7,7 @@ import authReducer from './auth/auth.reducer';
 import courseReducer from './course/course.reducers';
 import eventsReducer from './events/events.reducers';
 import facilitiesReducer from './facilities/facilities.reducers';
+import authenticatedReducers from './authenticated/authenticated.reducers';
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   courses: courseReducer,
   events: eventsReducer,
   facilities: facilitiesReducer,
+  isAuthenticated: authenticatedReducers,
 });
 
 export default rootReducer;

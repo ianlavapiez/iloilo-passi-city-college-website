@@ -6,8 +6,16 @@ import './course-modal.styles.scss';
 import { addCourse, updateCourse } from '../../../redux/course/course.actions';
 import { fireAlert } from '../../common/confirmation-message/confirmation-message.component';
 
-const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
-  const [visible, setVisible] = useState(false);
+const CourseModal = ({
+  course,
+  edit,
+  addCourse,
+  updateCourse,
+  loading,
+  setVisible,
+  visible,
+  setEdit,
+}) => {
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [imageFile, setImageFile] = useState(null);
 
@@ -16,11 +24,11 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
   };
 
   const onFinish = async ({ course }) => {
-    if (imageFile === null) {
-      return fireAlert('Please upload your image.', 'warning');
-    }
-
     if (!edit) {
+      if (imageFile === null) {
+        return fireAlert('Please upload your image.', 'warning');
+      }
+
       await addCourse(imageFile, course);
     } else {
       let id = document.querySelector('.id').value;
@@ -35,6 +43,7 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
 
   const handleCancel = () => {
     setVisible(false);
+    setEdit(false);
   };
 
   const validateMessages = {
@@ -64,6 +73,7 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
         title={!edit ? 'Add Course' : 'Edit Course'}
         visible={visible}
         onCancel={handleCancel}
+        destroyOnClose={true}
         footer={null}
       >
         <Form validateMessages={validateMessages} onFinish={onFinish}>
@@ -79,6 +89,7 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
             name={['course', 'abbreviation']}
             label='Abbreviation (i.e., BSBA, BSIT)'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : course.abbreviation}
           >
             <Input />
           </Form.Item>
@@ -87,6 +98,7 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
             name={['course', 'courseName']}
             label='Course Name'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : course.courseName}
           >
             <Input />
           </Form.Item>
@@ -95,6 +107,7 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
             name={['course', 'courseLength']}
             label='Course Length'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : course.courseLength}
           >
             <Input />
           </Form.Item>
@@ -103,6 +116,7 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
             name={['course', 'description']}
             label='Description'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : course.description}
           >
             <Input />
           </Form.Item>
@@ -125,6 +139,20 @@ const CourseModal = ({ course, edit, addCourse, updateCourse }) => {
               <Button onClick={toggleImageUpload}>Cancel Re-upload</Button>
             </Form.Item>
           ) : null}
+          <Form.Item wrapperCol={{ offset: 20 }}>
+            <Button
+              loading={loading}
+              style={{
+                borderRadius: 5,
+                backgroundColor: '#f97204',
+                border: 'none',
+              }}
+              type='primary'
+              htmlType='submit'
+            >
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
       </Modal>
     </div>

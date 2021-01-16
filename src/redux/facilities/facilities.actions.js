@@ -48,15 +48,13 @@ export const fetchFacilities = () => {
   };
 };
 
-export const addFacilities = (file, details) => async (
+export const addFacility = (file, details) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
-    const firebase = getFirebase();
     const firestore = getFirestore();
-    const user = firebase.auth().currentUser;
     const uploadTask = storage.ref(`/facilities/${file.name}`).put(file);
 
     dispatch(asyncActionStart());
@@ -70,7 +68,8 @@ export const addFacilities = (file, details) => async (
       },
       (err) => {
         dispatch(asyncActionFinish());
-        throw Error('Something went wrong.');
+        console.log(err);
+        throw Error(err);
       },
       () => {
         storage
@@ -84,7 +83,7 @@ export const addFacilities = (file, details) => async (
             };
           })
           .then(function () {
-            const newDetail = createData(user, newDetails);
+            const newDetail = createData(newDetails);
             firestore
               .add('facilities', newDetail)
               .then(() => {
@@ -113,7 +112,7 @@ export const addFacilities = (file, details) => async (
   }
 };
 
-export const updateFacilities = (file, details) => async (
+export const updateFacility = (file, details) => async (
   dispatch,
   getState,
   { getFirebase }
@@ -231,22 +230,22 @@ export const softDeleteFacility = (details) => {
 
       batch.update(docRef, newDetails);
 
-      await batch.commit();
-
-      if (!batch._committed) {
-        fireAlert('Oops! Something went wrong!', 'error');
-      } else {
-        fireAlert(
-          'The selected facility details has been successfully deleted!',
-          'success'
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
+      await batch
+        .commit()
+        .then(() => {
+          fireAlert(
+            'The selected facility details has been successfully deleted!',
+            'success'
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch(() => fireAlert('Oops! Something went wrong!', 'error'));
 
       dispatch(asyncActionFinish());
     } catch (error) {
+      console.log(error);
       dispatch(asyncActionError());
     }
   };

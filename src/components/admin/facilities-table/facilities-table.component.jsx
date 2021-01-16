@@ -20,9 +20,10 @@ import { fireAlertWithConfirmation } from '../../common/confirmation-message/con
 const FacilitiesTable = ({
   facilities,
   fetchFacilities,
-  setModalVisible,
+  setVisible,
   setData,
   softDeleteFacility,
+  setEdit,
 }) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -34,7 +35,8 @@ const FacilitiesTable = ({
 
   const editDetails = (data) => {
     setData(data);
-    setModalVisible(true);
+    setVisible(true);
+    setEdit(true);
   };
 
   const deleteDetails = (data) => {

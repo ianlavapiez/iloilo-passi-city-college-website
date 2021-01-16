@@ -20,8 +20,9 @@ import { fireAlertWithConfirmation } from '../../common/confirmation-message/con
 const EventsTable = ({
   events,
   fetchEvents,
-  setModalVisible,
+  setVisible,
   setData,
+  setEdit,
   softDeleteEvent,
 }) => {
   const [searchText, setSearchText] = useState('');
@@ -34,7 +35,8 @@ const EventsTable = ({
 
   const editDetails = (data) => {
     setData(data);
-    setModalVisible(true);
+    setVisible(true);
+    setEdit(true);
   };
 
   const deleteDetails = (data) => {

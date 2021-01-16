@@ -3,21 +3,24 @@ import { Modal, Button, Input, Form } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 
-import './course-modal.styles.scss';
+import './facilities-modal.styles.scss';
 
 import {
-  addFacilities,
-  updateFacilities,
+  addFacility,
+  updateFacility,
 } from '../../../redux/facilities/facilities.actions';
 import { fireAlert } from '../../common/confirmation-message/confirmation-message.component';
 
 const FacilitiesModal = ({
   facilities,
   edit,
-  addFacilities,
-  updateFacilities,
+  addFacility,
+  updateFacility,
+  loading,
+  setEdit,
+  setVisible,
+  visible,
 }) => {
-  const [visible, setVisible] = useState(false);
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [imageFile, setImageFile] = useState(null);
 
@@ -31,7 +34,7 @@ const FacilitiesModal = ({
     }
 
     if (!edit) {
-      await addFacilities(imageFile, facility);
+      await addFacility(imageFile, facility);
     } else {
       let id = document.querySelector('.id').value;
       let newData = {
@@ -39,12 +42,13 @@ const FacilitiesModal = ({
         id,
       };
 
-      await updateFacilities(imageFile, newData);
+      await updateFacility(imageFile, newData);
     }
   };
 
   const handleCancel = () => {
     setVisible(false);
+    setEdit(false);
   };
 
   const validateMessages = {
@@ -89,6 +93,7 @@ const FacilitiesModal = ({
             name={['facility', 'facilityName']}
             label='Facility Name'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : facilities.facilityName}
           >
             <Input />
           </Form.Item>
@@ -97,6 +102,7 @@ const FacilitiesModal = ({
             name={['facility', 'description']}
             label='Description'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : facilities.description}
           >
             <Input />
           </Form.Item>
@@ -105,6 +111,7 @@ const FacilitiesModal = ({
             name={['facility', 'usage']}
             label='Usage'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : facilities.usage}
           >
             <Input />
           </Form.Item>
@@ -127,6 +134,20 @@ const FacilitiesModal = ({
               <Button onClick={toggleImageUpload}>Cancel Re-upload</Button>
             </Form.Item>
           ) : null}
+          <Form.Item wrapperCol={{ offset: 20 }}>
+            <Button
+              loading={loading}
+              style={{
+                borderRadius: 5,
+                backgroundColor: '#f97204',
+                border: 'none',
+              }}
+              type='primary'
+              htmlType='submit'
+            >
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
       </Modal>
     </div>
@@ -140,8 +161,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  addFacilities,
-  updateFacilities,
+  addFacility,
+  updateFacility,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilitiesModal);

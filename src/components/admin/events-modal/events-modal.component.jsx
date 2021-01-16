@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { Modal, Button, Input, Form, DatePicker } from 'antd';
+import moment from 'moment';
 import { CalendarOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import './events-modal.styles.scss';
 import { addEvents, updateEvents } from '../../../redux/events/events.actions';
 import { fireAlert } from '../../common/confirmation-message/confirmation-message.component';
+import { useEffect } from 'react';
 
 const { TextArea } = Input;
 
-const EventsModal = ({ events, edit, addEvents, updateEvents }) => {
-  const [visible, setVisible] = useState(false);
+const EventsModal = ({
+  events,
+  edit,
+  addEvents,
+  updateEvents,
+  setVisible,
+  visible,
+  setEdit,
+  loading,
+}) => {
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [date, setDate] = useState('');
@@ -18,17 +28,23 @@ const EventsModal = ({ events, edit, addEvents, updateEvents }) => {
     setVisible(true);
   };
 
-  const onFinish = async ({ event }) => {
-    if (imageFile === null) {
-      return fireAlert('Please upload your image.', 'warning');
+  useEffect(() => {
+    if (events) {
+      setDate(events.date);
     }
+  }, [events]);
 
+  const onFinish = async ({ event }) => {
     let newData = {
       ...event,
       date,
     };
 
     if (!edit) {
+      if (imageFile === null) {
+        return fireAlert('Please upload your image.', 'warning');
+      }
+
       await addEvents(imageFile, newData);
     } else {
       let id = document.querySelector('.id').value;
@@ -44,6 +60,7 @@ const EventsModal = ({ events, edit, addEvents, updateEvents }) => {
 
   const handleCancel = () => {
     setVisible(false);
+    setEdit(false);
   };
 
   const validateMessages = {
@@ -92,6 +109,7 @@ const EventsModal = ({ events, edit, addEvents, updateEvents }) => {
             name={['event', 'eventName']}
             label='Event Name'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : events.eventName}
           >
             <Input />
           </Form.Item>
@@ -101,6 +119,7 @@ const EventsModal = ({ events, edit, addEvents, updateEvents }) => {
             name={['event', 'date']}
             label='Date'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : moment(events.date)}
           >
             <DatePicker onChange={onDateChange} style={{ width: '100%' }} />
           </Form.Item>
@@ -109,6 +128,7 @@ const EventsModal = ({ events, edit, addEvents, updateEvents }) => {
             name={['event', 'description']}
             label='Description'
             rules={[{ required: true }]}
+            initialValue={!edit ? '' : events.description}
           >
             <TextArea />
           </Form.Item>
@@ -131,6 +151,20 @@ const EventsModal = ({ events, edit, addEvents, updateEvents }) => {
               <Button onClick={toggleImageUpload}>Cancel Re-upload</Button>
             </Form.Item>
           ) : null}
+          <Form.Item wrapperCol={{ offset: 20 }}>
+            <Button
+              loading={loading}
+              style={{
+                borderRadius: 5,
+                backgroundColor: '#f97204',
+                border: 'none',
+              }}
+              type='primary'
+              htmlType='submit'
+            >
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
       </Modal>
     </div>

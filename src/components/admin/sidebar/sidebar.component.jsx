@@ -28,13 +28,13 @@ const Sidebar = ({ number }) => {
       <div className='logo' />
       <Menu theme='light' defaultSelectedKeys={[number]} mode='inline'>
         <Menu.Item key='1' icon={<DashboardOutlined />}>
-          <Link to='/courses'>Courses</Link>
+          <Link to='/admin/courses'>Courses</Link>
         </Menu.Item>
         <Menu.Item key='2' icon={<CreditCardOutlined />}>
-          <Link to='/facilities'>Facilities</Link>
+          <Link to='/admin/facilities'>Facilities</Link>
         </Menu.Item>
         <Menu.Item key='3' icon={<CalendarOutlined />}>
-          <Link to='/events'>Events</Link>
+          <Link to='/admin/events'>Events</Link>
         </Menu.Item>
       </Menu>
     </Sider>

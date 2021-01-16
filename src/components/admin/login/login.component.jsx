@@ -2,21 +2,22 @@ import React from 'react';
 import { Form, Input, Button, Typography, Layout } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
-
+import { connect } from 'react-redux';
 import './login.styles.scss';
-
 import { fireAlert } from '../../common/confirmation-message/confirmation-message.component';
+import { authenticatedTrue } from '../../../redux/authenticated/authenticated.actions';
 
 const { Title } = Typography;
 const { Content } = Layout;
 
-const LoginForm = ({ history }) => {
+const LoginForm = ({ history, authenticatedTrue }) => {
   const onFinish = async (values) => {
     const { email, password } = values;
 
     if (email === 'admin@gmail.com' && password === '1234567890') {
+      authenticatedTrue();
       fireAlert('Welcome Admin!', 'success');
-      history.push('/admin');
+      history.push('/admin/courses');
     } else {
       fireAlert('Incorrect email or password!', 'error');
     }
@@ -83,4 +84,8 @@ const LoginForm = ({ history }) => {
   );
 };
 
-export default withRouter(LoginForm);
+const mapDispatchToProps = {
+  authenticatedTrue,
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(LoginForm));

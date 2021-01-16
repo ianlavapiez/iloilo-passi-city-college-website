@@ -4,20 +4,18 @@ import 'firebase/auth';
 import 'firebase/storage';
 
 const config = {
-  apiKey: 'AIzaSyCAlfWz6ZLhzh0xsi70cH0-dUoHT-7EraM',
-  authDomain: 'brainhub-9be8a.firebaseapp.com',
-  databaseURL: 'https://brainhub-9be8a.firebaseio.com',
-  projectId: 'brainhub-9be8a',
-  storageBucket: 'brainhub-9be8a.appspot.com',
-  messagingSenderId: '3981955536',
-  appId: '1:3981955536:web:5cbab7e5ceeb08e68529d5',
-  measurementId: 'G-XM6ZMVTWXV',
+  apiKey: 'AIzaSyCudjirGb3_ngxInDWR0FaNkPTNDlxLwfA',
+  authDomain: 'iloilopassi-b002e.firebaseapp.com',
+  projectId: 'iloilopassi-b002e',
+  storageBucket: 'iloilopassi-b002e.appspot.com',
+  messagingSenderId: '569367752305',
+  appId: '1:569367752305:web:4cc481be3a69863dc8b5d0',
+  measurementId: 'G-8EK6ZZHK63',
 };
 
-export const createData = (user, data) => {
+export const createData = (data) => {
   return {
     ...data,
-    userUid: user.uid,
     softDelete: false,
     created: new Date(),
   };
