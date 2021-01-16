@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const EventsCard = ({ events }) => {
   return (
@@ -12,11 +12,13 @@ const EventsCard = ({ events }) => {
           <div className='story'>
             <figure className='story__shape'>
               <img className='story__img' src={event.imageUrl} alt='Reviewer' />
-              <figcaption className='story__caption'>{event.name}</figcaption>
+              <figcaption className='story__caption'>
+                {event.eventName}
+              </figcaption>
             </figure>
             <div className='story__text'>
               <h3 className='heading-tertiary u-margin-bottom-small'>
-                {event.name}
+                {event.eventName}
               </h3>
               <p className='paragraph-stories'>{event.date}</p>
               <p className='paragraph-stories'>{event.description}</p>
@@ -25,7 +27,7 @@ const EventsCard = ({ events }) => {
         </div>
       ))}
     </section>
-  )
-}
+  );
+};
 
-export default EventsCard
+export default EventsCard;

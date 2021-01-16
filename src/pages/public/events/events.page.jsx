@@ -1,23 +1,34 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import Footer from '../../../components/public/footer/footer.component';
+import EventsCard from '../../../components/public/events/events-card/events-card.component';
+import { fetchEvents } from '../../../redux/events/events.actions';
 
-import Footer from '../../../components/public/footer/footer.component'
-import EventsCard from '../../../components/public/events/events-card/events-card.component'
-
-import { eventsData } from '../../../data/public/events/events'
-
-const EventsPage = () => {
+const EventsPage = ({ events, fetchEvents }) => {
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+
+    fetchEvents();
+  }, [fetchEvents]);
 
   return (
     <Fragment>
       <main>
-        <EventsCard events={eventsData} />
+        <EventsCard events={events && events} />
       </main>
       <Footer />
     </Fragment>
-  )
-}
+  );
+};
 
-export default EventsPage
+const mapStateToProps = (state) => {
+  return {
+    events: state.events.events,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchEvents,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventsPage);

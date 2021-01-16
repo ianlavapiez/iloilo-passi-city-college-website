@@ -1,17 +1,15 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react';
+import ProgramCard from '../../../components/public/programs/program-card/program-card.component';
+import Footer from '../../../components/public/footer/footer.component';
+import { fetchCourse } from '../../../redux/course/course.actions';
+import { connect } from 'react-redux';
 
-import ProgramCard from '../../../components/public/programs/program-card/program-card.component'
-import Footer from '../../../components/public/footer/footer.component'
-
-import {
-  programsOne,
-  programsTwo,
-} from '../../../data/public/programs/programs'
-
-const ProgramsPage = () => {
+const ProgramsPage = ({ courses, fetchCourse }) => {
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+
+    fetchCourse();
+  }, [fetchCourse]);
 
   return (
     <Fragment>
@@ -21,35 +19,61 @@ const ProgramsPage = () => {
         </div>
 
         <div className='row'>
-          {programsOne.map((program) => {
-            return (
-              <ProgramCard
-                key={program.course}
-                programs={program.programs}
-                course={program.course}
-                price={program.price}
-                imageId={program.imageId}
-              />
-            )
-          })}
+          {courses && courses.length <= 3
+            ? courses.map((program) => {
+                return (
+                  <ProgramCard
+                    key={program.id}
+                    programs={program.description}
+                    course={program.abbreviation}
+                    imageId={program.imageUrl}
+                  />
+                );
+              })
+            : null}
         </div>
         <div className='row'>
-          {programsTwo.map((program) => {
-            return (
-              <ProgramCard
-                key={program.course}
-                programs={program.programs}
-                course={program.course}
-                price={program.price}
-                imageId={program.imageId}
-              />
-            )
-          })}
+          {courses && courses.length <= 6
+            ? courses.slice(3, 5).map((program) => {
+                return (
+                  <ProgramCard
+                    key={program.id}
+                    programs={program.description}
+                    course={program.abbreviation}
+                    imageId={program.imageUrl}
+                  />
+                );
+              })
+            : null}
+        </div>
+        <div className='row'>
+          {courses && courses.length <= 9
+            ? courses.slice(5, 8).map((program) => {
+                return (
+                  <ProgramCard
+                    key={program.id}
+                    programs={program.description}
+                    course={program.abbreviation}
+                    imageId={program.imageUrl}
+                  />
+                );
+              })
+            : null}
         </div>
       </section>
       <Footer />
     </Fragment>
-  )
-}
+  );
+};
 
-export default ProgramsPage
+const mapStateToProps = (state) => {
+  return {
+    courses: state.courses.courses,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchCourse,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProgramsPage);
