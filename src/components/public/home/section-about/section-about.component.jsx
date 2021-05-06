@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import FirstImage from '../../../../assets/about-first.jpg'
-import SecondImage from '../../../../assets/about-second.jpg'
-import ThirdImage from '../../../../assets/about-third.jpg'
+import FirstImage from '../../../../assets/header.jpg';
+import SecondImage from '../../../../assets/about-2.jpg';
+import ThirdImage from '../../../../assets/about-3.jpg';
 
 const SectionAbout = () => {
   return (
@@ -63,7 +63,7 @@ const SectionAbout = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default SectionAbout
+export default SectionAbout;
