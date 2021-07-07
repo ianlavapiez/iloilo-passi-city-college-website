@@ -19,36 +19,8 @@ const ProgramsPage = ({ courses, fetchCourse }) => {
         </div>
 
         <div className='row'>
-          {courses && courses.length <= 3
+          {courses && courses.length > 0
             ? courses.map((program) => {
-                return (
-                  <ProgramCard
-                    key={program.id}
-                    programs={program.description}
-                    course={program.abbreviation}
-                    imageId={program.imageUrl}
-                  />
-                );
-              })
-            : null}
-        </div>
-        <div className='row'>
-          {courses && courses.length <= 6
-            ? courses.slice(3, 5).map((program) => {
-                return (
-                  <ProgramCard
-                    key={program.id}
-                    programs={program.description}
-                    course={program.abbreviation}
-                    imageId={program.imageUrl}
-                  />
-                );
-              })
-            : null}
-        </div>
-        <div className='row'>
-          {courses && courses.length <= 9
-            ? courses.slice(5, 8).map((program) => {
                 return (
                   <ProgramCard
                     key={program.id}
